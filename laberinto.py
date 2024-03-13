@@ -1,3 +1,7 @@
+import random
+import time
+
+
 class Game:
     def __init__(self):
         self.maze = None
@@ -27,9 +31,9 @@ class Game:
         return self.maze
     
     def make2RoomsMaze(self):
-        self.maze = Maze()
-        room1 = Room(1)
-        room2 = Room(2)
+        self.maze = self.create_maze()
+        room1 = self.create_room(1)
+        room2 = self.create_room(2)
         self.maze.addRoom(room1)
         self.maze.addRoom(room2)
 
@@ -242,19 +246,22 @@ class Contenedor(MapElement):
 class Maze(Contenedor):
     def __init__(self):
         self.rooms = []
+        
     
     def addRoom(self, room):
         self.rooms.append(room)
     
     def entrar(self):
-        self.rooms[0].entrar()  
+        hab=self.rooms[0]
+        hab.entrar() 
+
     def numeroHabitaciones(self):
         return len(self.rooms)
 
     def obtenerHabitacion(self, unNum):
         return self.rooms[unNum]
 
-class Room(Contenedor):
+class Room(MapElement):
     def __init__(self,id):
         self.north = Wall()
         self.east = Wall()
@@ -279,12 +286,26 @@ class Door(MapElement):
             self.side2.entrar()
         else:
             print("La puerta esta cerrada")
-    
+    def abrirPuertas(self):
+        self.opened = True
+    def cerrarPuertas(self):    
+        self.opened = False
+    def esPuerta(self):   
+        return True 
+    def recorrer(self, unBloque):
+        unBloque(self)
+    def printOn(self):
+        print('Puerta: ', self.side1, self.side2)
+
 class Wall(MapElement):
     def __init__(self):
         pass # Walls don't need additional attributes
     def entrar(self):
         print("No puedes atravesar la pared")
+    def esPared(self):
+        return True
+    def recorrer(self, unBloque):
+        unBloque(self)
 class Hoja(MapElement):
     def __init__(self):
         pass
@@ -320,26 +341,105 @@ class Bomba(Decorator):
 class Contenedor(MapElement):
     def __init__(self):
         self.hijos =[]
+        self.orientaciones = []
     def agregarHijo(self,hijo):
         self.hijos.append(hijo)
 
     def eliminarHijo(self, hijo):
         self.hijos.remove(hijo)
 
+    def agregarOrientacion(self, unaOrientacion):
+        self.orientaciones.append(unaOrientacion)
+    def caminarAleatorio(self, unBicho):
+        numOr = len(self.orientaciones)
+        numAl = random.randint(1, numOr)
+        orAl = self.orientaciones[numAl-1]
+        
+        orAl.caminar(unBicho)
+
+    def recorrer(self, unBloque):
+        unBloque(self)
+        for each in self.hijos:
+            each.recorrer(unBloque)
+    def irAlEste(self, alguien):
+        self.este.entrar(alguien)
+    def irAlOeste(self, alguien):
+        self.oeste.entrar(alguien)
+    def irAlNorte(self, alguien):
+        self.norte.entrar(alguien)
+    def irAlSur(self, alguien):
+        self.sur.entrar(alguien)
+    def ponerEn(self, unaOrientacion, elemento):
+        if isinstance(unaOrientacion, Este):
+            unaOrientacion.ponerElemento(elemento, self)
+        elif isinstance(unaOrientacion, Oeste):
+            unaOrientacion.ponerElemento(elemento, self)
+        elif isinstance(unaOrientacion, Norte):
+            unaOrientacion.ponerElemento(elemento, self)
+        elif isinstance(unaOrientacion, Sur):
+            unaOrientacion.ponerElemento(elemento, self)
+
+    def recorrer(self, unBloque):
+        unBloque(self)
+        for each in self.hijos:
+            each.recorrer(unBloque)
+        for each in self.orientaciones:
+            each.recorrerEn(unBloque, self)
+
 class BomberWall(Wall):
     def __init__(self):
         return self
+    def entrar(self):
+        if isinstance(self, Bomba) and self.activa:
+            print("¡Boom! Te has chocado con una pared-bomba")
+            # Perform explosion logic here
+        else:
+            super().entrar()
     
 class BomberGame(Game):
     def create_wall(self):
         return BomberWall()
     
 class Bicho():
-    def __init__(self):
-        self.modo = None
-        self.vidas = 0
-        self.poder = 0
-        self.posicion = None
+    def __init__(self, modo="Normal", vidas=3, poder=1, posicion=(0, 0)):
+        self.modo = modo
+        self.vidas = vidas
+        self.poder = poder
+        self.posicion = posicion
+
+    def ir_al_este(self):
+        x, y = self.posicion
+        self.posicion = (x + 1, y)
+        self.actua()
+        
+    def ir_al_norte(self):
+        x, y = self.posicion
+        self.posicion = (x, y + 1)
+        self.actua()
+        
+    def ir_al_oeste(self):
+        x, y = self.posicion
+        self.posicion = (x - 1, y)
+        self.actua()
+       
+    def ir_al_sur(self):
+        x, y = self.posicion
+        self.posicion = (x, y - 1)
+        self.actua()
+        
+    def actua(self):
+        print("¡El bicho se mueve!")
+        print(f"Posición actual: {self.posicion}")
+
+    def print_on(self):
+        print(f"Bicho-{self.modo}")
+        
+    def caminar_aleatorio(self):
+        # Generar nueva posición aleatoria
+        nueva_posicion = (random.randint(1, 10), random.randint(1, 10))
+        # Actualizar la posición y llamar a actua
+        self.posicion = nueva_posicion
+        self.actua()
 
 class Modo():
     def __init__(self):
@@ -368,5 +468,10 @@ game.make2RoomsMaze()
 game.make2RoomsMazeFM()
 game.maze.entrar() 
 
-
+bicho = Bicho()
+bicho.ir_al_este()  # Llamando a actua después de cambiar la posición
+bicho.caminar_aleatorio()
+bicho.ir_al_norte()  # Llamando a actua después de cambiar la posición
+bicho.ir_al_oeste()  # Llamando a actua después de cambiar la posición
+bicho.ir_al_sur()  # Llamando a actua después de cambiar la posición
 
