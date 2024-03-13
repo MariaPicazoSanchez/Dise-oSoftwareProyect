@@ -5,7 +5,7 @@ class TestJuego(unittest.TestCase):
     def setUp(self):
         self.juego=Game()
         self.maze=Maze()
-        self.juego.maze=self.juego.make4Rooms4BichosFM()
+        self.juego.make4Rooms4BichosFM()
         
 
     def testHabitaciones(self):

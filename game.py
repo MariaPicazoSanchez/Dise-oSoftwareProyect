@@ -4,9 +4,9 @@ from laberinto import Game
 
 
 game=Game()
-game.create4Rooms4BeastFM()
+game.make4Rooms4BichosFM()
 sm="pepe"
-game.maze.entrar(sm)
-game.launchThreads()
+game.maze.entrarAlguien(sm)
+game.lanzarHilo()
 time.sleep(5)
-game.stopThreads()
+game.terminarHilo()

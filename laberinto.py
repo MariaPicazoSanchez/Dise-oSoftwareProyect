@@ -137,7 +137,7 @@ class Game:
         self.agregar_bicho(self.fabricarBichoAgresivo(hab3))
         self.agregar_bicho(self.fabricarBichoPerezoso(hab2))
         self.agregar_bicho(self.fabricarBichoPerezoso(hab4))
-        return self.maze
+       
     def create_East(self):
         return Este
     def create_West(self):
@@ -256,6 +256,9 @@ class Maze(Contenedor):
     def entrar(self):
         hab=self.rooms[0]
         hab.entrar() 
+    def entrarAlguien(self, alguien):
+        hab=self.rooms[0]
+        hab.entrarAlguien(alguien)
 
     def numeroHabitaciones(self):
         return len(self.rooms)
@@ -273,6 +276,10 @@ class Room(Contenedor):
     
     def entrar(self):
         print("Entraste a la habitacion ", self.num)
+
+    def entrarAlguien(self, alguien):
+        print("Entraste a la habitacion ", alguien)
+        
     def esHabitacion(self):
         return True
     def printOn(self):
