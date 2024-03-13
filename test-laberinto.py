@@ -1,20 +1,22 @@
 import unittest
-from laberinto import Maze, Game
+from laberinto import Maze, Game, Room
 
 class TestJuego(unittest.TestCase):
     def setUp(self):
         self.juego=Game()
-        self.laberinto=Maze()
+        self.maze=Maze()
+        self.juego.maze=self.juego.make4Rooms4BichosFM()
+        
 
     def testHabitaciones(self):
         hab1 = self.juego.obtenerHabitacion(1)
 
         self.assertEqual(hab1.num, 1)
-        self.assertTrue(isinstance(hab1, Habitacion))  # Ajusta "Habitacion" según tu implementación real
-        self.assertTrue(hab1.sur.esPuerta())
-        self.assertTrue(hab1.este.esPuerta())
-        self.assertTrue(hab1.norte.esPared())
-        self.assertTrue(hab1.oeste.esPared())
+        self.assertTrue(isinstance(hab1, Room))  
+        self.assertTrue(hab1.south.esPuerta())
+        self.assertTrue(hab1.east.esPuerta())
+        self.assertTrue(hab1.north.esPared())
+        self.assertTrue(hab1.west.esPared())
 
     def testInicial(self):
         self.assertIsNotNone(self.juego)

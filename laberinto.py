@@ -5,6 +5,8 @@ import time
 class Game:
     def __init__(self):
         self.maze = None
+        self.bichos = []
+        self.hilos = {}
 
     def create_wall(self):
         return Wall()
@@ -67,10 +69,10 @@ class Game:
         hab1.agregarHijo(bm1)
         hab2.agregarHijo(bm2)
         
-        self.laberinto = self.create_maze()
+        self.maze = self.create_maze()
         
-        self.laberinto.addRoom(hab1)
-        self.laberinto.addRoom(hab2)
+        self.maze.addRoom(hab1)
+        self.maze.addRoom(hab2)
 
     def make2RoomsFMD(self):
         hab1 = self.create_room(1)
@@ -97,44 +99,45 @@ class Game:
         hab1.south = puerta
         hab2.north = puerta
         
-        self.laberinto = self.create_maze()
+        self.maze = self.create_maze()
         
-        self.laberinto.addRoom(hab1)
-        self.laberinto.addRoom(hab2)
-        def make4Rooms4BichosFM(self):
-            hab1 = self.create_room(1)
-            hab2 = self.create_room(2)
-            hab3 = self.create_room(3)
-            hab4 = self.create_room(4)
+        self.maze.addRoom(hab1)
+        self.maze.addRoom(hab2)
+    def make4Rooms4BichosFM(self):
+        hab1 = self.create_room(1)
+        hab2 = self.create_room(2)
+        hab3 = self.create_room(3)
+        hab4 = self.create_room(4)
+           
+        p12 = self.create_door(hab1, hab2)
+        p13 = self.create_door(hab1, hab3)
+        p34 = self.create_door(hab3, hab4)
+        p24 = self.create_door(hab2, hab4)
             
-            p12 = self.create_door(hab1, hab2)
-            p13 = self.create_door(hab1, hab3)
-            p34 = self.create_door(hab3, hab4)
-            p24 = self.create_door(hab2, hab4)
+        hab1.south = p12
+        hab2.north = p12
             
-            hab1.south = p12
-            hab2.north = p12
+        hab1.east = p13
+        hab3.west = p13
             
-            hab1.east = p13
-            hab3.west = p13
+        hab2.east = p24
+        hab4.west = p24
             
-            hab2.east = p24
-            hab4.west = p24
+        hab3.south = p34
+        hab4.north = p34
             
-            hab3.south = p34
-            hab4.north = p34
+        self.maze = self.create_maze()
             
-            self.laberinto = self.create_maze()
+        self.maze.addRoom(hab1)
+        self.maze.addRoom(hab2)
+        self.maze.addRoom(hab3)
+        self.maze.addRoom(hab4)
             
-            self.laberinto.addRoom(hab1)
-            self.laberinto.addRoom(hab2)
-            self.laberinto.addRoom(hab3)
-            self.laberinto.addRoom(hab4)
-            
-            self.agregar_bicho(self.fabricarBichoAgresivo(hab1))
-            self.agregar_bicho(self.fabricarBichoAgresivo(hab3))
-            self.agregar_bicho(self.fabricarBichoPerezoso(hab2))
-            self.agregar_bicho(self.fabricarBichoPerezoso(hab4))
+        self.agregar_bicho(self.fabricarBichoAgresivo(hab1))
+        self.agregar_bicho(self.fabricarBichoAgresivo(hab3))
+        self.agregar_bicho(self.fabricarBichoPerezoso(hab2))
+        self.agregar_bicho(self.fabricarBichoPerezoso(hab4))
+        return self.maze
     def create_East(self):
         return Este
     def create_West(self):
@@ -196,7 +199,7 @@ class Game:
             proceso.terminate()
 
     def obtenerHabitacion(self, unNum):
-        return self.laberinto.obtenerHabitacion(unNum)
+        return self.maze.obtenerHabitacion(unNum)
     
     
 class Orientation:
@@ -247,7 +250,6 @@ class Maze(Contenedor):
     def __init__(self):
         self.rooms = []
         
-    
     def addRoom(self, room):
         self.rooms.append(room)
     
@@ -259,23 +261,23 @@ class Maze(Contenedor):
         return len(self.rooms)
 
     def obtenerHabitacion(self, unNum):
-        return self.rooms[unNum]
+        return self.rooms[unNum-1]
 
-class Room(MapElement):
-    def __init__(self,id):
+class Room(Contenedor):
+    def __init__(self,num):
         self.north = Wall()
         self.east = Wall()
         self.west = Wall()
         self.south = Wall()
-        self.id = id
+        self.num = num
     
     def entrar(self):
-        print("Entraste a la habitacion ", self.id)
+        print("Entraste a la habitacion ", self.num)
     def esHabitacion(self):
         return True
     def printOn(self):
         print('Hab')
-        print(str(self.id))
+        print(str(self.num))
 class Door(MapElement):
     def __init__(self, side1, side2):
         self.side1 = side1
@@ -342,6 +344,10 @@ class Contenedor(MapElement):
     def __init__(self):
         self.hijos =[]
         self.orientaciones = []
+        self.este =None
+        self.oeste =None
+        self.norte =None
+        self.sur =None
     def agregarHijo(self,hijo):
         self.hijos.append(hijo)
 
@@ -433,7 +439,7 @@ class Bicho():
 
     def print_on(self):
         print(f"Bicho-{self.modo}")
-        
+
     def caminar_aleatorio(self):
         # Generar nueva posición aleatoria
         nueva_posicion = (random.randint(1, 10), random.randint(1, 10))

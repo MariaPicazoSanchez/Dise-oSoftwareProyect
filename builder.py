@@ -111,7 +111,7 @@ class Director:
         self.iniBuilder()
         self.fabricarLaberinto()
         self.fabricarJuego()
-        # Add more methods if needed
+        
 
 
     
