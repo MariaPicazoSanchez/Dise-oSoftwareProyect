@@ -1,4 +1,5 @@
 import random
+import threading
 import time
 
 
@@ -170,18 +171,10 @@ class Game:
             print("No existe ese bicho")
 
     def fabricarBichoAgresivo(self, Habitacion):
-        bicho = Bicho()
-        bicho.modo = Agresivo()
-        bicho.vidas = 5
-        bicho.poder = 2
-        bicho.posicion = Habitacion
+        bicho = Bicho(Agresivo(), 5, 2, Habitacion)
         return bicho
     def fabricarBichoPerezoso(self, Habitacion):
-        bicho = Bicho()
-        bicho.modo = Perezoso()
-        bicho.vidas = 2
-        bicho.poder = 0
-        bicho.posicion = Habitacion
+        bicho = Bicho(Perezoso(), 3, 1, Habitacion)
         return bicho
     def fabricarBomba(self):
         return Bomba()
@@ -189,14 +182,15 @@ class Game:
         puerta = self.create_door(lado1, lado2)
         return puerta
     def lanzarHilo(self, unBicho):
-        proceso = [True]
-        while proceso[0]:
-            unBicho.actua()
+        proceso = threading.Thread(target=unBicho.actua)
         self.hilos[unBicho] = proceso
+        proceso.start()
+
     def terminarHilo(self, unBicho):
         proceso = self.hilos.get(unBicho)
-        if proceso is not None:
-            proceso.terminate()
+        if proceso:
+            proceso.join()
+            del self.hilos[unBicho]
 
     def obtenerHabitacion(self, unNum):
         return self.maze.obtenerHabitacion(unNum)
@@ -414,45 +408,50 @@ class BomberGame(Game):
         return BomberWall()
     
 class Bicho():
-    def __init__(self, modo="Normal", vidas=3, poder=1, posicion=(0, 0)):
+    def __init__(self, modo, vidas, poder, habitacion):
         self.modo = modo
         self.vidas = vidas
         self.poder = poder
-        self.posicion = posicion
+        self.habitacion = habitacion
+        self.caminarAleatorio()
 
     def ir_al_este(self):
         x, y = self.posicion
         self.posicion = (x + 1, y)
-        self.actua()
-        
+        print("Bicho se mueve al este")
+        print(f"Bicho en: {self.posicion}")
+
     def ir_al_norte(self):
         x, y = self.posicion
         self.posicion = (x, y + 1)
-        self.actua()
+        print("Bicho se mueve al norte")
+        print(f"Bicho en: {self.posicion}")
         
     def ir_al_oeste(self):
         x, y = self.posicion
         self.posicion = (x - 1, y)
-        self.actua()
+        print("Bicho se mueve al oeste")
+        print(f"Bicho en: {self.posicion}")
        
     def ir_al_sur(self):
         x, y = self.posicion
         self.posicion = (x, y - 1)
-        self.actua()
+        print("Bicho se mueve al sur")
+        print(f"Bicho en: {self.posicion}")
         
     def actua(self):
-        print("¡El bicho se mueve!")
-        print(f"Posición actual: {self.posicion}")
+        self.modo.actua(self)
 
     def print_on(self):
         print(f"Bicho-{self.modo}")
 
-    def caminar_aleatorio(self):
+    def caminarAleatorio(self):
         # Generar nueva posición aleatoria
         nueva_posicion = (random.randint(1, 10), random.randint(1, 10))
         # Actualizar la posición y llamar a actua
         self.posicion = nueva_posicion
-        self.actua()
+        print("Bicho se mueve")
+        print(f"Bicho en: {self.posicion}")
 
 class Modo():
     def __init__(self):
@@ -481,9 +480,9 @@ game.make2RoomsMaze()
 game.make2RoomsMazeFM()
 game.maze.entrar() 
 
-bicho = Bicho()
+bicho = Bicho(Agresivo(), 3, 5,Room(1))
 bicho.ir_al_este()  # Llamando a actua después de cambiar la posición
-bicho.caminar_aleatorio()
+bicho.caminarAleatorio()
 bicho.ir_al_norte()  # Llamando a actua después de cambiar la posición
 bicho.ir_al_oeste()  # Llamando a actua después de cambiar la posición
 bicho.ir_al_sur()  # Llamando a actua después de cambiar la posición
