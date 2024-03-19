@@ -233,11 +233,17 @@ class MapElement:
         pass
     def entrar(self):
         pass
+    def recorrer(self, unBloque):
+        pass
 class Contenedor(MapElement):
     def __init__(self):
         super().__init__()
         self.hijos = []
         self.orientaciones = []
+    def recorrer(self, unBloque):
+        unBloque(self)
+        for hijo in self.hijos:
+            hijo.recorrer(unBloque)
     
 
 class Maze(Contenedor):
@@ -314,8 +320,8 @@ class Hoja(MapElement):
         pass
     def accept(self, visitor):
         visitor.visitHoja(self)
-    def recorrer(self):
-        return self
+    def recorrer(self, unBloque):
+        unBloque(self)
 
 class Decorator(Hoja):
     def __init__(self, component):
@@ -386,7 +392,7 @@ class Contenedor(MapElement):
         elif isinstance(unaOrientacion, Sur):
             unaOrientacion.ponerElemento(elemento, self)
 
-    def recorrer(self, unBloque):
+    def recorrerEn(self, unBloque):
         unBloque(self)
         for each in self.hijos:
             each.recorrer(unBloque)
@@ -404,6 +410,8 @@ class BomberWall(Wall):
             super().entrar()
     
 class BomberGame(Game):
+    def __init__(self):
+        return self
     def create_wall(self):
         return BomberWall()
     
@@ -459,6 +467,7 @@ class Modo():
     def actua(self, Bicho):
         self.dormir(Bicho)
         self.caminar(Bicho)
+        self.atacar(Bicho)
     def dormir(self, unBicho):
         print(unBicho.__class__.__name__, "duerme")
         time.sleep(2)

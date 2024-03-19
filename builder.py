@@ -6,7 +6,7 @@ class LaberintoBuilder:
             self.juego = None
             self.laberinto = None
 
-        def fabricarArmario(self, unNum, unCont):
+        def fabricarArmarioEn(self, unNum, unCont):
             arm = Armario()
             arm.num = unNum
             arm.agregarOrientacion(self.fabricarNorte())
@@ -36,6 +36,14 @@ class LaberintoBuilder:
 
         def fabricarSur(self):
             return Sur()
+        "suponiendo que python lee los ficheros json ygual que en smallTalks"
+        def fabricarBichoPosicion(self, strModo, posicion):
+            hab = self.juego.obtenerHabitacion(posicion)
+            if hab is not None:
+                if strModo == 'Agresivo':
+                    self.fabricarBichoAgresivo(hab)
+                elif strModo == 'Perezoso':
+                    self.fabricarBichoPerezoso(hab)
 
         def fabricarHabitacion(self, unNum):
             hab = Habitacion()
