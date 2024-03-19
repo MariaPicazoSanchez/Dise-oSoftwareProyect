@@ -29,6 +29,7 @@ Crea en la clase Game el siguiente método: fabricarLaberinto2Habitaciones
 	
 	self laberinto agregarHabitacion: hab1.
 	self laberinto agregarHabitacion: hab2.
-<sub> Una vez me da este metodo los siguientes es modificarlos, los métodos más fáciles como frabricarBomba, fabricarPuerta... los hago a mano ya que no cuestan nada. </sub>
+> [!NOTE]
+> Una vez me da este metodo los siguientes es modificarlos, los métodos más fáciles como frabricarBomba, fabricarPuerta... los hago a mano ya que no cuestan nada.
 	
 ```
