@@ -1,6 +1,7 @@
 **Patrones implementados**
 
 ***Factory Method:***
+Creación de métodos de fabricación en juego.
 ```
 Crea en la clase Game el siguiente método: fabricarLaberinto2Habitaciones
 	"fabrica un laberinto con 2 habitaciones. La hab1 tiene al sur la hab2 unidas por una puerta"
@@ -41,23 +42,41 @@ Crea la clase BomberWall que hereda de Wall, BomberWall tiene que tener un metod
 Crea la clase BomberGame la cual hereda de Game y que tenga el método create_wall el cual devuelve una instancia de BomberWall.
 ```
 ***Strategy***
+Para la creación de este patrón es necesario la creación de modo y de tipos de modo, en este caso hemos hecho Agresivo y Perezoso.
 ```
 Crea la clase Modo y crea estos metodos:
 El método actua el cual se le pasa Bicho, llama al metodo dormir al cual le pasamos Bicho y caminar que también le pasamos Bicho.
 El método dormir el cual le pasamos unBicho el cual escribe por pantalla que tipo es y que "duerme".
 El método caminar que también se le pasa unBicho y le mandamos a este bicho caminaraleatorio.
 
-Para la creación de este patrón también es necesario la creación de tipos de modo, en este caso hemos hecho Agresivo y Perezoso.
-
 Crea la clase Agresivo que hereda de Modo que tenga un printOn de "Agresivo".
 Crea la clase Perezoso que herede de Modo que tenga un printOn de "Perezoso".
 ```
 ***Composite***
-```
 Para este patrón se han creado Contenedor y Hoja que heredan de ElementoMapa.
-
+```
 Crea la clase Contenedor que hereda de MapElement, esta clase tiene los siguinetes atributos: hijos, orientaciones, este, oeste, norte y sur.
-
 Crea la clase Hoja que hereda de MapElement.
 ```
 ***Iterator***
+Creación del método recorrer en ElementoMapa
+```
+
+```
+***Template Method***
+Este define el esqueleto de operaciones. En este caso creamos el método actua en Modo para que los tipos de modo creen a su gusto el método.
+```
+
+```
+***Abstract Factory***
+```
+
+```
+***Singleton***
+```
+
+```
+***Proxy***
+```
+
+```
