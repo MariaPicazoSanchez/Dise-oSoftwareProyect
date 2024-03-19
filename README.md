@@ -41,7 +41,7 @@ Para este patrón se ha creado las clases ParedBomba y JuegoBombas
 Crea la clase BomberWall que hereda de Wall, BomberWall tiene que tener un metodo que se llame entrar en el cual comprueba que sea una bomba y este activa y en el caso de que sea cierto le muestra un mensaje "¡Boom! Te has chocado con una pared-bomba", en el caso de que no sea alguna de esas cosas se llamara a entrar de Wall.
 Crea la clase BomberGame la cual hereda de Game y que tenga el método create_wall el cual devuelve una instancia de BomberWall.
 ```
-***Strategy***
+***Strategy:***
 Para la creación de este patrón es necesario la creación de modo y de tipos de modo, en este caso hemos hecho Agresivo y Perezoso.
 ```
 Crea la clase Modo y crea estos metodos:
@@ -52,31 +52,31 @@ El método caminar que también se le pasa unBicho y le mandamos a este bicho ca
 Crea la clase Agresivo que hereda de Modo que tenga un printOn de "Agresivo".
 Crea la clase Perezoso que herede de Modo que tenga un printOn de "Perezoso".
 ```
-***Composite***
+***Composite:***
 Para este patrón se han creado Contenedor y Hoja que heredan de ElementoMapa.
 ```
 Crea la clase Contenedor que hereda de MapElement, esta clase tiene los siguinetes atributos: hijos, orientaciones, este, oeste, norte y sur.
 Crea la clase Hoja que hereda de MapElement.
 ```
-***Iterator***
+***Iterator:***
 Creación del método recorrer en ElementoMapa
 ```
 
 ```
-***Template Method***
+***Template Method:***
 Este define el esqueleto de operaciones. En este caso creamos el método actua en Modo para que los tipos de modo creen a su gusto el método.
 ```
 
 ```
-***Abstract Factory***
+***Abstract Factory:***
 ```
 
 ```
-***Singleton***
+***Singleton:***
 ```
 
 ```
-***Proxy***
+***Proxy:***
 ```
 
 ```
