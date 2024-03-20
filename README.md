@@ -38,8 +38,8 @@ También hemos hecho este patrón en Builder con lo siguiente:
 ```
 Crea un método que pasado unNum y unCont haga lo siguiente: | arm pt|
 	arm:=Armario new num:unNum.
-	arm agregarOrientacion: self fabricarNorte; agregarOrientacion: Este default; 			agregarOrientacion: Sur default; agregarOrientacion: Oeste default.
-	
+	arm agregarOrientacion: self fabricarNorte; agregarOrientacion: Este default;
+	agregarOrientacion: Sur default; agregarOrientacion: Oeste default.
 	arm orientaciones do:[:each | arm ponerEn:each elemento:self fabricarPared].
 	pt:=self fabricarPuertaLado1: arm lado2:unCont.
 	arm ponerEn: Este default elemento: pt.
