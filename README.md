@@ -33,7 +33,7 @@ Crea en la clase Game el siguiente método: fabricarLaberinto2Habitaciones
  
 	
 ```
-Una vez me da este metodo los siguientes es modificarlos, los métodos más fáciles como frabricarBomba, fabricarPuerta... los hago a mano ya que no cuestan nada.
+Una vez me da este metodo los siguientes es modificarlos, los métodos más fáciles como frabricarBomba, fabricarPuerta... los hago a mano.<br>
 También hemos hecho este patrón en Builder con lo siguiente:
 ```
 Crea un método que pasado unNum y unCont haga lo siguiente: | arm pt|
@@ -54,16 +54,16 @@ Crea un método que pasado un strModo y unaHab haga lo siguiente:
 	strModo='Perezoso' ifTrue:[self fabricarBichoPerezoso: hab].
 
 ```
-Algunos métodos como fabricarBichoAgresivo, fabricarBichoPerezoso, fabricarEste, fabricarOeste, entre otros es copiarlos de Game o bine hacer algún cambio simple.
+Algunos métodos como fabricarBichoAgresivo, fabricarBichoPerezoso, fabricarEste, fabricarOeste, entre otros es copiarlos de Game o bine hacer algún cambio simple.<br>
 ***Decorator:***
-Añade responsabilidad de forma transparente(funciones).
+Añade responsabilidad de forma transparente(funciones).<br>
 Para este patrón se ha creado las clases ParedBomba y JuegoBombas
 ```
 Crea la clase BomberWall que hereda de Wall, BomberWall tiene que tener un metodo que se llame entrar en el cual comprueba que sea una bomba y este activa y en el caso de que sea cierto le muestra un mensaje "¡Boom! Te has chocado con una pared-bomba", en el caso de que no sea alguna de esas cosas se llamara a entrar de Wall.
 Crea la clase BomberGame la cual hereda de Game y que tenga el método create_wall el cual devuelve una instancia de BomberWall.
 ```
 ***Strategy:***
-Encapsula los diferentes algoritmos para poder cambiarlos en tiempo de ejecución.En nuestro caso permite cambiar el modo de bicho en tiempo de ejecución.
+Encapsula los diferentes algoritmos para poder cambiarlos en tiempo de ejecución.En nuestro caso permite cambiar el modo de bicho en tiempo de ejecución.<br>
 Para la creación de este patrón es necesario la creación de modo y de tipos de modo, en este caso hemos hecho Agresivo y Perezoso.
 ```
 Crea la clase Modo y crea estos metodos:
@@ -75,14 +75,14 @@ Crea la clase Agresivo que hereda de Modo que tenga un printOn de "Agresivo".
 Crea la clase Perezoso que herede de Modo que tenga un printOn de "Perezoso".
 ```
 ***Composite:***
-Estructuras estáticas del modo todo-parte. Permite que se utilizan tanto los objetos individuales como los objetos compuestos.
+Estructuras estáticas del modo todo-parte. Permite que se utilizan tanto los objetos individuales como los objetos compuestos.<br>
 Para este patrón se han creado Contenedor y Hoja que heredan de ElementoMapa.
 ```
 Crea la clase Contenedor que hereda de MapElement, esta clase tiene los siguinetes atributos: hijos, orientaciones, este, oeste, norte y sur.
 Crea la clase Hoja que hereda de MapElement.
 ```
 ***Iterator:***
-Estructuras que permiten la recursión o jerarquías.
+Estructuras que permiten la recursión o jerarquías.<br>
 Creación del método recorrer en ElementoMapa que sera implementado por las subclases. 
 ```
 En MapElement:
@@ -101,9 +101,10 @@ Este define el esqueleto de operaciones. En este caso creamos el método actua e
 Crea un método llamado actua pasado un Bicho que llame a los métodos dormir,caminar y atacar.
 ```
 ***Abstract Factory:***
+Crea una interfaz para crear familias de objetos similares.<br>
 No lo hemos implementado.<br><br>
 ***Singleton:***
-Hace que solo tengamos una sola instancia a la vez, como punto de acceso a esta.
+Hace que solo tengamos una sola instancia a la vez, como punto de acceso a esta.<br>
 Creamos Orientacion el cual también podría ser el patrón Strategy.
 ```
 Crea una clase llamada Orientacion.
@@ -116,8 +117,8 @@ Crea una clase llamada LaberintoBuilder que tenga dos atributos: juego y laberin
 Crea una clase llamada Builder que tenga dos atributos: builder y diccionario.
 ```
 ***Proxy:***
-Proporciona un sustituto a una referencia a otro objeto para controlar el acceso a este.
-Hemos implementado el proxy virtual el cual carga un objeto caro bajo demanda.
+Proporciona un sustituto a una referencia a otro objeto para controlar el acceso a este.<br>
+Hemos implementado el proxy virtual el cual carga un objeto caro bajo demanda.<br>
 Para ello creamos una clase llamada Tunel.
 ```
 Crea una clase llamada Tunel que hereda de Hoja y que tiene como atributo laberinto.
