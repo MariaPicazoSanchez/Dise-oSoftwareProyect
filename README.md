@@ -1,4 +1,4 @@
-**Patrones implementados**
+<h1>**Patrones implementados**</h1>
 
 ***Factory Method:***
 Creación de métodos de fabricación en juego.
@@ -101,7 +101,7 @@ Este define el esqueleto de operaciones. En este caso creamos el método actua e
 Crea un método llamado actua pasado un Bicho que llame a los métodos dormir,caminar y atacar.
 ```
 ***Abstract Factory:***
-No lo hemos implementado.<br>
+No lo hemos implementado.<br><br>
 ***Singleton:***
 Hace que solo tengamos una sola instancia a la vez, como punto de acceso a esta.
 Creamos Orientacion el cual también podría ser el patrón Strategy.
