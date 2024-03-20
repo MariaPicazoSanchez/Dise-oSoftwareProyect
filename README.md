@@ -1,4 +1,4 @@
-<h1>**Patrones implementados**</h1>
+<h1>Patrones implementados</h1>
 
 ***Factory Method:***
 Creación de métodos de fabricación en juego.
