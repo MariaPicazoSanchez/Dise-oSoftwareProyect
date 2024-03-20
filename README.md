@@ -54,7 +54,7 @@ Crea un método que pasado un strModo y unaHab haga lo siguiente:
 	strModo='Perezoso' ifTrue:[self fabricarBichoPerezoso: hab].
 
 ```
-Algunos métodos como fabricarBichoAgresivo, fabricarBichoPerezoso, fabricarEste, fabricarOeste, entre otros es copiarlos de Game o bine hacer algún cambio simple.<br>
+Algunos métodos como fabricarBichoAgresivo, fabricarBichoPerezoso, fabricarEste, fabricarOeste, entre otros es copiarlos de Game o bine hacer algún cambio simple.<br><br>
 ***Decorator:***
 Añade responsabilidad de forma transparente(funciones).<br>
 Para este patrón se ha creado las clases ParedBomba y JuegoBombas
