@@ -1,5 +1,5 @@
 import json
-from laberinto import Bomba, Este, Habitacion, Juego, Laberinto, Norte, Oeste, Puerta, Sur, Pared, Armario
+from laberinto import Bomba, Este, Room, Game, Maze, Norte, Oeste, Door, Sur, Wall, Armario,Contenedor
 
 class LaberintoBuilder:
         def __init__(self):
@@ -7,20 +7,20 @@ class LaberintoBuilder:
             self.laberinto = None
 
         def fabricarArmarioEn(self, unNum, unCont):
-            arm = Armario()
-            arm.num = unNum
-            arm.agregarOrientacion(self.fabricarNorte())
-            arm.agregarOrientacion(Este().default())
-            arm.agregarOrientacion(Sur().default())
-            arm.agregarOrientacion(Oeste().default())
+            arm = Armario(unNum)
+            arm.agregarOrientacion('Norte')
+            arm.agregarOrientacion('Este')
+            arm.agregarOrientacion('Sur')
+            arm.agregarOrientacion('Oeste')
 
-            for each in arm.orientaciones:
-                arm.ponerEn(each, self.fabricarPared())
-
-            pt = self.fabricarPuertaLado1(arm, unCont)
-            arm.ponerEn(Este().default(), pt)
+            for orientacion in arm.orientaciones:
+                arm.orientaciones[orientacion].poner_en(orientacion, self.fabricarPared(self))
+            pt = self.fabricarPuerta(arm, unCont)
+           
 
             unCont.agregarHijo(arm)
+            return arm
+        
         def fabricarBomba(self, unCont):
             bom = Bomba()
             unCont.agregarHijo(bom)
@@ -46,7 +46,7 @@ class LaberintoBuilder:
                     self.fabricarBichoPerezoso(hab)
 
         def fabricarHabitacion(self, unNum):
-            hab = Habitacion()
+            hab = Room()
             hab.num = unNum
             hab.agregarOrientacion(self.fabricarNorte())
             hab.agregarOrientacion(Este().default())
@@ -54,24 +54,24 @@ class LaberintoBuilder:
             hab.agregarOrientacion(Oeste().default())
 
             for each in hab.orientaciones:
-                hab.ponerEn(each, self.fabricarPared())
+                hab.ponerEn(each, self.fabricarPared(self))
 
             self.laberinto.agregarHabitacion(hab)
             return hab
 
         def fabricarJuego(self):
-            self.juego = Juego()
+            self.juego = Game()
             self.juego.laberinto = self.laberinto
             self.juego.abricarLaberinto()
 
         def fabricarLaberinto(self):
-            self.laberinto = Laberinto()
+            self.laberinto = Maze()
             
         def fabricarPared(self):
-            return Pared()
+            return Wall()
         
         def fabricarPuertaLados(self, unaHab, otraHab):
-            puerta = Puerta()
+            puerta = Door()
             puerta.lado1 = unaHab
             puerta.lado2 = otraHab
 
@@ -89,9 +89,9 @@ class LaberintoBuilder:
             lado2.ponerEn(or2, pt)
 
 class Director:
-    def __init__(self, builder, diccionario):
-        self.builder = builder
-        self.diccionario = diccionario
+    def __init__(self):
+        self.builder = LaberintoBuilder()
+        self.diccionario = None
 
     def fabricarJuego(self):
         self.builder.fabricarJuego()
@@ -126,3 +126,5 @@ class Director:
 
 
 director=Director()
+unCont = Contenedor()
+armario = director.builder.fabricarArmarioEn(1, unCont)

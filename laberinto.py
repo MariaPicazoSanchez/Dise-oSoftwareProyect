@@ -8,6 +8,7 @@ class Game:
         self.maze = None
         self.bichos = []
         self.hilos = {}
+        self.person=None
 
     def create_wall(self):
         return Wall()
@@ -27,8 +28,8 @@ class Game:
         room1 = self.create_room(1)
         room2 = self.create_room(2)
         door = self.create_door(room1,room2)
-        room1.south=door
-        room2.north=door
+        room1.sur=door
+        room2.norte=door
         self.maze.addRoom(room1)
         self.maze.addRoom(room2)
         return self.maze
@@ -50,19 +51,19 @@ class Game:
         hab2 = self.create_room(2)
         puerta = self.create_door(hab1, hab2)
         
-        hab1.north = self.create_wall()
-        hab1.east = self.create_wall()
-        hab1.west = self.create_wall()
+        hab1.norte = self.create_wall()
+        hab1.este = self.create_wall()
+        hab1.oeste = self.create_wall()
         
-        hab2.south = self.create_wall()
-        hab2.east = self.create_wall()
-        hab2.west = self.create_wall()
+        hab2.sur = self.create_wall()
+        hab2.este = self.create_wall()
+        hab2.oeste = self.create_wall()
         
         puerta.side1 = hab1
         puerta.side2 = hab2
         
-        hab1.south = puerta
-        hab2.north = puerta
+        hab1.sur = puerta
+        hab2.norte = puerta
         
         bm1 = self.fabricarBomba()
         bm2 = self.fabricarBomba()
@@ -83,22 +84,22 @@ class Game:
         bm1 = self.fabricarBomba()
         bm1.em(self.create_wall())
         
-        hab1.north = self.create_wall()
-        hab1.east = bm1
-        hab1.west = self.create_wall()
+        hab1.norte = self.create_wall()
+        hab1.este = bm1
+        hab1.oeste = self.create_wall()
         
         bm2 = self.fabricarBomba()
         bm2.em(self.create_wall())
         
-        hab2.south = self.create_wall()
-        hab2.east = bm2
-        hab2.west = self.create_wall()
+        hab2.sur = self.create_wall()
+        hab2.este = bm2
+        hab2.oeste = self.create_wall()
         
         puerta.side1 = hab1
         puerta.side2 = hab2
         
-        hab1.south = puerta
-        hab2.north = puerta
+        hab1.sur = puerta
+        hab2.norte = puerta
         
         self.maze = self.create_maze()
         
@@ -115,17 +116,17 @@ class Game:
         p34 = self.create_door(hab3, hab4)
         p24 = self.create_door(hab2, hab4)
             
-        hab1.south = p12
-        hab2.north = p12
+        hab1.sur = p12
+        hab2.norte = p12
             
-        hab1.east = p13
-        hab3.west = p13
+        hab1.este = p13
+        hab3.oeste = p13
             
-        hab2.east = p24
-        hab4.west = p24
+        hab2.este = p24
+        hab4.oeste = p24
             
-        hab3.south = p34
-        hab4.north = p34
+        hab3.sur = p34
+        hab4.norte = p34
             
         self.maze = self.create_maze()
             
@@ -134,10 +135,10 @@ class Game:
         self.maze.addRoom(hab3)
         self.maze.addRoom(hab4)
             
-        self.agregar_bicho(self.fabricarBichoAgresivo(hab1))
-        self.agregar_bicho(self.fabricarBichoAgresivo(hab3))
-        self.agregar_bicho(self.fabricarBichoPerezoso(hab2))
-        self.agregar_bicho(self.fabricarBichoPerezoso(hab4))
+        self.agregarBicho(self.fabricarBichoAgresivo(hab1))
+        self.agregarBicho(self.fabricarBichoAgresivo(hab3))
+        self.agregarBicho(self.fabricarBichoPerezoso(hab2))
+        self.agregarBicho(self.fabricarBichoPerezoso(hab4))
        
     def create_East(self):
         return Este
@@ -150,19 +151,19 @@ class Game:
     def openDoor(self):
         for each in self.recorrer():
             each.abrir_puertas()
-    def activar_bombas(self):
+    def activarBombas(self):
         for each in self.recorrer():
             if each.es_bomba():
                 each.activar()
-    def agregar_bicho(self, unBicho):
+    def agregarBicho(self, unBicho):
             self.bichos.append(unBicho)
 
     def cerrarPuertas(self):
         for each in self.recorrer():
-            each.cerrar_puertas()
+            each.cerrarPuertas()
     def desactivarBombas(self):
         for each in self.recorrer():
-            if each.es_bomba():
+            if each.esBomba():
                 each.desactivar()
     def eliminarBicho(self, Bicho):
         if Bicho in self.bichos:
@@ -194,38 +195,45 @@ class Game:
 
     def obtenerHabitacion(self, unNum):
         return self.maze.obtenerHabitacion(unNum)
-    
+    def agregarPersonaje(self, unNombre):
+        self.person=Personaje(3, 2, 1, unNombre)
+        self.maze.entrarAlguien(self.person.nombre)
+        self.person.game=self
+
+    def buscarBicho(self):
+        pass
+        #por implementar
     
 class Orientation:
     def __init__(self):
         pass
-    def caminar(Bicho):
+    def caminar(self, Bicho):
         pass
-    def ponerElemento(MapElement, Contenedor):
+    def ponerElementoEn(self, EM, Contenedor):
         pass
-    def recorrer(Block):
+    def recorrer(self,unBloque):
         pass
 class Este(Orientation):
     _instance = None
-    def recorrerEn(Block,Contenedor):
-        Contenedor.recorrer(Block)
-    def ponerElemento(MapElement, Contenedor):
-        Contenedor.este=MapElement
+    def recorrerEn(self,unBloque,unCont):
+        unCont.recorrer(unBloque)
+    def ponerElemento(self,EM, unCont):
+        unCont.este=EM
 class Oeste(Orientation):
-    def recorrerEn(Block,Contenedor):
-        Contenedor.recorrer(Block)
-    def ponerElemento(MapElement, Contenedor):
-        Contenedor.oeste=MapElement
+    def recorrerEn(self,unBloque,unCont):
+        unCont.recorrer(unBloque)
+    def ponerElemento(self,EM, unCont):
+        unCont.oeste=EM
 class Norte(Orientation):
-    def recorrerEn(Block,Contenedor):
-        Contenedor.recorrer(Block)
-    def ponerElemento(MapElement, Contenedor):
-        Contenedor.norte=MapElement
+    def recorrerEn(self,unBloque,unCont):
+        unCont.recorrer(unBloque)
+    def ponerElemento(self,EM, unCont):
+        unCont.este=EM
 class Sur(Orientation):
-    def recorrerEn(Block,Contenedor):
-        Contenedor.recorrer(Block)
-    def ponerElemento(MapElement, Contenedor):
-        Contenedor.sur=MapElement
+    def recorrerEn(self,unBloque,unCont):
+        unCont.recorrer(unBloque)
+    def ponerElemento(self,EM, unCont):
+        unCont.este=EM
     
 
 class MapElement:
@@ -236,15 +244,23 @@ class MapElement:
     def recorrer(self, unBloque):
         pass
 class Contenedor(MapElement):
-    def __init__(self):
+    def __init__(self,num=None):
         super().__init__()
         self.hijos = []
         self.orientaciones = []
+        self.este = None
+        self.oeste = None
+        self.sur = None
+        self.norte = None
+        self.num = num
     def recorrer(self, unBloque):
         unBloque(self)
         for hijo in self.hijos:
             hijo.recorrer(unBloque)
-    
+class Armario(Contenedor):
+    def __init__(self, num=None):
+        super().__init__(num)
+        self.num = num
 
 class Maze(Contenedor):
     def __init__(self):
@@ -267,12 +283,13 @@ class Maze(Contenedor):
         return self.rooms[unNum-1]
 
 class Room(Contenedor):
-    def __init__(self,num):
-        self.north = Wall()
-        self.east = Wall()
-        self.west = Wall()
-        self.south = Wall()
+    def __init__(self,num=None, norte=Norte(), sur=Sur(), este=Este(), oeste=Oeste()):
+        super().__init__()
         self.num = num
+        self.norte = norte
+        self.sur = sur
+        self.este = este
+        self.oeste = oeste
     
     def entrar(self):
         print("Entraste a la habitacion ", self.num)
@@ -335,7 +352,7 @@ class Bomba(Decorator):
     def desactivar(self):
         self.activa=False
         print("Bomba desactivada")
-    def es_bomba(self):
+    def esBomba(self):
         return True
     def entrar(self, alguien):
         if self.activa:
@@ -363,6 +380,7 @@ class Contenedor(MapElement):
 
     def agregarOrientacion(self, unaOrientacion):
         self.orientaciones.append(unaOrientacion)
+
     def caminarAleatorio(self, unBicho):
         numOr = len(self.orientaciones)
         numAl = random.randint(1, numOr)
@@ -392,7 +410,12 @@ class Contenedor(MapElement):
         elif isinstance(unaOrientacion, Sur):
             unaOrientacion.ponerElemento(elemento, self)
 
-    def recorrerEn(self, unBloque):
+    def recorrer(self, unBloque):
+        unBloque(self)
+        for each in self.hijos:
+            each.recorrer(unBloque)
+
+    def recorrerEn(self, unBloque, unCont):
         unBloque(self)
         for each in self.hijos:
             each.recorrer(unBloque)
@@ -411,18 +434,27 @@ class BomberWall(Wall):
     
 class BomberGame(Game):
     def __init__(self):
-        return self
-    def create_wall(self):
+       # return self
+        pass
+    def createWall(self):
         return BomberWall()
-    
-class Bicho():
-    def __init__(self, modo, vidas, poder, habitacion):
-        self.modo = modo
+class Modo():
+    def __init__(self):
+        pass
+    def actua(self, Bicho):
+        self.dormir(Bicho)
+        self.caminar(Bicho)
+        self.atacar(Bicho)
+    def dormir(self, unBicho):
+        print(unBicho.__class__.__name__, "duerme")
+        time.sleep(2)
+    def caminar(self, unBicho):
+        unBicho.caminarAleatorio()
+class Ente():
+    def __init__(self, vidas, poder, habitacion):
         self.vidas = vidas
         self.poder = poder
         self.habitacion = habitacion
-        self.caminarAleatorio()
-
     def ir_al_este(self):
         x, y = self.posicion
         self.posicion = (x + 1, y)
@@ -446,6 +478,13 @@ class Bicho():
         self.posicion = (x, y - 1)
         print("Bicho se mueve al sur")
         print(f"Bicho en: {self.posicion}")
+    def atacar(self):
+        pass
+class Bicho(Ente):
+    def __init__(self, modo=Modo(), vidas=1, poder=2, habitacion=None):
+        super().__init__(vidas, poder, habitacion)
+        self.modo = modo
+        self.caminarAleatorio()
         
     def actua(self):
         self.modo.actua(self)
@@ -461,18 +500,13 @@ class Bicho():
         print("Bicho se mueve")
         print(f"Bicho en: {self.posicion}")
 
-class Modo():
-    def __init__(self):
+class Personaje(Ente):
+    def __init__(self, vidas, poder, habitacion,nombre=None):
+        super().__init__(vidas, poder, habitacion)
+        self.nombre=nombre
+    def atacar(self):
         pass
-    def actua(self, Bicho):
-        self.dormir(Bicho)
-        self.caminar(Bicho)
-        self.atacar(Bicho)
-    def dormir(self, unBicho):
-        print(unBicho.__class__.__name__, "duerme")
-        time.sleep(2)
-    def caminar(self, unBicho):
-        unBicho.caminarAleatorio()
+        #por implementar
 class Agresivo(Modo):
     def __init__(self):
         super().__init__()
@@ -487,6 +521,7 @@ game=Game()
 game=BomberGame()
 game.make2RoomsMaze()
 game.make2RoomsMazeFM()
+game.agregarPersonaje("Pepito")
 game.maze.entrar() 
 
 bicho = Bicho(Agresivo(), 3, 5,Room(1))
