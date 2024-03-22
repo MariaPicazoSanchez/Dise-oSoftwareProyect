@@ -1,5 +1,5 @@
 import json
-from laberinto import Bomba, Este, Room, Game, Maze, Norte, Oeste, Door, Sur, Wall, Armario,Contenedor
+from laberinto import Bomba, Este, Habitacion, Juego, Laberinto, Norte, Oeste, Puerta, Sur, Pared, Armario,Contenedor
 
 class LaberintoBuilder:
         def __init__(self):
@@ -36,7 +36,7 @@ class LaberintoBuilder:
 
         def fabricarSur(self):
             return Sur()
-        "suponiendo que python lee los ficheros json ygual que en smallTalks"
+        "suponiendo que python lee los ficheros json igual que en smallTalk"
         def fabricarBichoPosicion(self, strModo, posicion):
             hab = self.juego.obtenerHabitacion(posicion)
             if hab is not None:
@@ -46,7 +46,7 @@ class LaberintoBuilder:
                     self.fabricarBichoPerezoso(hab)
 
         def fabricarHabitacion(self, unNum):
-            hab = Room()
+            hab = Habitacion()
             hab.num = unNum
             hab.agregarOrientacion(self.fabricarNorte())
             hab.agregarOrientacion(Este().default())
@@ -60,18 +60,18 @@ class LaberintoBuilder:
             return hab
 
         def fabricarJuego(self):
-            self.juego = Game()
+            self.juego = Juego()
             self.juego.laberinto = self.laberinto
-            self.juego.abricarLaberinto()
+            self.juego.crearLaberinto()
 
         def fabricarLaberinto(self):
-            self.laberinto = Maze()
+            self.laberinto = Laberinto()
             
         def fabricarPared(self):
-            return Wall()
+            return Pared()
         
         def fabricarPuertaLados(self, unaHab, otraHab):
-            puerta = Door()
+            puerta = Puerta()
             puerta.lado1 = unaHab
             puerta.lado2 = otraHab
 
@@ -83,10 +83,12 @@ class LaberintoBuilder:
             or1 = getattr(self, 'fabricar' + unaOrString)()
             or2 = getattr(self, 'fabricar' + otraOrString)()
 
-            pt = self.fabricarPuertaLado1(lado1, lado2)
+            pt = self.fabricarPuertaLados(lado1, lado2)
 
             lado1.ponerEn(or1, pt)
             lado2.ponerEn(or2, pt)
+        def obtenerJuego(self):
+            return self.juego
 
 class Director:
     def __init__(self):
@@ -104,8 +106,8 @@ class Director:
         if unDic['tipo'] == 'habitacion':
             con = self.builder.fabricarHabitacion(unDic['num'])
         elif unDic['tipo'] == 'armario':
-            con = self.builder.fabricarArmario(unDic['num'], padre)
-        # Add more conditions for other types if needed
+            con = self.builder.fabricarArmarioEn(unDic['num'], padre)
+        
 
     def iniBuilder(self):
         self.builder = LaberintoBuilder()
@@ -119,6 +121,15 @@ class Director:
         self.iniBuilder()
         self.fabricarLaberinto()
         self.fabricarJuego()
+
+    def fabricarBichos(self):
+        #
+        bichos = self.diccionario.get('bichos',None)
+        if bichos is not None:
+            for bicho in bichos:
+                modo = bicho.get('modo')
+                posicion = bicho.get('posicion')
+                self.builder.fabricarBichoPosicion(modo, posicion)
         
 
 
