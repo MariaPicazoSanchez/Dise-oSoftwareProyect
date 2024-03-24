@@ -1,8 +1,8 @@
 <h1>Proyecto de Diseño Software</h1>
 <h2>Introducción:</h2>
 
-<p>Creación de un juego laberinto mediantes SmallTalk pasado a Python con la ayuda de Copylot.</p>
-<p>En este proyecto se intentará implementar todos los patrones de diseño que hemos implementado en clase, dejando aqui una breve explicación y descripcion que le hemos dado al Copylot para la implementación de cada uno de los patrones de diseño, así como su representación en el diagrama UML que hemos estado actualizando.</p>
+<p>Creación de un juego laberinto mediantes SmallTalk pasado a Python con la ayuda de Copilot.</p>
+<p>En este proyecto se intentará implementar todos los patrones de diseño que hemos implementado en clase, dejando aqui una breve explicación y descripcion que le hemos dado al Copilot para la implementación de cada uno de los patrones de diseño, así como su representación en el diagrama UML que hemos estado actualizando.</p>
 <h2>Diagrama al completo</h2>
 
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/e52383fc-a2c0-4b34-90a5-034207de524d)
