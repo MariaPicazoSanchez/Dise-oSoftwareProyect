@@ -18,8 +18,8 @@ class Juego:
         door.lado1=side1
         door.lado2=side2
         return door  
-    """ def crearPuerta(self):
-        return Puerta() """
+    def crearPuerta(self):
+        return Puerta() 
     def crearHab(self, id):
         return Habitacion(id)
 
@@ -99,7 +99,7 @@ class Juego:
     def fabLab2HabFMD(self):
         hab1 = self.crearHab(1)
         hab2 = self.crearHab(2)
-        puerta = self.crearPuerta(hab1, hab2)
+        puerta = self.crearPuertaLados(hab1, hab2)
         
         bm1 = self.fabricarBomba()
         bm1.em(self.crearPared())
@@ -178,24 +178,20 @@ class Juego:
         return Norte
     def crearSur(self):
         return Sur
-    def abrirPuerta(self):
-        for each in self.recorrer():
-            each.abrirPuertas()
+    
+    def abrirPuertas(self):
+       self.laberinto.recorrer(lambda each: each.abrirPuertas())
     def activarBombas(self):
-        for each in self.recorrer():
-            if each.esBomba():
-                each.activar()
+        self.laberinto.recorrer(lambda each: each.activar() if each.esBomba() else None)
     def agregarBicho(self, unBicho):
             self.bichos.append(unBicho)
             unBicho.juego = self
 
     def cerrarPuertas(self):
-        for each in self.recorrer():
-            each.cerrarPuertas()
+        self.laberinto.recorrer(lambda each: each.cerrarPuertas())
     def desactivarBombas(self):
-        for each in self.recorrer():
-            if each.esBomba():
-                each.desactivar()
+        self.laberinto.recorrer(lambda each: each.desactivar() if each.esBomba() else None)
+
     def eliminarBicho(self, unBicho):
         if unBicho in self.bichos:
             self.bichos.remove(unBicho)
@@ -384,13 +380,13 @@ class Contenedor(ElementoMapa):
         for each in self.hijos:
             each.recorrer(unBloque)
     def irAlEste(self, alguien):
-        self.este.entrar(alguien)
+        self.este.entrarAlguien(alguien)
     def irAlOeste(self, alguien):
-        self.oeste.entrar(alguien)
+        self.oeste.entrarAlguien(alguien)
     def irAlNorte(self, alguien):
-        self.norte.entrar(alguien)
+        self.norte.entrarAlguien(alguien)
     def irAlSur(self, alguien):
-        self.sur.entrar(alguien)
+        self.sur.entrarAlguien(alguien)
     def ponerEn(self, unaOrientacion, elemento):
         if isinstance(unaOrientacion, Este):
             unaOrientacion.ponerElemento(elemento, self)
@@ -482,7 +478,7 @@ class Puerta(ElementoMapa):
     def recorrer(self, unBloque):
         unBloque(self)
     def printOn(self):
-        print('Puerta: ', self.lado1,'-', self.lado2)
+        print('Puerta: ', self.lado1.num,'-', self.lado2.num)
 
 class Pared(ElementoMapa):
     def __init__(self):
@@ -490,7 +486,10 @@ class Pared(ElementoMapa):
     def entrar(self):
         print("No puedes atravesar la pared")
     def entrarAlguien(self, alguien):
-        print(alguien.nombre,"no puedes atravesar la pared")
+        if isinstance(alguien,Bicho):
+            print(alguien.__class__.__name__,"no puede atravesar la pared")
+        else:
+            print(alguien.nombre,"no puedes atravesar la pared")
     def esPared(self):
         return True
     def recorrer(self, unBloque):
@@ -505,9 +504,11 @@ class Hoja(ElementoMapa):
 
 class Decorator(Hoja):
     def __init__(self):
+        super().__init__()
         self.em=None
 class Bomba(Decorator):
     def __init__(self):
+        super().__init__()
         self.activa=False
     def activar(self):
         self.activa=True
@@ -546,7 +547,8 @@ class ParedBomba(Pared):
     
 class JuegoBombas(Juego):
     def __init__(self):
-        pass
+        super().__init__()
+        
     def crearPared(self):
         return ParedBomba()
 class Modo():
@@ -630,21 +632,24 @@ class Perezoso(Modo):
         print("Perezoso")
 game=Juego()
 game=JuegoBombas()
+game.crearLaberinto()
+
 game.fabLab2Hab()
 game.fabLab2Hab2BombasFM()
 game.fabLab2HabFM()
+#game.fabLab2HabFMD() #no va bien
 game.agregarPersonaje("Pepito")
 game.laberinto.entrar() 
-
+game.abrirPuertas()
 tunel = Tunel()
 tunel.entrar(game.person)
-""" bicho = Bicho()
+bicho = Bicho()
 bicho.modo = Agresivo()
-bicho.posicion = game.laberinto.rooms[0]
+bicho.posicion = game.laberinto.hijos[0]
 bicho.irAlEste()  # Llamando a actua después de cambiar la posición
 bicho.caminarAleatorio()
 bicho.irAlNorte()  # Llamando a actua después de cambiar la posición
 bicho.irAlOeste()  # Llamando a actua después de cambiar la posición
-bicho.irAlSur()  # Llamando a actua después de cambiar la posición """
-
+bicho.irAlSur()  # Llamando a actua después de cambiar la posición
+game.cerrarPuertas()
 #las orientaciones(entrar) les falta el metodo entrar el que esta me lo he inventado
