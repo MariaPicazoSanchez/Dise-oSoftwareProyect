@@ -637,7 +637,7 @@ game.crearLaberinto()
 game.fabLab2Hab()
 game.fabLab2Hab2BombasFM()
 game.fabLab2HabFM()
-#game.fabLab2HabFMD() #no va bien
+game.fabLab2HabFMD() #no va bien
 game.agregarPersonaje("Pepito")
 game.laberinto.entrar() 
 game.abrirPuertas()
