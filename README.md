@@ -155,6 +155,8 @@ Para ello creamos una clase llamada Tunel.
 Crea una clase llamada Tunel que hereda de Hoja y que tiene como atributo laberinto.
 ```
 ***Adapter:***
-```
+Hace de intermediario entre clases(intefaces) que son incompatibles.<br>
+No se ha implementado.<br><br>
 
-```
+
+
