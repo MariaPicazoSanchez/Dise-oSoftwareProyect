@@ -159,4 +159,14 @@ Hace de intermediario entre clases(intefaces) que son incompatibles.<br>
 No se ha implementado.<br><br>
 
 
+***Bridge***
+Es un puente entre una abstracción y su implementación. Permite cambiar de un tipo a otro en tiempo de ejecución.<br><br>
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/caf3fe6f-9c2c-4185-9b5e-cc32cf6e1cff)
+<br>Creamos una nueva clase, Forma la cual hace de intermediario entre Contenedor y el tipo de forma que por el momento solo hemos indicado que es de tipo Cuadrado.
+```
+Crea la clase Forma con el patron de diseño Bridge entre Contenedor y Cuadrado, siendo este ultimo heredado de Forma.
+Añade un nuevo atributo a Contenedor que se llame forma.
+
+```
+
 
