@@ -102,14 +102,14 @@ class Juego:
         puerta = self.crearPuertaLados(hab1, hab2)
         
         bm1 = self.fabricarBomba()
-        bm1.em(self.crearPared())
+        bm1.em=self.crearPared()
         
         hab1.norte = self.crearPared()
         hab1.este = bm1
         hab1.oeste = self.crearPared()
         
         bm2 = self.fabricarBomba()
-        bm2.em(self.crearPared())
+        bm2.em=self.crearPared()
         
         hab2.sur = self.crearPared()
         hab2.este = bm2
@@ -348,6 +348,8 @@ class ElementoMapa():
         pass
     def cerrarPuertas(self):
         pass
+    def entrarAlguien(self, alguien):
+        pass
 
 class Contenedor(ElementoMapa):
     def __init__(self,num=None):
@@ -506,6 +508,8 @@ class Decorator(Hoja):
     def __init__(self):
         super().__init__()
         self.em=None
+    def entrarAlguien(self, alguien):
+        return self.em.entrarAlguien(alguien)
 class Bomba(Decorator):
     def __init__(self):
         super().__init__()
@@ -527,7 +531,8 @@ class Bomba(Decorator):
                 self.em.entrar()
             else:
                 print("No puedes atravesar la bomba")
-
+    def entrarAlguien(self, alguien):
+        self.entrar(alguien)
 class Tunel(Hoja):
     def __init__(self):
         self.laberinto=None
@@ -600,7 +605,7 @@ class Bicho(Ente):
         self.posicion.caminarAleatorio(self)
 
     def atacar(self):
-        self.juego.buscarPersonaje()
+        self.juego.bichoBuscarPersonaje(self)
 
 class Personaje(Ente):
     def __init__(self):
@@ -630,6 +635,9 @@ class Perezoso(Modo):
         super().__init__()
     def printOn(self):
         print("Perezoso")
+
+
+        
 game=Juego()
 game=JuegoBombas()
 game.crearLaberinto()

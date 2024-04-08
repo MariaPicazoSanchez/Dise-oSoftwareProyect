@@ -8,14 +8,15 @@ class LaberintoBuilder:
 
         def fabricarArmarioEn(self, unNum, unCont):
             arm = Armario(unNum)
-            arm.agregarOrientacion('Norte')
-            arm.agregarOrientacion('Este')
-            arm.agregarOrientacion('Sur')
-            arm.agregarOrientacion('Oeste')
-
+            arm.agregarOrientacion(self.fabricarNorte())
+            arm.agregarOrientacion(self.fabricarEste())
+            arm.agregarOrientacion(self.fabricarSur())
+            arm.agregarOrientacion(self.fabricarOeste())
+            i=0
             for orientacion in arm.orientaciones:
-                arm.orientaciones[orientacion].poner_en(orientacion, self.fabricarPared(self))
-            pt = self.fabricarPuerta(arm, unCont)
+                arm.orientaciones[i].ponerElementoEn(orientacion, self.fabricarPared())
+                i+=1
+            pt = self.fabricarPuertaLados(arm, unCont)
            
 
             unCont.agregarHijo(arm)
