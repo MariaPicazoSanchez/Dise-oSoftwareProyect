@@ -5,13 +5,15 @@
 <p>En este proyecto se intentará implementar todos los patrones de diseño que hemos implementado en clase, dejando aqui una breve explicación y descripcion que le hemos dado al Copilot para la implementación de cada uno de los patrones de diseño, así como su representación en el diagrama UML que hemos estado actualizando.</p>
 <h2>Diagrama al completo</h2>
 
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/e52383fc-a2c0-4b34-90a5-034207de524d)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/6ec1f38f-1547-4dfa-9610-69769e7fa6ae)
+
 <br>
 <h2>Patrones implementados</h2>
 
 ***Factory Method:***
 Creación de métodos de fabricación en juego.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/d033095f-3ccc-4616-acad-5f98fe3a420f)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/6cac04c5-dcf7-4366-808e-caac914fbc1e)
+
 
 
 ```
@@ -69,16 +71,19 @@ Crea un método que pasado un strModo y unaHab haga lo siguiente:
 Algunos métodos como fabricarBichoAgresivo, fabricarBichoPerezoso, fabricarEste, fabricarOeste, entre otros es copiarlos de Game o bine hacer algún cambio simple.<br><br>
 ***Decorator:***
 Añade responsabilidad de forma transparente(funciones).<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/624bbb0f-f9ab-4700-9ee9-87dbfcf2568f)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/4a77460f-4a5b-4a61-b502-1e1889d70947)
+
 <br>
 Para este patrón se ha creado las clases ParedBomba y JuegoBombas
 ```
 Crea la clase ParedBomba que hereda de Pared, ParedBomba tiene que tener un metodo que se llame entrar en el cual comprueba que sea una bomba y este activa y en el caso de que sea cierto le muestra un mensaje "¡Boom! Te has chocado con una pared-bomba", en el caso de que no sea alguna de esas cosas se llamara a entrar de Pared.
 Crea la clase JuegoBombas la cual hereda de Juego y que tenga el método crearPared el cual devuelve una instancia de ParedBomba.
 ```
+
 ***Strategy:***
 Encapsula los diferentes algoritmos para poder cambiarlos en tiempo de ejecución.En nuestro caso permite cambiar el modo de bicho en tiempo de ejecución.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/faa36bcf-4e04-4483-baf4-828913b38b76)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/5917a49f-3be7-4bd8-b9bc-63709c78d22f)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/20a65a91-9be4-4fc1-99e8-802cf41d3d53)
 
 <br>
 Para la creación de este patrón es necesario la creación de modo y de tipos de modo, en este caso hemos hecho Agresivo y Perezoso.
@@ -94,7 +99,8 @@ Crea la clase Perezoso que herede de Modo que tenga un printOn de "Perezoso".
 ```
 ***Composite:***
 Estructuras estáticas del modo todo-parte. Permite que se utilizan tanto los objetos individuales como los objetos compuestos.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/a43a03d9-e6c2-4a3c-a512-a6c753e4b1e8)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/2fed6927-c63f-4595-9253-d542800f661f)
+
 
 <br>
 Para este patrón se han creado Contenedor y Hoja que heredan de ElementoMapa.
@@ -105,7 +111,8 @@ Crea la clase Hoja que hereda de MapElement.
 ```
 ***Iterator:***
 Estructuras que permiten la recursión o jerarquías.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/e3f3881b-f308-434b-aafb-54b3aca21d5c)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/07e51382-7d84-4fdd-98bc-a017b7cdf977)
+
 <br>
 Creación del método recorrer en ElementoMapa que sera implementado por las subclases. 
 ```
@@ -119,9 +126,11 @@ Hoja, Pared y Puerta:
 def recorrer(unBloque):
 	unBloque(self)
 ```
+
 ***Template Method:***
 Este define el esqueleto de operaciones. En este caso creamos el método actua en Modo para que los tipos de modo creen a su gusto el método.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/62f7d4c3-4458-4e22-9334-a78020a26f2b)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/fbf7502c-1660-4903-8058-01d7572394e2)
+
 
 ```
 Crea un método llamado actua pasado un Bicho que llame a los métodos dormir,caminar y atacar.
@@ -131,23 +140,28 @@ Crea una interfaz para crear familias de objetos similares.<br>
 No lo hemos implementado.<br><br>
 ***Singleton:***
 Hace que solo tengamos una sola instancia a la vez, como punto de acceso a esta.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/7b269463-8959-4640-9f9d-d3c533e1bff3)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/0e20e04f-55c2-4245-beaa-33980392aa08)
+
 <br>
 Creamos Orientacion el cual también podría ser el patrón Strategy.
 ```
 Crea una clase llamada Orientacion.
 Crea la clase Este, Oeste, Norte y Sur que heredan de Orientación.
 ```
+
 ***Builder:***
 Se crea para crear diferentes representaciones. <br>
 En nuestro caso hemos creado un nuevo fichero llamado Builder en el cual hemos añadido lo siguiente.
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/ea03d79b-0ce6-4a17-a285-d0d744e231c0)
+
 ```
 Crea una clase llamada LaberintoBuilder que tenga dos atributos: juego y laberinto.
 Crea una clase llamada Builder que tenga dos atributos: builder y diccionario.
 ```
 ***Proxy:***
 Proporciona un sustituto a una referencia a otro objeto para controlar el acceso a este.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/4560090e-1c20-4b72-9bdd-ac8c7b2b2bb0)
+
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/2be55876-68c4-483a-bf3c-b4ac7857eecb)
 
 <br>Hemos implementado el proxy virtual el cual carga un objeto caro bajo demanda.<br>
 Para ello creamos una clase llamada Tunel.
@@ -161,12 +175,27 @@ No se ha implementado.<br><br>
 
 ***Bridge***
 Es un puente entre una abstracción y su implementación. Permite cambiar de un tipo a otro en tiempo de ejecución.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/caf3fe6f-9c2c-4185-9b5e-cc32cf6e1cff)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/cab752ec-4fb1-4ae8-9070-7c1ade35b5a4)
+
 <br>Creamos una nueva clase, Forma la cual hace de intermediario entre Contenedor y el tipo de forma que por el momento solo hemos indicado que es de tipo Cuadrado.
 ```
 Crea la clase Forma con el patron de diseño Bridge entre Contenedor y Cuadrado, siendo este ultimo heredado de Forma.
 Añade un nuevo atributo a Contenedor que se llame forma.
 
 ```
+***Mediator***
+Permite semplificar la comunicación entre objetos.<br>
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/184e39fe-250a-4221-a99d-8b285fa47e12)
+<br>
+```
 
+```
 
+***State***
+Permite que un objeto cambie su comportamiento cuando su estado interno cambia, encapsulando cada estado en una clase separada y permitiendo que el objeto delegue su comportamiento a si estado actual.
+<br>
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/5d9632ea-cf9c-411c-b424-7d1eab2f297a)
+
+```
+
+```
