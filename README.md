@@ -75,6 +75,7 @@ Añade responsabilidad de forma transparente(funciones).<br><br>
 
 <br>
 Para este patrón se ha creado las clases ParedBomba y JuegoBombas
+
 ```
 Crea la clase ParedBomba que hereda de Pared, ParedBomba tiene que tener un metodo que se llame entrar en el cual comprueba que sea una bomba y este activa y en el caso de que sea cierto le muestra un mensaje "¡Boom! Te has chocado con una pared-bomba", en el caso de que no sea alguna de esas cosas se llamara a entrar de Pared.
 Crea la clase JuegoBombas la cual hereda de Juego y que tenga el método crearPared el cual devuelve una instancia de ParedBomba.
@@ -115,6 +116,7 @@ Estructuras que permiten la recursión o jerarquías.<br><br>
 
 <br>
 Creación del método recorrer en ElementoMapa que sera implementado por las subclases. 
+
 ```
 En MapElement:
 def recorrer(self,unBloque):
@@ -144,6 +146,7 @@ Hace que solo tengamos una sola instancia a la vez, como punto de acceso a esta.
 
 <br>
 Creamos Orientacion el cual también podría ser el patrón Strategy.
+
 ```
 Crea una clase llamada Orientacion.
 Crea la clase Este, Oeste, Norte y Sur que heredan de Orientación.
@@ -173,7 +176,7 @@ Hace de intermediario entre clases(intefaces) que son incompatibles.<br>
 No se ha implementado.<br><br>
 
 
-***Bridge***
+***Bridge:***
 Es un puente entre una abstracción y su implementación. Permite cambiar de un tipo a otro en tiempo de ejecución.<br><br>
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/cab752ec-4fb1-4ae8-9070-7c1ade35b5a4)
 
@@ -183,7 +186,7 @@ Crea la clase Forma con el patron de diseño Bridge entre Contenedor y Cuadrado,
 Añade un nuevo atributo a Contenedor que se llame forma.
 
 ```
-***Mediator***
+***Mediator:***
 Permite semplificar la comunicación entre objetos.<br>
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/184e39fe-250a-4221-a99d-8b285fa47e12)
 <br>
@@ -191,7 +194,7 @@ Permite semplificar la comunicación entre objetos.<br>
 
 ```
 
-***State***
+***State:***
 Permite que un objeto cambie su comportamiento cuando su estado interno cambia, encapsulando cada estado en una clase separada y permitiendo que el objeto delegue su comportamiento a si estado actual.
 <br>
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/5d9632ea-cf9c-411c-b424-7d1eab2f297a)
