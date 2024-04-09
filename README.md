@@ -5,7 +5,8 @@
 <p>En este proyecto se intentará implementar todos los patrones de diseño que hemos implementado en clase, dejando aqui una breve explicación y descripcion que le hemos dado al Copilot para la implementación de cada uno de los patrones de diseño, así como su representación en el diagrama UML que hemos estado actualizando.</p>
 <h2>Diagrama al completo</h2>
 
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/6ec1f38f-1547-4dfa-9610-69769e7fa6ae)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/8bf35424-933c-4ca5-8648-28124aa2aa42)
+
 
 <br>
 <h2>Patrones implementados</h2>
@@ -198,6 +199,8 @@ Permite semplificar la comunicación entre objetos.<br>
 Permite que un objeto cambie su comportamiento cuando su estado interno cambia, encapsulando cada estado en una clase separada y permitiendo que el objeto delegue su comportamiento a si estado actual.
 <br>
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/5d9632ea-cf9c-411c-b424-7d1eab2f297a)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/c5ea8b3b-fe5b-4e24-98df-6ac6f924345a)
+
 
 ```
 
