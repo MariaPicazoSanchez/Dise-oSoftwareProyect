@@ -1,5 +1,6 @@
 import unittest
-from laberinto import Juego, Laberinto, Habitacion, Bicho, Agresivo, Perezoso, Personaje
+from laberinto import Laberinto, Habitacion, Bicho, Agresivo, Perezoso, Personaje
+from juego import Juego
 
 class TestJuego(unittest.TestCase):
     def setUp(self):

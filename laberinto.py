@@ -1,332 +1,9 @@
 import random
-import threading
 import time
+from orientaciones import Este, Oeste, Norte, Sur, Orientation, NorEste, NorOeste, SurEste, SurOeste
+from juego import Juego
+from estados import Cerrada, Abierta,Vivo, Muerto
 
-
-class Juego:
-    def __init__(self):
-        self.laberinto = None
-        self.bichos = []
-        self.hilos = {}
-        self.person=None
-
-    def crearPared(self):
-        return Pared()
-    
-    def crearPuertaLados(self,side1,side2):
-        door=Puerta()
-        door.lado1=side1
-        door.lado2=side2
-        return door  
-    def crearPuerta(self):
-        return Puerta() 
-    def crearHab(self, id):
-        return Habitacion(id)
-
-    def crearLaberinto(self):
-        return Laberinto()
-    
-    def fabLab2HabFM(self):
-        self.laberinto = self.crearLaberinto()
-        room1 = self.crearHab(1)
-        room2 = self.crearHab(2)
-        door = self.crearPuertaLados(room1,room2)
-        room1.sur=door
-        room2.norte=door
-
-        room1.este=self.crearPared()
-        room1.oeste=self.crearPared()
-        room1.norte=self.crearPared()
-        room2.sur=self.crearPared()
-        room2.este=self.crearPared()
-        room2.oeste=self.crearPared()
-
-        self.laberinto.agregarHabitacion(room1)
-        self.laberinto.agregarHabitacion(room2)
-        return self.laberinto
-    
-    def fabLab2Hab(self):
-        self.laberinto = self.crearLaberinto()
-        room1 = self.crearHab(1)
-        room2 = self.crearHab(2)
-        self.laberinto.agregarHabitacion(room1)
-        self.laberinto.agregarHabitacion(room2)
-
-        door=Puerta()
-        door.lado1=room1
-        door.lado2=room2
-        room1.sur = door
-        room2.norte = door
-
-        room1.este=self.crearPared()
-        room1.oeste=self.crearPared()
-        room1.norte=self.crearPared()
-        room2.sur=self.crearPared()
-        room2.este=self.crearPared()
-        room2.oeste=self.crearPared()
-        return self.laberinto
-    
-    def fabLab2Hab2BombasFM(self):
-        hab1 = self.crearHab(1)
-        hab2 = self.crearHab(2)
-        puerta = self.crearPuertaLados(hab1, hab2)
-        
-        hab1.norte = self.crearPared()
-        hab1.este = self.crearPared()
-        hab1.oeste = self.crearPared()
-        
-        hab2.sur = self.crearPared()
-        hab2.este = self.crearPared()
-        hab2.oeste = self.crearPared()
-        
-        puerta.lado1 = hab1
-        puerta.lado2 = hab2
-        
-        hab1.sur = puerta
-        hab2.norte = puerta
-        
-        bm1 = self.fabricarBomba()
-        bm2 = self.fabricarBomba()
-        
-        hab1.agregarHijo(bm1)
-        hab2.agregarHijo(bm2)
-        
-        self.maze = self.crearLaberinto()
-        
-        self.maze.agregarHabitacion(hab1)
-        self.maze.agregarHabitacion(hab2)
-
-    def fabLab2HabFMD(self):
-        hab1 = self.crearHab(1)
-        hab2 = self.crearHab(2)
-        puerta = self.crearPuertaLados(hab1, hab2)
-        
-        bm1 = self.fabricarBomba()
-        bm1.em=self.crearPared()
-        
-        hab1.norte = self.crearPared()
-        hab1.este = bm1
-        hab1.oeste = self.crearPared()
-        
-        bm2 = self.fabricarBomba()
-        bm2.em=self.crearPared()
-        
-        hab2.sur = self.crearPared()
-        hab2.este = bm2
-        hab2.oeste = self.crearPared()
-        
-        puerta.lado1 = hab1
-        puerta.lado2 = hab2
-        
-        hab1.sur = puerta
-        hab2.norte = puerta
-        
-        self.laberinto = self.crearLaberinto()
-        
-        self.laberinto.agregarHabitacion(hab1)
-        self.laberinto.agregarHabitacion(hab2)
-       
-    def fabLab4Hab4BichosFM(self):
-        hab1 = self.crearHab(1)
-        hab2 = self.crearHab(2)
-        hab3 = self.crearHab(3)
-        hab4 = self.crearHab(4)
-           
-        p12 = self.crearPuertaLados(hab1, hab2)
-        p13 = self.crearPuertaLados(hab1, hab3)
-        p34 = self.crearPuertaLados(hab3, hab4)
-        p24 = self.crearPuertaLados(hab2, hab4)
-            
-        hab1.sur = p12
-        hab2.norte = p12
-            
-        hab1.este = p13
-        hab3.oeste = p13
-            
-        hab2.este = p24
-        hab4.oeste = p24
-            
-        hab3.sur = p34
-        hab4.norte = p34
-
-        hab1.norte = self.crearPared()
-        hab1.oeste = self.crearPared()
-        hab2.oeste = self.crearPared()
-        hab2.sur = self.crearPared()
-        hab3.norte = self.crearPared()
-        hab3.este = self.crearPared()
-        hab4.sur = self.crearPared()
-        hab4.este = self.crearPared()
-            
-        self.laberinto = self.crearLaberinto()
-            
-        self.laberinto.agregarHabitacion(hab1)
-        self.laberinto.agregarHabitacion(hab2)
-        self.laberinto.agregarHabitacion(hab3)
-        self.laberinto.agregarHabitacion(hab4)
-            
-        self.agregarBicho(self.fabricarBichoAgresivo(hab1))
-        self.agregarBicho(self.fabricarBichoAgresivo(hab3))
-        self.agregarBicho(self.fabricarBichoPerezoso(hab2))
-        self.agregarBicho(self.fabricarBichoPerezoso(hab4))
-       
-    def crearEste(self):
-        return Este
-    def crearOeste(self):
-        return Oeste
-    def crearNorte(self):
-        return Norte
-    def crearSur(self):
-        return Sur
-    
-    def abrirPuertas(self):
-       self.laberinto.recorrer(lambda each: each.abrirPuertas())
-    def activarBombas(self):
-        self.laberinto.recorrer(lambda each: each.activar() if each.esBomba() else None)
-    def agregarBicho(self, unBicho):
-            self.bichos.append(unBicho)
-            unBicho.juego = self
-
-    def cerrarPuertas(self):
-        self.laberinto.recorrer(lambda each: each.cerrarPuertas())
-    def desactivarBombas(self):
-        self.laberinto.recorrer(lambda each: each.desactivar() if each.esBomba() else None)
-
-    def eliminarBicho(self, unBicho):
-        if unBicho in self.bichos:
-            self.bichos.remove(unBicho)
-        else:
-            print("No existe ese bicho")
-
-    def fabricarBichoAgresivo(self, Habitacion):
-        bicho = Bicho()
-        bicho.modo = Agresivo()
-        bicho.juego = self
-        bicho.posicion = Habitacion
-        bicho.vidas = 5
-        bicho.poder = 2
-        return bicho
-    def fabricarBichoPerezoso(self, Habitacion):
-        bicho = Bicho()
-        bicho.modo = Perezoso()
-        bicho.juego = self
-        bicho.posicion = Habitacion
-        bicho.vidas = 3
-        bicho.poder = 1
-        return bicho
-    def fabricarBomba(self):
-        return Bomba()
-    
-    def lanzarHilo(self, unBicho):
-        proceso = threading.Thread(target=unBicho.actua)
-        self.hilos[unBicho] = proceso
-        proceso.start()
-
-    def terminarHilo(self, unBicho):
-        proceso = self.hilos.get(unBicho)
-        if proceso:
-            proceso.join()
-            del self.hilos[unBicho]
-
-    def obtenerHabitacion(self, unNum):
-        return self.laberinto.obtenerHabitacion(unNum)
-    def agregarPersonaje(self, unNombre):
-        self.person=Personaje()
-        self.person.nombre=unNombre
-        self.laberinto.entrarAlguien(self.person)
-        self.person.juego=self
-
-    def buscarBicho(self):
-        pass
-        #por implementar
-    def bichoBuscarPersonaje(self,unBicho):
-        unCont=unBicho.posicion
-        if unCont == self.person.posicion:
-            self.person.esAtacadoPor(unBicho)
-    def lanzarTodosHilos(self):
-        for bicho in self.bichos:
-            self.lanzarHilo(bicho)
-    def terminarTodosHilos(self):
-        for bicho in self.bichos:
-            self.terminarHilo(bicho)
-class Orientation:
-    def __init__(self):
-        pass
-    def caminar(self, Bicho):
-        pass
-    def ponerElementoEn(self, EM, Contenedor):
-        pass
-    def recorrer(self,unBloque):
-        pass
-    
-class Este(Orientation):
-    def __init__(self):
-        super().__init__()
-    def caminar(self, alguien):
-        alguien.irAlEste()
-    def recorrerEn(self,unBloque,unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self,EM, unCont):
-        unCont.este=EM
-    def entrar(self, alguien):
-       #este metodo no se ha implementado
-       """  if alguien.posicion.este:
-            if alguien.posicion.esPuerta and alguien.posicion.abierta:
-                print("Entraste a la habitacion que esta al este")
-            else: 
-                print("La puerta esta cerrada") """
-       pass
-class Oeste(Orientation):
-    def __init__(self):
-        super().__init__()
-    def caminar(self, alguien):
-        alguien.irAlOeste()
-    def recorrerEn(self,unBloque,unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self,EM, unCont):
-        unCont.oeste=EM
-    def entrar(self, alguien):
-        #este metodo no se ha implementado
-        """ if alguien.posicion.oeste:
-            if alguien.posicion.oeste.abierta:
-                print("Entraste a la habitacion que esta al oeste")
-            else: 
-                print("La puerta esta cerrada") """
-        pass
-class Norte(Orientation):
-    def __init__(self):
-        super().__init__()
-    def caminar(self, alguien):
-        alguien.irAlNorte()
-    def recorrerEn(self,unBloque,unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self,EM, unCont):
-        unCont.este=EM
-    def entrar(self, alguien):
-        #este metodo no se ha implementado
-        """ if alguien.posicion.norte:
-            if alguien.posicion.norte.abierta:
-                print("Entraste a la habitacion que esta al norte")
-            else: 
-                print("La puerta esta cerrada") """
-        pass
-class Sur(Orientation):
-    def __init__(self):
-        super().__init__()
-    def caminar(self, alguien):
-        alguien.irAlSur()
-    def recorrerEn(self,unBloque,unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self,EM, unCont):
-        unCont.este=EM
-    def entrar(self, alguien):
-       #este metodo no se ha implementado
-       """ if alguien.posicion.sur:
-            if alguien.posicion.sur.abierta:
-                print("Entraste a la habitacion que esta al sur")
-            else: 
-                print("La puerta esta cerrada") """
-       pass
 
 class ElementoMapa():
     def __init__(self):
@@ -354,33 +31,31 @@ class ElementoMapa():
 class Contenedor(ElementoMapa):
     def __init__(self,num=None):
         self.hijos =[]
-        self.orientaciones = []
-        self.este =None
-        self.oeste =None
-        self.norte =None 
-        self.sur =None
         self.num=num
+        self.forma = None
     def agregarHijo(self,hijo):
         self.hijos.append(hijo)
         hijo.padre = self
 
     def eliminarHijo(self, hijo):
-        self.hijos.remove(hijo)
+        self.hijos.remove(hijo) if hijo in self.hijos else print("No se puede eliminar EM")
 
     def agregarOrientacion(self, unaOrientacion):
-        self.orientaciones.append(unaOrientacion)
+        self.forma.agregarOrientacion(unaOrientacion)
 
     def caminarAleatorio(self, unBicho):
         if self.orientaciones:
-            numOr = len(self.orientaciones)
+            numOr = len(self.obtenerOrientaciones().length)
             numAl = random.randint(1, numOr)
-            orAl = self.orientaciones[numAl-1]
+            orAl = self.obtenerOrientaciones()[numAl-1]
             orAl.caminar(unBicho)
 
     def recorrer(self, unBloque):
         unBloque(self)
         for each in self.hijos:
             each.recorrer(unBloque)
+        self.forma.recorrer(unBloque)
+
     def irAlEste(self, alguien):
         self.este.entrarAlguien(alguien)
     def irAlOeste(self, alguien):
@@ -389,32 +64,38 @@ class Contenedor(ElementoMapa):
         self.norte.entrarAlguien(alguien)
     def irAlSur(self, alguien):
         self.sur.entrarAlguien(alguien)
-    def ponerEn(self, unaOrientacion, elemento):
-        if isinstance(unaOrientacion, Este):
-            unaOrientacion.ponerElemento(elemento, self)
-        elif isinstance(unaOrientacion, Oeste):
-            unaOrientacion.ponerElemento(elemento, self)
-        elif isinstance(unaOrientacion, Norte):
-            unaOrientacion.ponerElemento(elemento, self)
-        elif isinstance(unaOrientacion, Sur):
-            unaOrientacion.ponerElemento(elemento, self)
+    def irAlNorEste(self, alguien):
+        self.noreste.entrarAlguien(alguien)
+    def irAlNorOeste(self, alguien):
+        self.noroeste.entrarAlguien(alguien)
+    def irAlSurEste(self,alguien):
+        self.sureste.entrarAlguien(alguien)
+    def irAlSurOeste(self, alguien):
+        self.suroeste.entrarAlguien(alguien)
 
-    def recorrer(self, unBloque):
-        unBloque(self)
-        for each in self.hijos:
-            each.recorrer(unBloque)
+    def ponerElementoEn(self, unaOrientacion, elemento):
+        self.forma.ponerElementoEn(unaOrientacion, elemento)
 
+    #FALTA POR CAMBIAR
     def recorrerEn(self, unBloque, unCont):
         unBloque(self)
         for each in self.hijos:
             each.recorrer(unBloque)
         for each in self.orientaciones:
             each.recorrerEn(unBloque, self)
+    
+    def obtenerOrientaciones(self):
+        return self.forma.orientaciones
 
 class Armario(Contenedor):
     def __init__(self, num=None):
         super().__init__(num)
-        self.num = num
+        
+    def entrar(self, alguien):
+        print("Entraste al armario ", str(alguien.nombre))
+        alguien.poscion = self
+    def printOn(self):
+        print('Armario', str(self.num))
 
 class Laberinto(Contenedor):
     def __init__(self):
@@ -432,6 +113,10 @@ class Laberinto(Contenedor):
 
     def obtenerHabitacion(self, unNum):
         return self.hijos[unNum-1]
+    def recorrer(self, unBloque):
+        unBloque(self)
+        for each in self.hijos:
+            each.recorrer(unBloque)
 
 class Habitacion(Contenedor):
     def __init__(self,num):
@@ -452,15 +137,10 @@ class Puerta(ElementoMapa):
     def __init__(self):
         self.lado1 = None
         self.lado2 = None
-        self.abierta = False
-    def entrar(self):
-        if self.abierta:
-            self.lado2.entrar()
-        else:
-            print("La puerta esta cerrada")
+        self.estado = Cerrada()
 
     def entrarAlguien(self, alguien):
-        if self.abierta:
+        if self.estaAbierta():
             print(self.printOn(), "abierta")
             if alguien.posicion == self.lado1:
                 self.lado2.entrarAlguien(alguien)
@@ -470,17 +150,18 @@ class Puerta(ElementoMapa):
             print(self.printOn(), "cerrada")
     
     def abrirPuertas(self):
-        self.abierta = True
-        print("Puerta abierta",self)
+        self.estado.abrirPuertas(self)
     def cerrarPuertas(self):    
-        self.abierta = False
-        print("Puerta cerrada",self)
+        self.estado.cerrarPuertas(self)
     def esPuerta(self):   
         return True 
     def recorrer(self, unBloque):
         unBloque(self)
     def printOn(self):
         print('Puerta: ', self.lado1.num,'-', self.lado2.num)
+    def estaAbierta(self):
+        return self.estado.estaAbierta()
+    
 
 class Pared(ElementoMapa):
     def __init__(self):
@@ -499,7 +180,7 @@ class Pared(ElementoMapa):
 class Hoja(ElementoMapa):
     def __init__(self):
         pass
-    def entrar(self, alguien):
+    def entrarAlguien(self, alguien):
         pass
     def recorrer(self, unBloque):
         unBloque(self)
@@ -508,8 +189,7 @@ class Decorator(Hoja):
     def __init__(self):
         super().__init__()
         self.em=None
-    def entrarAlguien(self, alguien):
-        return self.em.entrarAlguien(alguien)
+
 class Bomba(Decorator):
     def __init__(self):
         super().__init__()
@@ -530,15 +210,19 @@ class Bomba(Decorator):
             if self.em is not None:
                 self.em.entrar()
             else:
-                print("No puedes atravesar la bomba")
+                print("La bomba ha explotado")
+    #POR PREGUNTAR EL ELSE DEBERIA SER ENTRARalGUIEN
     def entrarAlguien(self, alguien):
-        self.entrar(alguien)
+        if self.activa:
+            print("La bomba ha explotado")
+        else:
+            self.em.entrar()
 class Tunel(Hoja):
     def __init__(self):
         self.laberinto=None
 
-    def entrar(self, alguien):
-        print(alguien.nombre,"has entrado a un nuevo laberinto")
+    def entrarAlguien(self, alguien):
+        print(alguien.nombre," has entrado a un nuevo laberinto")
     
 class ParedBomba(Pared):
     def __init__(self):
@@ -554,7 +238,7 @@ class JuegoBombas(Juego):
     def __init__(self):
         super().__init__()
         
-    def crearPared(self):
+    def fabricarPared(self):
         return ParedBomba()
 class Modo():
     def __init__(self):
@@ -574,8 +258,8 @@ class Ente():
     def __init__(self):
         self.vidas = None
         self.poder = None
-        self.posicion =  None
         self.juego = None
+        self.estado = Vivo()
     def irAlEste(self):
         self.posicion.irAlEste(self)
 
@@ -587,8 +271,34 @@ class Ente():
        
     def irAlSur(self):
         self.posicion.irAlSur(self)
+    def irAlNorEste(self):
+        self.posicion.irAlNorEste(self)
+
+    def irAlNorOeste(self):
+        self.posicion.irAlNorOeste(self)
+
+    def irAlSurEste(self):
+        self.posicion.irAlSurEste(self)
+
+    def irAlSurOeste(self):
+        self.posicion.irAlSurOeste(self)
+
     def atacar(self):
+        self.estado.atacar(self)
+    def esAtacadoPor(self, alguien):
+        self.vidad=self.vidas-alguien.poder
+        if self.vidas<=0:
+            print("Muere" + self.__class__.__name__)
+            self.muero()
+        else:
+            print("Te han atacado, vidas restantes ", self.vidas)
+    def estaVivo(self):
+        return self.estado.estaVivo()
+    def muero(self):
         pass
+    def puedeAtacar(self):
+        pass
+
 class Bicho(Ente):
     def __init__(self):
         super().__init__()
@@ -598,32 +308,28 @@ class Bicho(Ente):
     def actua(self):
         self.modo.actua(self)
 
-    def print_on(self):
+    def printOn(self):
         print(f"Bicho-{self.modo}")
 
     def caminarAleatorio(self):
         self.posicion.caminarAleatorio(self)
 
-    def atacar(self):
+    def puedeAtacar(self):
         self.juego.bichoBuscarPersonaje(self)
+    def muero(self):
+        self.juego.terminalHilo(self)
 
 class Personaje(Ente):
     def __init__(self):
         super().__init__()
         self.nombre=None
-        self.vidas=10
-        self.poder=1
+        super.vidas=20
+        super.poder=1
 
-    def atacar(self):
+    def puedeAtacar(self):
         self.juego.buscarBicho()
-    
-    def esAtacadoPor(self,unBicho):
-        self.vidas-=unBicho.poder
-        if self.vidas<=0:
-            print("Has muerto")
-            self.juego.terminarHilo()
-        else:
-            print("Tienes ", self.vidas, "vidas")
+    def muero(self):
+        self.juego.muerePersonaje(self)
     
 class Agresivo(Modo):
     def __init__(self):
@@ -640,7 +346,7 @@ class Perezoso(Modo):
         
 game=Juego()
 game=JuegoBombas()
-game.crearLaberinto()
+game.fabricarLaberinto()
 
 game.fabLab2Hab()
 game.fabLab2Hab2BombasFM()

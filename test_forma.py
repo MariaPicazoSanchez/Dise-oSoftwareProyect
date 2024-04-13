@@ -1,10 +1,11 @@
 import unittest
-from forma import Forma,Cuadrado
-from laberinto import Contenedor, Personaje, Este
+from forma import Forma,Cuadrado, Hexagono
+from laberinto import Contenedor, Personaje
+from orientaciones import Este
 
-class TestCuadrado(unittest.TestCase):
+class TestForma(unittest.TestCase):
     def setUp(self):
-        self.cuadrado = Cuadrado()
+        pass
 
     def test_agregarOrientacion_a_Forma(self):
         forma = Forma()
@@ -23,5 +24,11 @@ class TestCuadrado(unittest.TestCase):
 
         self.assertIn(alguien, cuadrado.este.orientaciones)
 
+    def test_irAlEste(self):
+        hexagono = Hexagono()
+        hexagono.este = Forma()
+        with self.assertRaises(AttributeError):
+            hexagono.irAlEste("alguien")
+            
 if __name__ == '__main__':
     unittest.main()
