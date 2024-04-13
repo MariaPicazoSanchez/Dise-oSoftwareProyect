@@ -5,7 +5,8 @@
 <p>En este proyecto se intentará implementar todos los patrones de diseño que hemos implementado en clase, dejando aqui una breve explicación y descripcion que le hemos dado al Copilot para la implementación de cada uno de los patrones de diseño, así como su representación en el diagrama UML que hemos estado actualizando.</p>
 <h2>Diagrama al completo</h2>
 
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/8bf35424-933c-4ca5-8648-28124aa2aa42)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/63760d1b-9b2a-4b6d-ba7b-ec0690164c11)
+
 
 
 <br>
@@ -18,55 +19,13 @@ Creación de métodos de fabricación en juego.<br><br>
 
 
 ```
-Crea en la clase Juego el siguiente método: fabricarLaberinto2Habitaciones
-	"fabrica un laberinto con 2 habitaciones. La hab1 tiene al sur la hab2 unidas por una puerta"
-	
- |hab1 hab2 puerta |
-
-	hab1 := Habitacion new num:1.
-	hab2 := Habitacion new num:2.
-	puerta := Puerta new.
-	
-	hab1 norte: Pared new.
-	hab1 este: Pared new.
-	hab1 oeste: Pared new.
-	
-	hab2 sur: Pared new.
-	hab2 este:Pared new.
-	hab2 oeste:Pared new.
-	
-	puerta lado1:hab1.
-	puerta lado2:hab2.
-	
-	hab1 sur:puerta.
-	hab2 norte:puerta.
-	
-	self laberinto: Laberinto new.
-	
-	self laberinto agregarHabitacion: hab1.
-	self laberinto agregarHabitacion: hab2.
- 
-	
+Crea en la clase Juego que utilizando el patron factory method cree el método fabricarLaberinto2Habitaciones en el cual fabricamos un laberinto con 2 habitaciones. La hab1 tiene al sur la hab2 unidas por una puerta, y que luego se añadan al laberinto.
 ```
 Una vez me da este metodo los siguientes es modificarlos, los métodos más fáciles como frabricarBomba, fabricarPuerta... los hago a mano.<br>
 También hemos hecho este patrón en Builder con lo siguiente:
 ```
-Crea un método que pasado unNum y unCont haga lo siguiente: | arm pt|
-	arm:=Armario new num:unNum.
-	arm agregarOrientacion: self fabricarNorte; agregarOrientacion: Este default;
-	agregarOrientacion: Sur default; agregarOrientacion: Oeste default.
-	arm orientaciones do:[:each | arm ponerEn:each elemento:self fabricarPared].
-	pt:=self fabricarPuertaLado1: arm lado2:unCont.
-	arm ponerEn: Este default elemento: pt.
-	
-	unCont agregarHijo:arm.
-	^arm
-Crea un método que pasado un strModo y unaHab haga lo siguiente:
-	|hab|
-	hab:=self juego obtenerHabitacion: unaHab.
-	"ojo la habitacion puede no existir"
-	strModo='Agresivo' ifTrue:[self fabricarBichoAgresivo: hab].
-	strModo='Perezoso' ifTrue:[self fabricarBichoPerezoso: hab].
+Crea un método que pasado unNum y unCont cree un Armario y agregue las orientaciones correspondientes y la respectiva puerta entre el armario y la variable de entrada unCont y esta luego deberá de agregar la variable de armario que hemos creado y la devolvera.
+Crea un método que pasado un strModo y unaHab obtenga una habitacion pasandole la variable unaHab y luego compruebe que strModo sea o bien Agresivo o bien Perezono, en cada caso se fabricaraBichoAgresivo o Perezoso con la habitación antes creada.
 
 ```
 Algunos métodos como fabricarBichoAgresivo, fabricarBichoPerezoso, fabricarEste, fabricarOeste, entre otros es copiarlos de Game o bine hacer algún cambio simple.<br><br>
@@ -98,6 +57,8 @@ El método caminar que también se le pasa unBicho y le mandamos a este bicho ca
 
 Crea la clase Agresivo que hereda de Modo que tenga un printOn de "Agresivo".
 Crea la clase Perezoso que herede de Modo que tenga un printOn de "Perezoso".
+
+Crea las clases Noreste, Noroeste, Sureste y Suroeste que utilicen el patrón Bridge tal y como lo utilizan las subclases de Orientacion.
 ```
 ***Composite:***
 Estructuras estáticas del modo todo-parte. Permite que se utilizan tanto los objetos individuales como los objetos compuestos.<br><br>
@@ -122,8 +83,10 @@ Creación del método recorrer en ElementoMapa que sera implementado por las sub
 En MapElement:
 def recorrer(self,unBloque):
 	pass
+```
 Ahora ha de ser implementado por la subclases de MapElement.
-Contenedor:
+<br>Contenedor:
+```
 Crea un metodo que pasado unBloque le ponemos el valor self en unBloque y luego recorremos hijos que cada uno de estos utilicen el metodo recorrer(unBloque).
 Hoja, Pared y Puerta:
 def recorrer(unBloque):
@@ -137,6 +100,10 @@ Este define el esqueleto de operaciones. En este caso creamos el método actua e
 
 ```
 Crea un método llamado actua pasado un Bicho que llame a los métodos dormir,caminar y atacar.
+def actua(self, Bicho):
+        self.dormir(Bicho)
+        self.caminar(Bicho)
+        self.atacar(Bicho)
 ```
 ***Abstract Factory:***
 Crea una interfaz para crear familias de objetos similares.<br>
@@ -186,13 +153,16 @@ Es un puente entre una abstracción y su implementación. Permite cambiar de un 
 Crea la clase Forma con el patron de diseño Bridge entre Contenedor y Cuadrado, siendo este ultimo heredado de Forma.
 Añade un nuevo atributo a Contenedor que se llame forma.
 
+Crea la clase Hexagono que utilice el patron Bridge tal y como lo utiliza la clase Cuadrado.
+
 ```
 ***Mediator:***
 Permite semplificar la comunicación entre objetos.<br>
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/184e39fe-250a-4221-a99d-8b285fa47e12)
+<br>Para la implementación de este patrón hemos creado la clase Ente el cual tiene como subclases Personaje y Bicho que son ConcreteCollegues y Juego hace de mediador etre estas dos subclases.
 <br>
 ```
-
+Crea la clase Ente utilizando el patrón Mediator para que las subclases de Ente que son Personaje y Bicho se comuniquen mediante la clase Juego.
 ```
 
 ***State:***
@@ -200,8 +170,39 @@ Permite que un objeto cambie su comportamiento cuando su estado interno cambia, 
 <br>
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/5d9632ea-cf9c-411c-b424-7d1eab2f297a)
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/c5ea8b3b-fe5b-4e24-98df-6ac6f924345a)
+<br>Lo que hemos implementado en este patrón de diseño es formas de estado en este caso hemos puesto tanto en Ente como en Puerta pero también se puede implementar en Bomba (Activa/Desactivada) o también las fases del juego como inicio(selección de personaje...), inicio del juego y fin(muerte o muerte de todos los bichos).
 
+```
+Crea mediante el patron de diseño state la clase EstadoEnte que tiene las subclases Muerto y Vivo.
+Crea mediante el patron de diseño state la clase EstadoPuerta que tiene las subclases Abierta y Cerrada.
+```
+
+***Prototype:***
+
+```
+```
+***Observer:***
 
 ```
 
 ```
+***Command:***
+```
+```
+
+***Visitor:***
+```
+```
+
+***Flyweight:***
+```
+```
+
+***Memento:***
+```
+```
+
+***Chain of Responsability:***
+```
+```
+
