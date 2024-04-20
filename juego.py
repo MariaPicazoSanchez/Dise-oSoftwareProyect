@@ -1,8 +1,8 @@
-"consola para saber como funcionan los hilos"
+#"consola para saber como funcionan los hilos"
 import time
 import threading
-from laberinto import Bicho,Agresivo,Habitacion,Personaje,Pared,Puerta,Bomba,Laberinto,Perezoso
-from orientaciones import Este,Oeste,Norte,Sur,SurEste,SurOeste,NorEste,NorOeste
+from laberinto import Bicho, Agresivo, Habitacion, Personaje, Pared, Puerta, Bomba, Laberinto, Perezoso
+from orientaciones import Este, Oeste, Norte, Sur, SurEste, SurOeste, NorEste, NorOeste
 from estados import Muerto
 
 
