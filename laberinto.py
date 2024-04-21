@@ -1,14 +1,14 @@
 import random
 import time
 from orientaciones import Este, Oeste, Norte, Sur, Orientation, NorEste, NorOeste, SurEste, SurOeste
-from juego import Juego
+#from juego import Juego
 from estados import Cerrada, Abierta,Vivo, Muerto
 
 
 class ElementoMapa():
     def __init__(self):
         self.padre = None
-        pass
+
     def entrar(self):
         pass
     def recorrer(self, unBloque):
@@ -27,7 +27,10 @@ class ElementoMapa():
         pass
     def entrarAlguien(self, alguien):
         pass
-
+    def esArmario(self):
+        return False
+    def esTunel(self):
+        return False
 class Contenedor(ElementoMapa):
     def __init__(self,num=None):
         self.hijos =[]
@@ -44,11 +47,10 @@ class Contenedor(ElementoMapa):
         self.forma.agregarOrientacion(unaOrientacion)
 
     def caminarAleatorio(self, unBicho):
-        if self.orientaciones:
-            numOr = len(self.obtenerOrientaciones().length)
-            numAl = random.randint(1, numOr)
-            orAl = self.obtenerOrientaciones()[numAl-1]
-            orAl.caminar(unBicho)
+        numOr = len(self.obtenerOrientaciones().length)
+        numAl = random.randint(1, numOr)
+        orAl = self.obtenerOrientaciones()[numAl-1]
+        orAl.caminar(unBicho)
 
     def recorrer(self, unBloque):
         unBloque(self)
@@ -57,50 +59,53 @@ class Contenedor(ElementoMapa):
         self.forma.recorrer(unBloque)
 
     def irAlEste(self, alguien):
-        self.este.entrarAlguien(alguien)
+        self.forma.irAlEste(alguien)
     def irAlOeste(self, alguien):
-        self.oeste.entrarAlguien(alguien)
+        self.forma.irAlOeste(alguien)
     def irAlNorte(self, alguien):
-        self.norte.entrarAlguien(alguien)
+        self.forma.irAlNorte(alguien)
     def irAlSur(self, alguien):
-        self.sur.entrarAlguien(alguien)
+        self.forma.irAlSur(alguien)
     def irAlNorEste(self, alguien):
-        self.noreste.entrarAlguien(alguien)
+        self.forma.irAlNorEste(alguien)
     def irAlNorOeste(self, alguien):
-        self.noroeste.entrarAlguien(alguien)
+        self.forma.irAlNorOeste(alguien)
     def irAlSurEste(self,alguien):
-        self.sureste.entrarAlguien(alguien)
+        self.forma.irAlSurEste(alguien)
     def irAlSurOeste(self, alguien):
-        self.suroeste.entrarAlguien(alguien)
+        self.forma.irAlSurOeste(alguien)
 
     def ponerElementoEn(self, unaOrientacion, elemento):
         self.forma.ponerElementoEn(unaOrientacion, elemento)
-
-    #FALTA POR CAMBIAR
-    def recorrerEn(self, unBloque, unCont):
+    def recorrerEn(self, unBloque):
         unBloque(self)
         for each in self.hijos:
             each.recorrer(unBloque)
-        for each in self.orientaciones:
+        for each in self.forma.orientaciones:
             each.recorrerEn(unBloque, self)
     
     def obtenerOrientaciones(self):
         return self.forma.orientaciones
+    
+    def obtenerElemento(self, unaOrientacion):
+        return self.forma.obtenerElemento(unaOrientacion)
 
 class Armario(Contenedor):
     def __init__(self, num=None):
         super().__init__(num)
         
-    def entrar(self, alguien):
+    def entrarAlguien(self, alguien):
         print("Entraste al armario ", str(alguien.nombre))
         alguien.poscion = self
     def printOn(self):
         print('Armario', str(self.num))
+    def esArmario(self):
+        return True
 
 class Laberinto(Contenedor):
     def __init__(self):
         super().__init__()
-        pass
+
     def agregarHabitacion(self, room):
         self.agregarHijo(room)
     
@@ -222,24 +227,21 @@ class Tunel(Hoja):
         self.laberinto=None
 
     def entrarAlguien(self, alguien):
-        print(alguien.nombre," has entrado a un nuevo laberinto")
+        print(f"{alguien.nombre} accede a un nuevo laberinto")
+        if self.laberinto is None:
+            self.laberinto = alguien.juego.clonarLaberinto()
+        self.laberinto.entrarAlguien(alguien)
+
+    def esTunel(self):
+        return True
     
 class ParedBomba(Pared):
     def __init__(self):
         pass
     def entrar(self):
-        if isinstance(self, Bomba) and self.activa:
-            print("¡Boom! Te has chocado con una pared-bomba")
-            # Perform explosion logic here
-        else:
-            super().entrar()
+        print("Te has chocado con una pared bomba")
     
-class JuegoBombas(Juego):
-    def __init__(self):
-        super().__init__()
-        
-    def fabricarPared(self):
-        return ParedBomba()
+
 class Modo():
     def __init__(self):
         pass
@@ -260,6 +262,7 @@ class Ente():
         self.poder = None
         self.juego = None
         self.estado = Vivo()
+        self.posicion = None
     def irAlEste(self):
         self.posicion.irAlEste(self)
 
@@ -323,8 +326,8 @@ class Personaje(Ente):
     def __init__(self):
         super().__init__()
         self.nombre=None
-        super.vidas=20
-        super.poder=1
+        self.vidas=20
+        self.poder=1
 
     def puedeAtacar(self):
         self.juego.buscarBicho()
@@ -342,28 +345,3 @@ class Perezoso(Modo):
     def printOn(self):
         print("Perezoso")
 
-
-        
-game=Juego()
-game=JuegoBombas()
-game.fabricarLaberinto()
-
-game.fabLab2Hab()
-game.fabLab2Hab2BombasFM()
-game.fabLab2HabFM()
-game.fabLab2HabFMD() #no va bien
-game.agregarPersonaje("Pepito")
-game.laberinto.entrar() 
-game.abrirPuertas()
-tunel = Tunel()
-tunel.entrar(game.person)
-bicho = Bicho()
-bicho.modo = Agresivo()
-bicho.posicion = game.laberinto.hijos[0]
-bicho.irAlEste()  # Llamando a actua después de cambiar la posición
-bicho.caminarAleatorio()
-bicho.irAlNorte()  # Llamando a actua después de cambiar la posición
-bicho.irAlOeste()  # Llamando a actua después de cambiar la posición
-bicho.irAlSur()  # Llamando a actua después de cambiar la posición
-game.cerrarPuertas()
-#las orientaciones(entrar) les falta el metodo entrar el que esta me lo he inventado

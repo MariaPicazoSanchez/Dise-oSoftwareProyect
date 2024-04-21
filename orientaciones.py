@@ -3,147 +3,101 @@ class Orientation:
         pass
     def caminar(self, Bicho):
         pass
-    def ponerEn(self, EM, Contenedor):
+    def obtenerElementoDe(self, unaForma):
         pass
-    def recorrer(self,unBloque):
+    def pornerElementoEn(self, EM, unCont):
         pass
-    
+    def recorrer(self, unBloque, unCont):
+        pass
 class Este(Orientation):
     def __init__(self):
         super().__init__()
     def caminar(self, alguien):
         alguien.irAlEste()
-    def recorrerElementoEn(self,unBloque,unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self,EM, unCont):
-        unCont.este=EM
-    def entrar(self, alguien):
-       #este metodo no se ha implementado
-       """  if alguien.posicion.este:
-            if alguien.posicion.esPuerta and alguien.posicion.abierta:
-                print("Entraste a la habitacion que esta al este")
-            else: 
-                print("La puerta esta cerrada") """
-       pass
+    def obtenerElementoDe(self, unaForma):
+        return unaForma.este
+    def pornerElementoEn(self, EM, unCont):
+        unCont.este = EM
+    def recorrer(self, unBloque, unCont):
+        unCont.este.recorrer(unBloque)
 class Oeste(Orientation):
     def __init__(self):
         super().__init__()
     def caminar(self, alguien):
         alguien.irAlOeste()
-    def recorrerEn(self,unBloque,unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self,EM, unCont):
-        unCont.oeste=EM
-    def entrar(self, alguien):
-        #este metodo no se ha implementado
-        """ if alguien.posicion.oeste:
-            if alguien.posicion.oeste.abierta:
-                print("Entraste a la habitacion que esta al oeste")
-            else: 
-                print("La puerta esta cerrada") """
-        pass
+    def obtenerElementoDe(self, unaForma):
+        return unaForma.oeste
+    def pornerElementoEn(self, EM, unCont):
+        unCont.oeste = EM
+    def recorrer(self, unBloque, unCont):
+        unCont.oeste.recorrer(unBloque)
+        
 class Norte(Orientation):
     def __init__(self):
         super().__init__()
     def caminar(self, alguien):
         alguien.irAlNorte()
-    def recorrerEn(self,unBloque,unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self,EM, unCont):
-        unCont.este=EM
-    def entrar(self, alguien):
-        #este metodo no se ha implementado
-        """ if alguien.posicion.norte:
-            if alguien.posicion.norte.abierta:
-                print("Entraste a la habitacion que esta al norte")
-            else: 
-                print("La puerta esta cerrada") """
-        pass
+    def obtenerElementoDe(self, unaForma):
+        return unaForma.norte
+    def pornerElementoEn(self, EM, unCont):
+        unCont.norte = EM
+    def recorrer(self, unBloque, unCont):
+        unCont.norte.recorrer(unBloque)
 class Sur(Orientation):
     def __init__(self):
         super().__init__()
     def caminar(self, alguien):
         alguien.irAlSur()
-    def recorrerEn(self,unBloque,unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self,EM, unCont):
-        unCont.este=EM
-    def entrar(self, alguien):
-       #este metodo no se ha implementado
-       """ if alguien.posicion.sur:
-            if alguien.posicion.sur.abierta:
-                print("Entraste a la habitacion que esta al sur")
-            else: 
-                print("La puerta esta cerrada") """
-       pass
+    def obtenerElementoDe(self, unaForma):
+        return unaForma.sur
+    def pornerElementoEn(self, EM, unCont):
+        unCont.sur = EM
+    def recorrer(self, unBloque, unCont):
+        unCont.sur.recorrer(unBloque)
 class NorEste(Orientation):
     def __init__(self):
         super().__init__()
     def caminar(self, alguien):
         alguien.irAlNoreste()
-    def recorrerEn(self, unBloque, unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self, EM, unCont):
+    def obtenerElementoDe(self, unaForma):
+        return unaForma.noreste
+    def pornerElementoEn(self, EM, unCont):
         unCont.noreste = EM
-    def entrar(self, alguien):
-        # este metodo no se ha implementado
-        """ if alguien.posicion.noreste:
-            if alguien.posicion.noreste.abierta:
-                print("Entraste a la habitacion que esta al noreste")
-            else: 
-                print("La puerta esta cerrada") """
-        pass
+    def recorrer(self, unBloque, unCont):
+        unCont.noreste.recorrer(unBloque)
 
 class NorOeste(Orientation):
     def __init__(self):
         super().__init__()
     def caminar(self, alguien):
         alguien.irAlNoroeste()
-    def recorrerEn(self, unBloque, unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self, EM, unCont):
+    def obtenerElementoDe(self, unaForma):
+        return unaForma.noroeste
+    def pornerElementoEn(self, EM, unCont):
         unCont.noroeste = EM
-    def entrar(self, alguien):
-        # este metodo no se ha implementado
-        """ if alguien.posicion.noroeste:
-            if alguien.posicion.noroeste.abierta:
-                print("Entraste a la habitacion que esta al noroeste")
-            else: 
-                print("La puerta esta cerrada") """
-        pass
+    def recorrer(self, unBloque, unCont):
+        unCont.noroeste.recorrer(unBloque)
 
 class SurEste(Orientation):
     def __init__(self):
         super().__init__()
     def caminar(self, alguien):
         alguien.irAlSureste()
-    def recorrerEn(self, unBloque, unCont):
-        unCont.recorrer(unBloque)
-    def ponerElemento(self, EM, unCont):
+    def obtenerElementoDe(self, unaForma):
+        return unaForma.sureste
+    def pornerElementoEn(self, EM, unCont):
         unCont.sureste = EM
-    def entrar(self, alguien):
-        # este metodo no se ha implementado
-        """ if alguien.posicion.sureste:
-            if alguien.posicion.sureste.abierta:
-                print("Entraste a la habitacion que esta al sureste")
-            else: 
-                print("La puerta esta cerrada") """
-        pass
+    def recorrer(self, unBloque, unCont):      
+        unCont.sureste.recorrer(unBloque)
 
 class SurOeste(Orientation):
     def __init__(self):
         super().__init__()
     def caminar(self, alguien):
         alguien.irAlSuroeste()
-    def recorrerEn(self, unBloque, unCont):
-        unCont.recorrer(unBloque)
-    def ponerEn(self, EM, unCont):
+    def obtenerElementoDe(self, unaForma):
+        return unaForma.suroeste
+    def pornerElementoEn(self, EM, unCont):
         unCont.suroeste = EM
-    def entrar(self, alguien):
-        # este metodo no se ha implementado
-        """ if alguien.posicion.suroeste:
-            if alguien.posicion.suroeste.abierta:
-                print("Entraste a la habitacion que esta al suroeste")
-            else: 
-                print("La puerta esta cerrada") """
-        pass
+    def recorrer(self, unBloque, unCont):
+        unCont.suroeste.recorrer(unBloque)

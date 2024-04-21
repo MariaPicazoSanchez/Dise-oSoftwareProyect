@@ -1,9 +1,11 @@
 #"consola para saber como funcionan los hilos"
+import copy
 import time
 import threading
-from laberinto import Bicho, Agresivo, Habitacion, Personaje, Pared, Puerta, Bomba, Laberinto, Perezoso
+from laberinto import Bicho, ParedBomba, Agresivo, Habitacion, Personaje, Pared, Puerta, Bomba, Laberinto, Perezoso
 from orientaciones import Este, Oeste, Norte, Sur, SurEste, SurOeste, NorEste, NorOeste
 from estados import Muerto
+from forma import Cuadrado, Hexagono
 
 
 class Juego:
@@ -12,6 +14,7 @@ class Juego:
         self.bichos = []
         self.hilos = {}
         self.person=None
+        self.prototipo=None
 
     def fabricarPared(self):
         return Pared()
@@ -24,21 +27,22 @@ class Juego:
     def fabricarPuerta(self):
         return Puerta() 
     def fabricarHab(self, unNum):
-        hab = Habitacion()
-        hab.num = unNum
+        hab = Habitacion(unNum)
+        hab.forma = Cuadrado()
         hab.agregarOrientacion(self.fabricarNorte())
         hab.agregarOrientacion(self.fabricarEste())
         hab.agregarOrientacion(self.fabricarSur())
         hab.agregarOrientacion(self.fabricarOeste())
+        
 
-        for each in hab.orientaciones:
-            hab.ponerEn(each, self.fabricarPared(self))
+        for each in hab.forma.orientaciones:
+            hab.ponerElementoEn(each, self.fabricarPared())
 
         #self.laberinto.agregarHabitacion(hab)
         return hab
     def fabricarHabHexagonal(self,unNum):
-        hab=Habitacion()
-        hab.num=unNum
+        hab=Habitacion(unNum)
+        hab.forma=Hexagono()
         hab.agregarOrientacion(self.fabricarNorte())
         hab.agregarOrientacion(self.fabricarSur())
         hab.agregarOrientacion(self.fabricarEste())
@@ -47,8 +51,8 @@ class Juego:
         hab.agregarOrientacion(self.fabricarNorOeste())
         hab.agregarOrientacion(self.fabricarSurEste())
         hab.agregarOrientacion(self.fabricarSurOeste())
-        for each in hab.orientaciones:
-            hab.ponerEn(each,self.fabricarPared())
+        for each in hab.forma.orientaciones:
+            hab.forma.ponerElementoEn(each,self.fabricarPared())
         #self.laberinto.agregarHabitacion(hab)
         return hab
 
@@ -315,9 +319,15 @@ class Juego:
             if bicho.estaVivo():
                 return False
         return True
+    def clonarLaberinto(self):
+        return copy.deepcopy(self.laberinto)
 
-
-
+class JuegoBombas(Juego):
+    def __init__(self):
+        super().__init__()
+        
+    def fabricarPared(self):
+        return ParedBomba()
 
 
 game=Juego()

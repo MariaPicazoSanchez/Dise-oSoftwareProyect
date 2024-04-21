@@ -1,3 +1,4 @@
+import random
 from laberinto import Contenedor
 class Forma:
     def __init__(self):
@@ -18,6 +19,14 @@ class Forma:
     def recorrer(self, unBloque):
         for orientation in self.orientaciones:
             orientation.recorrer(unBloque, self)
+    def obtenerElemento(self, unaOrientacion):
+        return unaOrientacion.obtenerElementoDe(self)
+    def obtenerOrientacionAleatoria(self):
+        num_or = len(self.orientaciones)
+        num_al = random.randint(0, num_or - 1)
+        or_al = self.orientaciones[num_al]
+
+        return or_al
 
 class Cuadrado(Forma):
     def __init__(self):
@@ -31,10 +40,7 @@ class Cuadrado(Forma):
         self.este.entrar(alguien)
     def irAlOeste(self,alguien):
         self.oeste.entrar(alguien)
-    def irAlNorte(self,alguien):
-        self.norte.entrar(alguien)
-    def irAlSur(self,alguien):
-        self.sur.entrar(alguien)
+
 
 class Hexagono(Forma):
     def __init__(self):
@@ -47,18 +53,6 @@ class Hexagono(Forma):
         self.noroeste = None
         self.sureste = None
         self.suroeste = None
-                
-    def irAlEste(self, alguien):
-        self.este.entrar(alguien)
-               
-    def irAlOeste(self, alguien):
-        self.oeste.entrar(alguien)
-                
-    def irAlNorte(self, alguien):
-        self.norte.entrar(alguien)
-                
-    def irAlSur(self, alguien):
-        self.sur.entrar(alguien)
                 
     def irAlNorEste(self, alguien):
         self.noreste.entrar(alguien)

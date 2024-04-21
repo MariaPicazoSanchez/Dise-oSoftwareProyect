@@ -10,18 +10,19 @@ class LaberintoBuilder:
 
         def fabricarArmarioEn(self, unNum, unCont):
             arm = Armario(unNum)
-            arm = Cuadrado()
-            arm.agregarOrientacion(self.fabricarNorte())
-            arm.agregarOrientacion(self.fabricarEste())
-            arm.agregarOrientacion(self.fabricarSur())
-            arm.agregarOrientacion(self.fabricarOeste())
+            arm.forma = self.fabricarForma()
+            #arm.agregarOrientacion(self.fabricarNorte())
+            #arm.agregarOrientacion(self.fabricarEste())
+            #arm.agregarOrientacion(self.fabricarSur())
+            #arm.agregarOrientacion(self.fabricarOeste())
 
             for orientacion in arm.obtenerOrientaciones():
                 arm.ponerElementoEn(orientacion, self.fabricarPared())
-            pt = self.fabricarPuertaLados(arm, unCont)
-            arm.ponerElementoEn(self.fabricarEste(), pt)
-           
 
+            pt = self.fabricarPuertaLados(arm, unCont)
+            orAl = arm.forma.obtenerOrientacionAleatoria()
+            arm.ponerElementoEn(orAl, pt)
+           
             unCont.agregarHijo(arm)
             return arm
         
@@ -42,8 +43,8 @@ class LaberintoBuilder:
             return Sur()
         
         #"suponiendo que python lee los ficheros json igual que en smallTalk"
-        def fabricarBichoPosicion(self, strModo, posicion):
-            hab = self.juego.obtenerHabitacion(posicion)
+        def fabricarBichoPosicion(self, strModo, unaHab):
+            hab = self.juego.obtenerHabitacion(unaHab)
             if hab is not None:
                 if strModo == 'Agresivo':
                     self.fabricarBichoAgresivo(hab)
@@ -51,23 +52,23 @@ class LaberintoBuilder:
                     self.fabricarBichoPerezoso(hab)
 
         def fabricarHabitacion(self, unNum):
-            hab = Habitacion()
-            hab.num = unNum
-            hab.forma = Cuadrado()
-            hab.agregarOrientacion(self.fabricarNorte())
-            hab.agregarOrientacion(self.fabricarEste())
-            hab.agregarOrientacion(self.fabricarSur())
-            hab.agregarOrientacion(self.fabricarOeste())
+            hab = Habitacion(unNum)
+            hab.forma = self.fabricarForma()
+            #hab.agregarOrientacion(self.fabricarNorte())
+            #hab.agregarOrientacion(self.fabricarEste())
+            #hab.agregarOrientacion(self.fabricarSur())
+            #hab.agregarOrientacion(self.fabricarOeste())
 
             for each in hab.obtenerOrientaciones():
-                hab.ponerEn(each, self.fabricarPared())
+                hab.ponerElementoEn(each, self.fabricarPared())
 
             self.laberinto.agregarHabitacion(hab)
             return hab
 
         def fabricarJuego(self):
             self.juego = Juego()
-            self.juego.laberinto = self.laberinto
+            self.juego.prototype = self.laberinto
+            self.juego.laberinto = self.juego.clonarLaberinto()
            #self.juego.fabricarLaberinto()
 
         def fabricarLaberinto(self):
@@ -93,6 +94,7 @@ class LaberintoBuilder:
 
             lado1.ponerElementoEn(or1, pt)
             lado2.ponerElementoEn(or2, pt)
+
         def obtenerJuego(self):
             return self.juego
         def fabricarTunelEn(self, unCont):
@@ -101,6 +103,7 @@ class LaberintoBuilder:
         def fabricarBichoAgresivo(self, unaHab):
             bicho = Bicho()
             bicho.modo = Agresivo()
+            bicho.juego = self
             bicho.vidas=10
             bicho.poder=3
             bicho.posicion = unaHab
@@ -108,11 +111,17 @@ class LaberintoBuilder:
         def fabricarBichoPerezoso(self, unaHab):
             bicho = Bicho()
             bicho.modo = Perezoso()
+            bicho.juego = self
             bicho.vidas=5
             bicho.poder=1
             bicho.posicion = unaHab
             self.juego.agregarBicho(bicho)
-
+        def fabricarForma(self):
+            forma=Cuadrado()
+            forma.agregarOrientacion(self.fabricarNorte())
+            forma.agregarOrientacion(self.fabricarEste())
+            forma.agregarOrientacion(self.fabricarSur())
+            forma.agregarOrientacion(self.fabricarOeste())
 
 class Director:
     def __init__(self):
@@ -162,7 +171,6 @@ class Director:
         self.fabricarBichos()
 
     def fabricarBichos(self):
-        #
         bichos = self.diccionario.get('bichos',None)
         if bichos is not None:
             for bicho in bichos:
@@ -175,7 +183,16 @@ class Director:
 class LaberintoBuilderHexagonal(LaberintoBuilder):
     def __init__(self):
         super().__init__()
-
+    def fabricarForma(self):
+        forma=Hexagono()
+        forma.agregarOrientacion(self.fabricarNorte())
+        forma.agregarOrientacion(self.fabricarNoreste())
+        forma.agregarOrientacion(self.fabricarSureste())
+        forma.agregarOrientacion(self.fabricarSur())
+        forma.agregarOrientacion(self.fabricarSuroeste())
+        forma.agregarOrientacion(self.fabricarNoroeste())
+        return forma
+    
     def fabricarNoroeste(self):
         return NorOeste()
 
@@ -188,22 +205,7 @@ class LaberintoBuilderHexagonal(LaberintoBuilder):
     def fabricarSureste(self):
         return SurEste()
 
-    def fabricarHabitacion(self, unNum):
-        hab = Habitacion()
-        hab.num = unNum
-        hab.forma = Hexagono()
-        hab.agregarOrientacion(self.fabricarNorte())
-        hab.agregarOrientacion(self.fabricarNoreste())
-        hab.agregarOrientacion(self.fabricarSureste())
-        hab.agregarOrientacion(self.fabricarSur())
-        hab.agregarOrientacion(self.fabricarSuroeste())
-        hab.agregarOrientacion(self.fabricarNoroeste())
-
-        for each in hab.orientaciones:
-            hab.ponerEn(each, self.fabricarPared())
-
-        self.laberinto.agregarHabitacion(hab)
-        return hab
+   
     
 
 
