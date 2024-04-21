@@ -15,7 +15,7 @@ class Forma:
     def irAlSur(self,alguien):
         pass
     def ponerElementoEn(self, unaOrientacion, unEM):
-        unaOrientacion.ponerElementoEn(self,unEM)
+        unaOrientacion.ponerElementoEn(self,unEM,self)
     def recorrer(self, unBloque):
         for orientation in self.orientaciones:
             orientation.recorrer(unBloque, self)

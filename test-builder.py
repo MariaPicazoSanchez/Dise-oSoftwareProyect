@@ -4,11 +4,12 @@ from laberinto import Habitacion
 
 class TestLaberinto(unittest.TestCase):
     def setUp(self):
-        director=Director()
-        director.procesar('C:\Users\maria\Documents\2 Ing\Diseño software\DiferentesLaberintos\1erLaberinto\laberintoHex4hab4bichos.json')
+        self.director = Director()
+        self.director.procesar(r'C:\Users\maria\Documents\2 Ing\Diseño software\DiferentesLaberintos\1erLaberinto\laberintoHex4hab4bichos.json')
         self.dic = self.director.diccionario
-        self.juego=director.obtenerJuego()
+        self.juego = self.director.obtener_juego()
         self.juego.agregarPersonaje('Pepito')
+
 
     def comprobarArmarioEn(self, num, unCont):
         arm = next((each for each in unCont.hijos if each.esArmario), None)

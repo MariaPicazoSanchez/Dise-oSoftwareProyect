@@ -5,7 +5,7 @@ class Orientation:
         pass
     def obtenerElementoDe(self, unaForma):
         pass
-    def pornerElementoEn(self, EM, unCont):
+    def ponerElementoEn(self, EM, unCont):
         pass
     def recorrer(self, unBloque, unCont):
         pass
@@ -16,7 +16,7 @@ class Este(Orientation):
         alguien.irAlEste()
     def obtenerElementoDe(self, unaForma):
         return unaForma.este
-    def pornerElementoEn(self, EM, unCont):
+    def ponerElementoEn(self, EM, unCont):
         unCont.este = EM
     def recorrer(self, unBloque, unCont):
         unCont.este.recorrer(unBloque)
@@ -27,11 +27,11 @@ class Oeste(Orientation):
         alguien.irAlOeste()
     def obtenerElementoDe(self, unaForma):
         return unaForma.oeste
-    def pornerElementoEn(self, EM, unCont):
+    def ponerElementoEn(self, EM, unCont):
         unCont.oeste = EM
     def recorrer(self, unBloque, unCont):
         unCont.oeste.recorrer(unBloque)
-        
+
 class Norte(Orientation):
     def __init__(self):
         super().__init__()
@@ -39,7 +39,7 @@ class Norte(Orientation):
         alguien.irAlNorte()
     def obtenerElementoDe(self, unaForma):
         return unaForma.norte
-    def pornerElementoEn(self, EM, unCont):
+    def ponerElementoEn(self, EM, unCont):
         unCont.norte = EM
     def recorrer(self, unBloque, unCont):
         unCont.norte.recorrer(unBloque)
@@ -50,7 +50,7 @@ class Sur(Orientation):
         alguien.irAlSur()
     def obtenerElementoDe(self, unaForma):
         return unaForma.sur
-    def pornerElementoEn(self, EM, unCont):
+    def ponerElementoEn(self, EM, unCont):
         unCont.sur = EM
     def recorrer(self, unBloque, unCont):
         unCont.sur.recorrer(unBloque)
@@ -61,7 +61,7 @@ class NorEste(Orientation):
         alguien.irAlNoreste()
     def obtenerElementoDe(self, unaForma):
         return unaForma.noreste
-    def pornerElementoEn(self, EM, unCont):
+    def ponerElementoEn(self, EM, unCont):
         unCont.noreste = EM
     def recorrer(self, unBloque, unCont):
         unCont.noreste.recorrer(unBloque)
@@ -73,7 +73,7 @@ class NorOeste(Orientation):
         alguien.irAlNoroeste()
     def obtenerElementoDe(self, unaForma):
         return unaForma.noroeste
-    def pornerElementoEn(self, EM, unCont):
+    def ponerElementoEn(self, EM, unCont):
         unCont.noroeste = EM
     def recorrer(self, unBloque, unCont):
         unCont.noroeste.recorrer(unBloque)
@@ -85,7 +85,7 @@ class SurEste(Orientation):
         alguien.irAlSureste()
     def obtenerElementoDe(self, unaForma):
         return unaForma.sureste
-    def pornerElementoEn(self, EM, unCont):
+    def ponerElementoEn(self, EM, unCont):
         unCont.sureste = EM
     def recorrer(self, unBloque, unCont):      
         unCont.sureste.recorrer(unBloque)
@@ -97,7 +97,7 @@ class SurOeste(Orientation):
         alguien.irAlSuroeste()
     def obtenerElementoDe(self, unaForma):
         return unaForma.suroeste
-    def pornerElementoEn(self, EM, unCont):
+    def ponerElementoEn(self, EM, unCont):
         unCont.suroeste = EM
     def recorrer(self, unBloque, unCont):
         unCont.suroeste.recorrer(unBloque)
