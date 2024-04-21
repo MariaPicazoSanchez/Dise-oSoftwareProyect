@@ -31,7 +31,7 @@ Crea un método que pasado un strModo y unaHab obtenga una habitacion pasandole 
 Algunos métodos como fabricarBichoAgresivo, fabricarBichoPerezoso, fabricarEste, fabricarOeste, entre otros es copiarlos de Game o bine hacer algún cambio simple.<br><br>
 ***Decorator:***
 Añade responsabilidad de forma transparente(funciones).<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/4a77460f-4a5b-4a61-b502-1e1889d70947)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/7f98c4a2-739d-4d7d-84d3-c2f9ac45f325)
 
 <br>
 Para este patrón se ha creado las clases ParedBomba y JuegoBombas
@@ -43,7 +43,7 @@ Crea la clase JuegoBombas la cual hereda de Juego y que tenga el método crearPa
 
 ***Strategy:***
 Encapsula los diferentes algoritmos para poder cambiarlos en tiempo de ejecución.En nuestro caso permite cambiar el modo de bicho en tiempo de ejecución.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/5917a49f-3be7-4bd8-b9bc-63709c78d22f)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/84b88965-d2f5-4789-948d-817ba83bda44)
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/20a65a91-9be4-4fc1-99e8-802cf41d3d53)
 
 <br>
@@ -62,8 +62,7 @@ Crea las clases Noreste, Noroeste, Sureste y Suroeste que utilicen el patrón Br
 ```
 ***Composite:***
 Estructuras estáticas del modo todo-parte. Permite que se utilizan tanto los objetos individuales como los objetos compuestos.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/2fed6927-c63f-4595-9253-d542800f661f)
-
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/7654c4a6-e208-41da-914e-34fb32e652d0)
 
 <br>
 Para este patrón se han creado Contenedor y Hoja que heredan de ElementoMapa.
@@ -74,7 +73,7 @@ Crea la clase Hoja que hereda de MapElement.
 ```
 ***Iterator:***
 Estructuras que permiten la recursión o jerarquías.<br><br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/07e51382-7d84-4fdd-98bc-a017b7cdf977)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/cf588952-eda2-4d5d-a4fc-edcefd217eec)
 
 <br>
 Creación del método recorrer en ElementoMapa que sera implementado por las subclases. 
@@ -178,10 +177,15 @@ Crea mediante el patron de diseño state la clase EstadoPuerta que tiene las sub
 ```
 
 ***Prototype:***
-
+Permite la creación de nuevos objetos duplicando un prototipo existente mediante clonación.<br>
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/6b6fa8a3-fb41-4ffd-901d-f25a4b5ac089)
+<br>Hemos creado el método clonarLaberinto.
 ```
+Crea un metodo clonarLaberinto utilizando del patron prototype.
 ```
 ***Observer:***
+Permite que un objeto, llamado sujeto, notifique automáticamente a una lista de objetos, llamados observadores, sobre cualquier cambio de estado, sin acoplar en exceso el sujeto y los observadores.
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/377826d8-a2f2-4156-be2d-29d0c4653d7d)
 
 ```
 
