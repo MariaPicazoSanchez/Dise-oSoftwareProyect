@@ -2,7 +2,7 @@ import json
 from laberinto import Bomba, Habitacion,Bicho,Agresivo, Perezoso, Tunel, Laberinto, Puerta, Pared, Armario,Contenedor
 from juego import Juego
 from orientaciones import Este, Oeste, Sur, Norte, SurEste, SurOeste, NorEste, NorOeste
-from forma import Cuadrado, Hexagono
+from laberinto import Cuadrado, Hexagono
 class LaberintoBuilder:
         def __init__(self):
             self.juego = None
@@ -11,10 +11,6 @@ class LaberintoBuilder:
         def fabricarArmarioEn(self, unNum, unCont):
             arm = Armario(unNum)
             arm.forma = self.fabricarForma()
-            #arm.agregarOrientacion(self.fabricarNorte())
-            #arm.agregarOrientacion(self.fabricarEste())
-            #arm.agregarOrientacion(self.fabricarSur())
-            #arm.agregarOrientacion(self.fabricarOeste())
 
             for orientacion in arm.obtenerOrientaciones():
                 arm.ponerElementoEn(orientacion, self.fabricarPared())
@@ -123,6 +119,7 @@ class LaberintoBuilder:
             forma.agregarOrientacion(self.fabricarSur())
             forma.agregarOrientacion(self.fabricarOeste())
 
+            return forma
 class Director:
     def __init__(self):
         self.builder = LaberintoBuilder()

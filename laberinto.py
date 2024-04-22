@@ -8,7 +8,13 @@ from estados import Cerrada, Abierta,Vivo, Muerto
 class ElementoMapa():
     def __init__(self):
         self.padre = None
-
+        self.comandos=[]
+    def agregarComando(self, unComando):
+        self.comandos.append(unComando) 
+    def eliminarComando(self, unComando):
+        self.comandos.remove(unComando) if unComando in self.comandos else print("No se puede eliminar EM")
+    def obtenerComandos(self):
+        return self.comandos
     def entrar(self):
         pass
     def recorrer(self, unBloque):
@@ -36,6 +42,11 @@ class Contenedor(ElementoMapa):
         self.hijos =[]
         self.num=num
         self.forma = None
+    def obtenerComandos(self):
+        lista = []
+        for each in self.hijos:
+            lista.append(each.obtenerComandos())
+        lista.append(self.forma.obtenerComandos())
     def agregarHijo(self,hijo):
         self.hijos.append(hijo)
         hijo.padre = self
@@ -47,7 +58,7 @@ class Contenedor(ElementoMapa):
         self.forma.agregarOrientacion(unaOrientacion)
 
     def caminarAleatorio(self, unBicho):
-        numOr = len(self.obtenerOrientaciones().length)
+        numOr = len(self.obtenerOrientaciones())
         numAl = random.randint(1, numOr)
         orAl = self.obtenerOrientaciones()[numAl-1]
         orAl.caminar(unBicho)
@@ -93,7 +104,7 @@ class Contenedor(ElementoMapa):
 class Armario(Contenedor):
     def __init__(self, num=None):
         super().__init__(num)
-        
+        pass
     def entrarAlguien(self, alguien):
         print("Entraste al armario ", str(alguien.nombre))
         alguien.poscion = self
@@ -345,3 +356,72 @@ class Perezoso(Modo):
     def printOn(self):
         print("Perezoso")
 
+class Forma:
+    def __init__(self):
+        self.orientaciones = []
+    def obtenerComandos(self):
+        lista = []
+        for each in self.orientaciones:
+            lista.append(each.obtenerComandoDe())
+        return lista
+    def agregarOrientacion(self, unaOrientacion):
+        self.orientaciones.append(unaOrientacion)
+    def irAlEste(self,alguien):
+        pass
+    def irAlOeste(self,alguien):    
+        pass
+    def irAlNorte(self,alguien):
+        pass
+    def irAlSur(self,alguien):
+        pass
+    def ponerElementoEn(self, unaOrientacion, unEM):
+        unaOrientacion.ponerElementoEn(unEM,self)
+    def recorrer(self, unBloque):
+        for orientation in self.orientaciones:
+            orientation.recorrer(unBloque, self)
+    def obtenerElemento(self, unaOrientacion):
+        return unaOrientacion.obtenerElementoDe(self)
+    def obtenerOrientacionAleatoria(self):
+        num_or = len(self.orientaciones)
+        num_al = random.randint(0, num_or - 1)
+        or_al = self.orientaciones[num_al]
+
+        return or_al
+
+class Cuadrado(Forma):
+    def __init__(self):
+        super().__init__()
+        self.norte = None
+        self.sur = None
+        self.este = None
+        self.oeste = None
+        
+    def irAlEste(self,alguien):
+        self.este.entrar(alguien)
+    def irAlOeste(self,alguien):
+        self.oeste.entrar(alguien)
+
+
+class Hexagono(Forma):
+    def __init__(self):
+        super().__init__()
+        self.norte = None
+        self.sur = None
+        self.este = None
+        self.oeste = None
+        self.noreste = None
+        self.noroeste = None
+        self.sureste = None
+        self.suroeste = None
+                
+    def irAlNorEste(self, alguien):
+        self.noreste.entrar(alguien)
+                
+    def irAlNorOeste(self, alguien):
+        self.noroeste.entrar(alguien)
+                
+    def irAlSurEste(self, alguien):
+        self.sureste.entrar(alguien)
+                
+    def irAlSurOeste(self, alguien):
+        self.suroeste.entrar(alguien)

@@ -1,6 +1,8 @@
 class Orientation:
     def __init__(self):
         pass
+    def obtenerComandoDe(self, unaForma):
+        pass
     def caminar(self, Bicho):
         pass
     def obtenerElementoDe(self, unaForma):
@@ -9,9 +11,12 @@ class Orientation:
         pass
     def recorrer(self, unBloque, unCont):
         pass
+
 class Este(Orientation):
     def __init__(self):
         super().__init__()
+    def obtenerComandoDe(self, unaForma):
+        return unaForma.este.obtenerComandos()
     def caminar(self, alguien):
         alguien.irAlEste()
     def obtenerElementoDe(self, unaForma):
@@ -23,6 +28,8 @@ class Este(Orientation):
 class Oeste(Orientation):
     def __init__(self):
         super().__init__()
+    def obtenerComandoDe(self, unaForma):
+        return unaForma.oeste.obtenerComandos()
     def caminar(self, alguien):
         alguien.irAlOeste()
     def obtenerElementoDe(self, unaForma):
@@ -35,6 +42,8 @@ class Oeste(Orientation):
 class Norte(Orientation):
     def __init__(self):
         super().__init__()
+    def obtenerComandoDe(self, unaForma):
+        return unaForma.norte.obtenerComandos()
     def caminar(self, alguien):
         alguien.irAlNorte()
     def obtenerElementoDe(self, unaForma):
@@ -46,6 +55,8 @@ class Norte(Orientation):
 class Sur(Orientation):
     def __init__(self):
         super().__init__()
+    def obtenerComandoDe(self, unaForma):
+        return unaForma.sur.obtenerComandos()
     def caminar(self, alguien):
         alguien.irAlSur()
     def obtenerElementoDe(self, unaForma):
@@ -57,6 +68,8 @@ class Sur(Orientation):
 class NorEste(Orientation):
     def __init__(self):
         super().__init__()
+    def obtenerComandoDe(self, unaForma):
+        return unaForma.noreste.obtenerComandos()
     def caminar(self, alguien):
         alguien.irAlNoreste()
     def obtenerElementoDe(self, unaForma):
@@ -69,6 +82,8 @@ class NorEste(Orientation):
 class NorOeste(Orientation):
     def __init__(self):
         super().__init__()
+    def obtenerComandoDe(self, unaForma):
+        return unaForma.noroeste.obtenerComandos()
     def caminar(self, alguien):
         alguien.irAlNoroeste()
     def obtenerElementoDe(self, unaForma):
@@ -81,6 +96,8 @@ class NorOeste(Orientation):
 class SurEste(Orientation):
     def __init__(self):
         super().__init__()
+    def obtenerComandoDe(self, unaForma):
+        return unaForma.sureste.obtenerComandos()
     def caminar(self, alguien):
         alguien.irAlSureste()
     def obtenerElementoDe(self, unaForma):
@@ -93,6 +110,8 @@ class SurEste(Orientation):
 class SurOeste(Orientation):
     def __init__(self):
         super().__init__()
+    def obtenerComandoDe(self, unaForma):
+        return unaForma.suroeste.obtenerComandos()
     def caminar(self, alguien):
         alguien.irAlSuroeste()
     def obtenerElementoDe(self, unaForma):

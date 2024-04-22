@@ -5,7 +5,7 @@ import threading
 from laberinto import Bicho, ParedBomba, Agresivo, Habitacion, Personaje, Pared, Puerta, Bomba, Laberinto, Perezoso
 from orientaciones import Este, Oeste, Norte, Sur, SurEste, SurOeste, NorEste, NorOeste
 from estados import Muerto
-from forma import Cuadrado, Hexagono
+from laberinto import Cuadrado, Hexagono
 
 
 class Juego:
