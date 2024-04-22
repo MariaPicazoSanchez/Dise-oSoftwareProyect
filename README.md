@@ -193,9 +193,10 @@ Permite que un objeto, llamado sujeto, notifique automáticamente a una lista de
 ```
 ***Command:***
 Encapsula una solicitud como un objeto, permitiendo parametrizar a los clientes con diferentes peticiones y soportar operaciones deshace.<br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/179a2394-c475-4c26-be18-88bbe2e37741)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/202b9739-4c10-432f-8854-42f443d4f240)
+
 <br>Lo hemos implementado mediante una nueva clase llamada Comando, además de introducir una nueva variable en ElementoMapa llamada comandos que es una colección de comandos.
-Dentro de Comando tenemos la variable receptor, y las subclases Abrir, Cerrar, Entrar, ya que nos estamos centrando en las Puertas.<br>
+<br>Dentro de Comando tenemos la variable receptor, y las subclases Abrir, Cerrar, Entrar, ya que nos estamos centrando en las Puertas.<br>
 ```
 Crea una clase llamada Comandos que tenga como atributo receptor y mediante el patron de diseño comander tenga el metodo ejecutar, y las subclases abrir, cerrar y entrar.
 ```
