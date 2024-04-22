@@ -5,7 +5,8 @@
 <p>En este proyecto se intentará implementar todos los patrones de diseño que hemos implementado en clase, dejando aqui una breve explicación y descripcion que le hemos dado al Copilot para la implementación de cada uno de los patrones de diseño, así como su representación en el diagrama UML que hemos estado actualizando.</p>
 <h2>Diagrama al completo</h2>
 
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/63760d1b-9b2a-4b6d-ba7b-ec0690164c11)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/59c239b8-5889-466c-86ac-bba4eafd37be)
+
 
 
 
@@ -191,7 +192,12 @@ Permite que un objeto, llamado sujeto, notifique automáticamente a una lista de
 
 ```
 ***Command:***
+Encapsula una solicitud como un objeto, permitiendo parametrizar a los clientes con diferentes peticiones y soportar operaciones deshace.<br>
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/179a2394-c475-4c26-be18-88bbe2e37741)
+<br>Lo hemos implementado mediante una nueva clase llamada Comando, además de introducir una nueva variable en ElementoMapa llamada comandos que es una colección de comandos.
+Dentro de Comando tenemos la variable receptor, y las subclases Abrir, Cerrar, Entrar, ya que nos estamos centrando en las Puertas.<br>
 ```
+Crea una clase llamada Comandos que tenga como atributo receptor y mediante el patron de diseño comander tenga el metodo ejecutar, y las subclases abrir, cerrar y entrar.
 ```
 
 ***Visitor:***
