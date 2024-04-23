@@ -7,11 +7,8 @@
 
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/59c239b8-5889-466c-86ac-bba4eafd37be)
 
-
-
-
 <br>
-<h2>Patrones implementados</h2>
+<h2>Patrones</h2>
 
 ***Factory Method:***
 Creación de métodos de fabricación en juego.<br><br>
@@ -193,7 +190,7 @@ Permite que un objeto, llamado sujeto, notifique automáticamente a una lista de
 ```
 ***Command:***
 Encapsula una solicitud como un objeto, permitiendo parametrizar a los clientes con diferentes peticiones y soportar operaciones deshace.<br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/202b9739-4c10-432f-8854-42f443d4f240)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/452047d9-c63c-44a5-961f-77bd7f10f844)
 
 <br>Lo hemos implementado mediante una nueva clase llamada Comando, además de introducir una nueva variable en ElementoMapa llamada comandos que es una colección de comandos.
 <br>Dentro de Comando tenemos la variable receptor, y las subclases Abrir, Cerrar, Entrar, ya que nos estamos centrando en las Puertas.<br>
