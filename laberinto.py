@@ -339,7 +339,8 @@ class Personaje(Ente):
         self.nombre=None
         self.vidas=20
         self.poder=1
-
+    def obtenerComandos(self):
+        return self.posicion.obtenerComandos()
     def puedeAtacar(self):
         self.juego.buscarBicho()
     def muero(self):

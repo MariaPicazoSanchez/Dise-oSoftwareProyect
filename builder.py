@@ -3,6 +3,7 @@ from laberinto import Bomba, Habitacion,Bicho,Agresivo, Perezoso, Tunel, Laberin
 from juego import Juego
 from orientaciones import Este, Oeste, Sur, Norte, SurEste, SurOeste, NorEste, NorOeste
 from laberinto import Cuadrado, Hexagono
+from comandos import Abrir
 class LaberintoBuilder:
         def __init__(self):
             self.juego = None
@@ -87,7 +88,7 @@ class LaberintoBuilder:
             or2 = getattr(self, 'fabricar' + otraOrString)()
 
             pt = self.fabricarPuertaLados(lado1, lado2)
-
+            pt.agregarComando(Abrir(pt))
             lado1.ponerElementoEn(or1, pt)
             lado2.ponerElementoEn(or2, pt)
 
