@@ -12,7 +12,7 @@ class LaberintoBuilder:
         def fabricarArmarioEn(self, unNum, unCont):
             arm = Armario(unNum)
             arm.forma = self.fabricarForma()
-
+            arm.forma.num = unNum
             for orientacion in arm.obtenerOrientaciones():
                 arm.ponerElementoEn(orientacion, self.fabricarPared())
 
@@ -51,6 +51,7 @@ class LaberintoBuilder:
         def fabricarHabitacion(self, unNum):
             hab = Habitacion(unNum)
             hab.forma = self.fabricarForma()
+            hab.forma.num = unNum
             #hab.agregarOrientacion(self.fabricarNorte())
             #hab.agregarOrientacion(self.fabricarEste())
             #hab.agregarOrientacion(self.fabricarSur())

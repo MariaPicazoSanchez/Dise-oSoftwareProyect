@@ -1,5 +1,5 @@
 import unittest
-from forma import Forma,Cuadrado, Hexagono
+from laberinto import Forma,Cuadrado, Hexagono
 from laberinto import Contenedor, Personaje
 from orientaciones import Este
 

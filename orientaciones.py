@@ -1,6 +1,8 @@
 class Orientation:
     def __init__(self):
         pass
+    def calcularPosicionDesde(self, unaForma):
+        pass
     def obtenerComandoDe(self, unaForma):
         pass
     def caminar(self, Bicho):
@@ -15,6 +17,11 @@ class Orientation:
 class Este(Orientation):
     def __init__(self):
         super().__init__()
+    def calcularPosicionDesde(self, unaForma):
+        x,y = unaForma.punto
+        unPunto = (x+1,y)
+        unaForma.este.calcularPosicionDesde(unPunto)
+    #mirar como hacerlo en python
     def obtenerComandoDe(self, unaForma):
         return unaForma.este.obtenerComandos()
     def caminar(self, alguien):
@@ -28,6 +35,10 @@ class Este(Orientation):
 class Oeste(Orientation):
     def __init__(self):
         super().__init__()
+    def calcularPosicionDesde(self, unaForma):
+        x,y = unaForma.punto
+        unPunto = (x-1,y)
+        unaForma.oeste.calcularPosicionDesde(unPunto)
     def obtenerComandoDe(self, unaForma):
         return unaForma.oeste.obtenerComandos()
     def caminar(self, alguien):
@@ -42,6 +53,10 @@ class Oeste(Orientation):
 class Norte(Orientation):
     def __init__(self):
         super().__init__()
+    def calcularPosicionDesde(self, unaForma):
+        x,y = unaForma.punto
+        unPunto = (x,y-1)
+        unaForma.norte.calcularPosicionDesde(unPunto)
     def obtenerComandoDe(self, unaForma):
         return unaForma.norte.obtenerComandos()
     def caminar(self, alguien):
@@ -55,6 +70,10 @@ class Norte(Orientation):
 class Sur(Orientation):
     def __init__(self):
         super().__init__()
+    def calcularPosicionDesde(self, unaForma):
+        x,y = unaForma.punto
+        unPunto = (x,y+1)
+        unaForma.sur.calcularPosicionDesde(unPunto)
     def obtenerComandoDe(self, unaForma):
         return unaForma.sur.obtenerComandos()
     def caminar(self, alguien):

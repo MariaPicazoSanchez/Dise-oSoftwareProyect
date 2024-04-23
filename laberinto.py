@@ -37,11 +37,23 @@ class ElementoMapa():
         return False
     def esTunel(self):
         return False
+    def aceptar(self, unVisitor):
+        pass
 class Contenedor(ElementoMapa):
     def __init__(self,num=None):
         self.hijos =[]
         self.num=num
         self.forma = None
+    def punto(self):
+        return self.forma.punto
+    def extend(self):
+        return self.forma.extend
+    def puntoSet(self, unPunto):
+        self.forma.punto = unPunto
+    def extendSet(self, unExtend):
+        self.forma.extend = unExtend
+    def calcularPosicion(self):
+        self.forma.calcularPosicion()
     def obtenerComandos(self):
         lista = []
         for each in self.hijos:
@@ -137,7 +149,8 @@ class Laberinto(Contenedor):
 class Habitacion(Contenedor):
     def __init__(self,num):
         super().__init__(num)
-    
+    def aceptar(self, unVisitor):
+        unVisitor.visitarHabitacion(self)
     def entrar(self):
         print("Entraste a la habitacion ", self.num)
 
@@ -154,6 +167,17 @@ class Puerta(ElementoMapa):
         self.lado1 = None
         self.lado2 = None
         self.estado = Cerrada()
+        self.visitada=False
+    def calcularPosicionDesdeEn(self, unCont, unPunto):
+        if self.visitada:
+            return self
+        self.visitada=True
+        if unCont.num == self.lado1.num:
+            self.lado2.puntoSet(unPunto)
+            self.lado2.calcularPosicionDesdeEn(unCont, unPunto)
+        else:
+            self.lado1.puntoSet(unPunto)
+            self.lado1.calcularPosicionDesdeEn(unCont, unPunto)
 
     def entrarAlguien(self, alguien):
         if self.estaAbierta():
@@ -193,6 +217,8 @@ class Pared(ElementoMapa):
         return True
     def recorrer(self, unBloque):
         unBloque(self)
+    def calcularPosicionDesdeEn(self, unCont, unPunto):
+        pass
 class Hoja(ElementoMapa):
     def __init__(self):
         pass
@@ -360,6 +386,12 @@ class Perezoso(Modo):
 class Forma:
     def __init__(self):
         self.orientaciones = []
+        punto=None
+        extend=None
+        num=None
+    def calcularPosicion(self):
+        for each in self.orientaciones:
+            each.calcularPosicionDesde(self)
     def obtenerComandos(self):
         lista = []
         for each in self.orientaciones:
@@ -408,8 +440,6 @@ class Hexagono(Forma):
         super().__init__()
         self.norte = None
         self.sur = None
-        self.este = None
-        self.oeste = None
         self.noreste = None
         self.noroeste = None
         self.sureste = None
