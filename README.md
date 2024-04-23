@@ -184,7 +184,7 @@ Crea un metodo clonarLaberinto utilizando del patron prototype.
 ***Observer:***
 Permite que un objeto, llamado sujeto, notifique automáticamente a una lista de objetos, llamados observadores, sobre cualquier cambio de estado, sin acoplar en exceso el sujeto y los observadores.
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/377826d8-a2f2-4156-be2d-29d0c4653d7d)
-
+<br>Por el momento no implementado.
 ```
 
 ```
@@ -199,6 +199,9 @@ Crea una clase llamada Comandos que tenga como atributo receptor y mediante el p
 ```
 
 ***Visitor:***
+Permite agregar nuevas operaciones a una estructura de objetos sin modificar esas clases de objetos.
+<br>
+
 ```
 ```
 
