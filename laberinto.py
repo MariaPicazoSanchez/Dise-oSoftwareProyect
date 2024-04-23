@@ -408,7 +408,7 @@ class Forma:
     def irAlSur(self,alguien):
         pass
     def ponerElementoEn(self, unaOrientacion, unEM):
-        unaOrientacion.ponerElementoEn(unEM,self)
+        unaOrientacion.ponerElementoEn(unEM,self,self)
     def recorrer(self, unBloque):
         for orientation in self.orientaciones:
             orientation.recorrer(unBloque, self)
