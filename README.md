@@ -177,20 +177,20 @@ Crea mediante el patron de diseño state la clase EstadoPuerta que tiene las sub
 ***Prototype:***
 Permite la creación de nuevos objetos duplicando un prototipo existente mediante clonación.<br>
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/6b6fa8a3-fb41-4ffd-901d-f25a4b5ac089)
-<br>Hemos creado el método clonarLaberinto.
+<br>Hemos creado el método clonarLaberinto. Para a la hora de que el personae pase por un tunel se cree un laberinto nuevo al momento.
 ```
 Crea un metodo clonarLaberinto utilizando del patron prototype.
 ```
 ***Observer:***
 Permite que un objeto, llamado sujeto, notifique automáticamente a una lista de objetos, llamados observadores, sobre cualquier cambio de estado, sin acoplar en exceso el sujeto y los observadores.
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/377826d8-a2f2-4156-be2d-29d0c4653d7d)
-
+<br>Lo hemos implementado como un nuevo tag llamado Vista donde hemos creado la clase LaberintoGUI el cual tiene el método agregarPersonaje el cual añade dependencia - este es el método attach del observer sobre el sujeto.
 ```
-
+Crea una nueva clase que haga de observer del proyecto, como minimo tiene que tener los siguientes atributos: juego, win, person, ancho, alto ademas de crear un método agregarPersonaje en el cual le pasamos unaCadena agregue al personaje, a peson le agregamos el juego y le añadimos dependencia a person.
 ```
 ***Command:***
 Encapsula una solicitud como un objeto, permitiendo parametrizar a los clientes con diferentes peticiones y soportar operaciones deshace.<br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/452047d9-c63c-44a5-961f-77bd7f10f844)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/8391f86e-732d-4bfa-bb6b-0bbe41420760)
 
 <br>Lo hemos implementado mediante una nueva clase llamada Comando, además de introducir una nueva variable en ElementoMapa llamada comandos que es una colección de comandos.
 <br>Dentro de Comando tenemos la variable receptor, y las subclases Abrir, Cerrar, Entrar, ya que nos estamos centrando en las Puertas.<br>
@@ -199,7 +199,14 @@ Crea una clase llamada Comandos que tenga como atributo receptor y mediante el p
 ```
 
 ***Visitor:***
+Permite agregar nuevas operaciones a una estructura de objetos sin modificar esas clases de objetos.
+<br>
+El Visitor solo ejecuta una operación, como el Decorator, pero hace que haga más cosas de las que tenía definidas.<br>
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/a093c70a-affd-40e2-b8bf-d26e4373e79a)
+
+<br>Dentro del LaberintoGUI hemos creado el método de iniciarJuego el cual tiene una serie de comandos, el comando que en nuestro caso hemos implementado el patrón es el de dibujarLaberinto.
 ```
+
 ```
 
 ***Flyweight:***
