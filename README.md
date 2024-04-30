@@ -5,7 +5,8 @@
 <p>En este proyecto se intentará implementar todos los patrones de diseño que hemos implementado en clase, dejando aqui una breve explicación y descripcion que le hemos dado al Copilot para la implementación de cada uno de los patrones de diseño, así como su representación en el diagrama UML que hemos estado actualizando.</p>
 <h2>Diagrama al completo</h2>
 
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/59c239b8-5889-466c-86ac-bba4eafd37be)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/2ef3f1d8-72cd-4f3f-a5b8-001652b0b738)
+
 
 <br>
 <h2>Patrones</h2>
@@ -165,8 +166,10 @@ Crea la clase Ente utilizando el patrón Mediator para que las subclases de Ente
 ***State:***
 Permite que un objeto cambie su comportamiento cuando su estado interno cambia, encapsulando cada estado en una clase separada y permitiendo que el objeto delegue su comportamiento a si estado actual.
 <br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/5d9632ea-cf9c-411c-b424-7d1eab2f297a)
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/c5ea8b3b-fe5b-4e24-98df-6ac6f924345a)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/58d6e7bb-2dfd-4411-abf5-af7cc5bab597)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/7900c488-b383-4e2c-8c1f-b6b53f0c7dac)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/d35fbb7d-59bc-40ca-a243-afb776789621)
+
 <br>Lo que hemos implementado en este patrón de diseño es formas de estado en este caso hemos puesto tanto en Ente como en Puerta pero también se puede implementar en Bomba (Activa/Desactivada) o también las fases del juego como inicio(selección de personaje...), inicio del juego y fin(muerte o muerte de todos los bichos).
 
 ```
@@ -182,7 +185,7 @@ Permite la creación de nuevos objetos duplicando un prototipo existente mediant
 Crea un metodo clonarLaberinto utilizando del patron prototype.
 ```
 ***Observer:***
-Permite que un objeto, llamado sujeto, notifique automáticamente a una lista de objetos, llamados observadores, sobre cualquier cambio de estado, sin acoplar en exceso el sujeto y los observadores.
+Permite que un objeto, llamado sujeto, notifique automáticamente a una lista de objetos, llamados observadores, sobre cualquier cambio de estado, sin acoplar en exceso el sujeto y los observadores.<br>
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/377826d8-a2f2-4156-be2d-29d0c4653d7d)
 <br>Lo hemos implementado como un nuevo tag llamado Vista donde hemos creado la clase LaberintoGUI el cual tiene el método agregarPersonaje el cual añade dependencia - este es el método attach del observer sobre el sujeto.
 ```
@@ -202,7 +205,7 @@ Crea una clase llamada Comandos que tenga como atributo receptor y mediante el p
 Permite agregar nuevas operaciones a una estructura de objetos sin modificar esas clases de objetos.
 <br>
 El Visitor solo ejecuta una operación, como el Decorator, pero hace que haga más cosas de las que tenía definidas.<br>
-![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/a093c70a-affd-40e2-b8bf-d26e4373e79a)
+![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/f1320521-4fff-49d5-95f9-373bb6d8316d)
 
 <br>Dentro del LaberintoGUI hemos creado el método de iniciarJuego el cual tiene una serie de comandos, el comando que en nuestro caso hemos implementado el patrón es el de dibujarLaberinto.
 ```
@@ -210,14 +213,17 @@ El Visitor solo ejecuta una operación, como el Decorator, pero hace que haga m�
 ```
 
 ***Flyweight:***
+Utiliza compartir para soportar de manera eficiente un gran número de objetos pequeños
 ```
 ```
 
 ***Memento:***
+Sin violar la encapsulación, captura y externaliza el estado interno de un objeto de modo que el objeto pueda recuperar ese estado más adelante.
 ```
 ```
 
 ***Chain of Responsability:***
+Evita acoplar el emisor de una petición con su receptor dando la oportunidad, a más de un objeto, de gestionar (o manejar) la petición. Encadena a los objetos receptores y pasa la petición a lo largo de esa cadena hasta encontrar un objeto que la atienda.
 ```
 ```
 
