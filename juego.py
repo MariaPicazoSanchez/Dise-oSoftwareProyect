@@ -29,6 +29,7 @@ class Juego:
     def fabricarHab(self, unNum):
         hab = Habitacion(unNum)
         hab.forma = Cuadrado()
+
         hab.agregarOrientacion(self.fabricarNorte())
         hab.agregarOrientacion(self.fabricarEste())
         hab.agregarOrientacion(self.fabricarSur())
@@ -185,14 +186,14 @@ class Juego:
         hab4.norte = p34
 
         # ACUERDATE DE CAMBIAR EL CREAR POR FABRICAR
-        # hab1.norte = self.crearPared()
-        # hab1.oeste = self.crearPared()
-        # hab2.oeste = self.crearPared()
-        # hab2.sur = self.crearPared()
-        # hab3.norte = self.crearPared()
-        # hab3.este = self.crearPared()
-        # hab4.sur = self.crearPared()
-        # hab4.este = self.crearPared()
+        hab1.norte = self.fabricarPared()
+        hab1.oeste = self.fabricarPared()
+        hab2.oeste = self.fabricarPared()
+        hab2.sur = self.fabricarPared()
+        hab3.norte = self.fabricarPared()
+        hab3.este = self.fabricarPared()
+        hab4.sur = self.fabricarPared()
+        hab4.este = self.fabricarPared()
             
         self.laberinto = self.fabricarLaberinto()
             
@@ -343,5 +344,6 @@ bicho.poder = 5
 bicho.posicion = Habitacion(1)
 bicho.juego = game
 game.lanzarHilo(bicho)
-time.sleep(15)
+per.atacar()
+time.sleep(20)
 game.terminarHilo(bicho)

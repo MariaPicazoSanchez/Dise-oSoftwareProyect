@@ -296,7 +296,7 @@ class Modo():
         unBicho.atacar()
 class Ente():
     def __init__(self):
-        self.vidas = None
+        self._vidas = None
         self.poder = None
         self.juego = None
         self.estado = Vivo()
@@ -309,19 +309,19 @@ class Ente():
     @vidas.setter
     def vidas(self, value):
         if self._vidas != value:
-            print("La variable 'vidas' ha sido modificada")
             self._vidas = value
-            self.notify_observers()
+            print(self.__class__.__name__, " te han atacado, vidas restantes:", self._vidas)
+           # self.notify_observers()
 
-    def attach(self, observer):
-        self.observers.append(observer)
+    #def attach(self, observer):
+       # self.observers.append(observer)
         
-    def detach(self, observer):
-        self.observers.remove(observer)
+    #def detach(self, observer):
+       # self.observers.remove(observer)
 
-    def notify_observers(self):
-        for observer in self.observers:
-            observer.update()
+   # def notify_observers(self):
+    #    for observer in self.observers:
+     #       observer.update()
 
     def irAlEste(self):
         self.posicion.irAlEste(self)
@@ -410,7 +410,7 @@ class Forma:
     def __init__(self):
         self.orientaciones = []
         punto=None
-        extend=None
+        extent=None
         num=None
     def calcularPosicion(self):
         for each in self.orientaciones:
@@ -422,6 +422,7 @@ class Forma:
         return lista
     def agregarOrientacion(self, unaOrientacion):
         self.orientaciones.append(unaOrientacion)
+
     def irAlEste(self,alguien):
         pass
     def irAlOeste(self,alguien):    
