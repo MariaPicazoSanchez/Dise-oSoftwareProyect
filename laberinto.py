@@ -43,7 +43,7 @@ class Contenedor(ElementoMapa):
     def __init__(self,num=None):
         self.hijos =[]
         self.num=num
-        self.forma = None
+        self.forma = Cuadrado()
     def punto(self):
         return self.forma.punto
     def extend(self):
@@ -71,7 +71,8 @@ class Contenedor(ElementoMapa):
 
     def caminarAleatorio(self, unBicho):
         numOr = len(self.obtenerOrientaciones())
-        numAl = random.randint(1, numOr)
+        print("numOr", numOr)
+        numAl = random.randint(0, numOr - 1)
         orAl = self.obtenerOrientaciones()[numAl-1]
         orAl.caminar(unBicho)
 
@@ -300,6 +301,28 @@ class Ente():
         self.juego = None
         self.estado = Vivo()
         self.posicion = None
+
+    @property
+    def vidas(self):
+        return self._vidas
+
+    @vidas.setter
+    def vidas(self, value):
+        if self._vidas != value:
+            print("La variable 'vidas' ha sido modificada")
+            self._vidas = value
+            self.notify_observers()
+
+    def attach(self, observer):
+        self.observers.append(observer)
+        
+    def detach(self, observer):
+        self.observers.remove(observer)
+
+    def notify_observers(self):
+        for observer in self.observers:
+            observer.update()
+
     def irAlEste(self):
         self.posicion.irAlEste(self)
 
@@ -408,7 +431,7 @@ class Forma:
     def irAlSur(self,alguien):
         pass
     def ponerElementoEn(self, unaOrientacion, unEM):
-        unaOrientacion.ponerElementoEn(unEM,self,self)
+        unaOrientacion.ponerElementoEn(unEM,self)
     def recorrer(self, unBloque):
         for orientation in self.orientaciones:
             orientation.recorrer(unBloque, self)

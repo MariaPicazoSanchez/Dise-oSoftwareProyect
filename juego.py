@@ -10,7 +10,7 @@ from laberinto import Cuadrado, Hexagono
 
 class Juego:
     def __init__(self):
-        self.laberinto = None
+        self.laberinto = Laberinto()
         self.bichos = []
         self.hilos = {}
         self.person=None
@@ -38,7 +38,7 @@ class Juego:
         for each in hab.forma.orientaciones:
             hab.ponerElementoEn(each, self.fabricarPared())
 
-        #self.laberinto.agregarHabitacion(hab)
+        self.laberinto.agregarHabitacion(hab)
         return hab
     def fabricarHabHexagonal(self,unNum):
         hab=Habitacion(unNum)
@@ -207,21 +207,21 @@ class Juego:
         self.agregarBicho(self.fabricarBichoPerezoso(hab4))
        
     def fabricarEste(self):
-        return Este
+        return Este()
     def fabricarOeste(self):
-        return Oeste
+        return Oeste()
     def fabricarNorte(self):
-        return Norte
+        return Norte()
     def fabricarSur(self):
-        return Sur
+        return Sur()
     def fabricarSurEste(self):
-        return SurEste
+        return SurEste()
     def fabricarSurOeste(self):
-        return SurOeste
+        return SurOeste()
     def fabricarNorEste(self):
-        return NorEste
+        return NorEste()
     def fabricarNorOeste(self):
-        return NorOeste
+        return NorOeste()
     
     def abrirPuertas(self):
        self.laberinto.recorrer(lambda each: each.abrirPuertas())
