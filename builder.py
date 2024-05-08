@@ -132,7 +132,9 @@ class Director:
 
     def fabricarLaberinto(self):
         self.builder.fabricarLaberinto()
-        (self.diccionario['laberinto'] or []).forEach(lambda each: self.fabricarLaberintoRecursivo(each, 'root'))
+        for each in self.diccionario.get('laberinto', []):
+            self.fabricarLaberintoRecursivoEn(each, 'root')
+
 
         # recorrer la colección de puertas, para poner las puertas
         for each in self.diccionario.get('puertas', []):
@@ -149,7 +151,9 @@ class Director:
             con = self.builder.fabricarBombaEn(padre)
         if unDic['tipo'] == 'tunel':
             con = self.builder.fabricarTunelEn(padre)
-        (self.diccionario.get('hijos') or []).forEach(lambda each: self.fabricarLaberintoRecursivo(each, con))
+        for each in self.diccionario.get('hijos', []):
+            self.fabricarLaberintoRecursivoEn(each, con)
+
 
     def iniBuilder(self):
         forma = self.diccionario.get('forma')

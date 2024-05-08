@@ -333,17 +333,9 @@ class JuegoBombas(Juego):
 
 game=Juego()
 game.fabLab4Hab4BichosFM()
-per=Personaje()
-per.nombre="Juan"
-game.laberinto.entrarAlguien(per)
-game.person=per
-bicho = Bicho()
-bicho.modo = Agresivo()
-bicho.vidas = 3
-bicho.poder = 5
-bicho.posicion = Habitacion(1)
-bicho.juego = game
-game.lanzarHilo(bicho)
-per.atacar()
-time.sleep(20)
-game.terminarHilo(bicho)
+game.agregarPersonaje("Juan")
+bichoA1=game.bichos[0]
+game.abrirPuertas()
+game.lanzarTodosHilos()
+time.sleep(1)
+game.terminarTodosHilos()

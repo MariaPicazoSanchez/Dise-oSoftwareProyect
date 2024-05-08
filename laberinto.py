@@ -71,7 +71,6 @@ class Contenedor(ElementoMapa):
 
     def caminarAleatorio(self, unBicho):
         numOr = len(self.obtenerOrientaciones())
-        print("numOr", numOr)
         numAl = random.randint(0, numOr - 1)
         orAl = self.obtenerOrientaciones()[numAl-1]
         orAl.caminar(unBicho)
@@ -165,6 +164,7 @@ class Habitacion(Contenedor):
         print('Hab', self.num)
 class Puerta(ElementoMapa):
     def __init__(self):
+        super().__init__()
         self.lado1 = None
         self.lado2 = None
         self.estado = Cerrada()
@@ -454,9 +454,9 @@ class Cuadrado(Forma):
         self.oeste = None
         
     def irAlEste(self,alguien):
-        self.este.entrar(alguien)
+        self.este.entrarAlguien(alguien)
     def irAlOeste(self,alguien):
-        self.oeste.entrar(alguien)
+        self.oeste.entrarAlguien(alguien)
 
 
 class Hexagono(Forma):
@@ -470,13 +470,13 @@ class Hexagono(Forma):
         self.suroeste = None
                 
     def irAlNorEste(self, alguien):
-        self.noreste.entrar(alguien)
+        self.noreste.entrarAlguien(alguien)
                 
     def irAlNorOeste(self, alguien):
-        self.noroeste.entrar(alguien)
+        self.noroeste.entrarAlguien(alguien)
                 
     def irAlSurEste(self, alguien):
-        self.sureste.entrar(alguien)
+        self.sureste.entrarAlguien(alguien)
                 
     def irAlSurOeste(self, alguien):
-        self.suroeste.entrar(alguien)
+        self.suroeste.entrarAlguien(alguien)
