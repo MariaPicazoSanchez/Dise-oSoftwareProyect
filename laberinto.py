@@ -44,6 +44,12 @@ class Contenedor(ElementoMapa):
         self.hijos =[]
         self.num=num
         self.forma = Cuadrado()
+    def visitarContenedor(self, unVisitor):
+        pass
+    def aceptar(self, unVisitor):
+        unVisitor.visitarContenedor(self)
+        for each in self.hijos:
+            each.aceptar(unVisitor)
     def punto(self):
         return self.forma.punto
     def extend(self):
@@ -139,17 +145,23 @@ class Laberinto(Contenedor):
     def numeroHabitaciones(self):
         return len(self.hijos)
 
-    def obtenerHabitacion(self, unNum):
-        return self.hijos[unNum-1]
+    def obtenerHabitacion(self, unNum):#aquiii
+        for room in self.hijos:
+            if room.num == unNum:
+                return room
+        return None
+        
     def recorrer(self, unBloque):
         unBloque(self)
         for each in self.hijos:
             each.recorrer(unBloque)
-
+    def aceptar(self, unVisitor):
+        for each in self.hijos:
+            each.aceptar(unVisitor)
 class Habitacion(Contenedor):
     def __init__(self,num):
         super().__init__(num)
-    def aceptar(self, unVisitor):
+    def visitarContenedor(self, unVisitor):
         unVisitor.visitarHabitacion(self)
     def entrar(self):
         print("Entraste a la habitacion ", self.num)
@@ -237,6 +249,8 @@ class Bomba(Decorator):
     def __init__(self):
         super().__init__()
         self.activa=False
+    def aceptar(self, unVisitor):
+        unVisitor.visitarBomba(self)
     def activar(self):
         self.activa=True
         print("Bomba activada")
@@ -263,7 +277,8 @@ class Bomba(Decorator):
 class Tunel(Hoja):
     def __init__(self):
         self.laberinto=None
-
+    def aceptar(self, unVisitor):
+        unVisitor.visitarTunel(self)
     def entrarAlguien(self, alguien):
         print(f"{alguien.nombre} accede a un nuevo laberinto")
         if self.laberinto is None:
@@ -282,7 +297,7 @@ class ParedBomba(Pared):
 
 class Modo():
     def __init__(self):
-        pass
+        self.color = None
     def actua(self, Bicho):
         self.dormir(Bicho)
         self.caminar(Bicho)
@@ -362,6 +377,7 @@ class Ente():
     def puedeAtacar(self):
         pass
 
+
 class Bicho(Ente):
     def __init__(self):
         super().__init__()
@@ -369,6 +385,9 @@ class Bicho(Ente):
         #self.caminarAleatorio()
         
     def actua(self):
+        self.estado.actua(self)
+    
+    def puedeActuar(self):
         self.modo.actua(self)
 
     def printOn(self):
@@ -383,9 +402,9 @@ class Bicho(Ente):
         self.juego.terminalHilo(self)
 
 class Personaje(Ente):
-    def __init__(self):
+    def __init__(self,unNombre):
         super().__init__()
-        self.nombre=None
+        self.nombre=unNombre
         self.vidas=20
         self.poder=1
     def obtenerComandos(self):
@@ -398,11 +417,13 @@ class Personaje(Ente):
 class Agresivo(Modo):
     def __init__(self):
         super().__init__()
+        self.color = "red"
     def printOn(self):
         print("Agresivo")
 class Perezoso(Modo):
     def __init__(self):
         super().__init__()
+        self.color = "green"
     def printOn(self):
         print("Perezoso")
 

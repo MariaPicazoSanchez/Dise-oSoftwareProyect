@@ -37,7 +37,14 @@ class LaberintoGUI(tk.Tk):
         self.bind("<KeyPress>", self.keyDown)
         self.bind("<Enter>", self.mouseEnter)
         self.bind("<Leave>", self.mouseLeave)   
-        
+
+    def reset(self):
+        self.personM = None
+        self.bichos= {}
+        if self.win is not None:
+            self.win.destroy()
+        self.iniciarJuego()
+
     def update(self, unObjeto):
         self.mostrarVidasPersonaje()
         self.mostrarPersonaje()
@@ -55,13 +62,15 @@ class LaberintoGUI(tk.Tk):
 
     def iniciarJuego(self):
         director = Director()
-        director.procesar(r'C:\Users\maria\Documents\2 Ing\Diseño software\DiferentesLaberintos\1erLaberinto\laberinto2habTunel2Bichos.json')
+        director.procesar("C:\\Users\\maria\\Documents\\2 Ing\\Diseño software\\DiferentesLaberintos\\1erLaberinto\\laberinto2hab.json")
         self.juego = director.obtenerJuego()
         self.mostrarLaberinto()
         self.win = self.openInWindowLabeled('LaberintoGUI')
         self.agregarPersonaje('Prota')
         self.dibujarLaberinto()
 
+    def terminarBichos(self):
+        self.juego.terminarTodosHilos()
     def asignarPuntosReales(self):
         origen = Punto(70, 10)
         for each in self.juego.laberinto.hijos:
@@ -105,6 +114,17 @@ class LaberintoGUI(tk.Tk):
         self.mostrarLanzarBichos()
         self.mostrarPersonaje()
         self.mostrarBichos()
+        self.mostrarVolverAJugar()
+
+    def mostrarVolverAJugar(self):
+        aP = SimpleButtonMorph(self, text='Reset', command=self.reset)
+        aP.pack()  # Ajusta el método de posicionamiento según tu diseño
+        aP.place(x=self.winfo_x() + 5, y=self.winfo_y() + 180)
+        
+    def mostrarDetenerBichos(self):
+        self.mLB = SimpleButtonMorph(self, text='Detener', command=self.terminarBichos)
+        self.mLB.pack()  # Ajusta el método de posicionamiento según tu diseño
+        self.mLB.place(x=self.winfo_x() + 5, y=self.winfo_y() + 160)
 
     def mostrarLaberinto(self):
         self.calcularPosicion()
@@ -221,5 +241,5 @@ class LaberintoGUI(tk.Tk):
     def handlesMouseDown(self, anEvent):
         return True
     
-vista = LaberintoGUI()
-vista.iniciarJuego()
+#vista = LaberintoGUI()
+#vista.iniciarJuego()

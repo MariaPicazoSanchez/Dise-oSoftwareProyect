@@ -1,3 +1,6 @@
+
+
+
 class EstadoEnte:
     def __init__ (self):
         pass
@@ -59,3 +62,40 @@ class Cerrada(EstadoPuerta):
         pass
     def estaAbierta(self):
         return False
+
+class EstadoEnte:
+    def __init__ (self):
+        pass
+    def atacar(self,alguien):
+        pass
+    def estaVivo(self):
+        pass
+    def actua(self,unBicho):
+        pass
+
+class Muerto(EstadoEnte):
+    def __init__(self):
+        super().__init__()
+
+    def estaVivo(self):
+        return False
+    
+    def atacar(self, alguien):
+        #print("Los muertos no pueden atacar")
+        pass
+
+    def actua(self,unBicho):
+        print("Los muertos no pueden actuar")
+        
+class Vivo(EstadoEnte):
+    def __init__(self):
+        super().__init__()
+
+    def estaVivo(self):
+        return True
+    
+    def atacar(self, alguien):
+        alguien.puedeAtacar()
+        
+    def actua(self,unBicho):
+        unBicho.puedeActuar()

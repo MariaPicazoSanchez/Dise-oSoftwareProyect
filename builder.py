@@ -4,6 +4,7 @@ from juego import Juego
 from orientaciones import Este, Oeste, Sur, Norte, SurEste, SurOeste, NorEste, NorOeste
 from laberinto import Cuadrado, Hexagono
 from comandos import Abrir
+import keyboard
 class LaberintoBuilder:
         def __init__(self):
             self.juego = None
@@ -65,7 +66,7 @@ class LaberintoBuilder:
 
         def fabricarJuego(self):
             self.juego = Juego()
-            self.juego.prototype = self.laberinto
+            self.juego.prototipo = self.laberinto
             self.juego.laberinto = self.juego.clonarLaberinto()
            #self.juego.fabricarLaberinto()
 
@@ -163,8 +164,11 @@ class Director:
             self.builder = LaberintoBuilderHexagonal()
 
     def leerArchivo(self, unArchivo):
-        with open(unArchivo, 'r') as file:
-            self.diccionario = json.load(file)
+        try:
+            with open(unArchivo) as file:
+                self.diccionario = json.load(file)
+        except FileNotFoundError:
+            print(f'No se encontró el archivo', unArchivo)
 
     def procesar(self, unArchivo):
         self.leerArchivo(unArchivo)
@@ -212,6 +216,32 @@ class LaberintoBuilderHexagonal(LaberintoBuilder):
     
 
 
-director=Director()
-unCont = Contenedor()
-armario = director.builder.fabricarArmarioEn(1, unCont)
+# director=Director()
+# unCont = Contenedor()
+# armario = director.builder.fabricarArmarioEn(1, unCont)
+
+
+def main(): #stdscr
+ 
+    director=Director()
+    director.procesar('C:\\Users\\maria\\Documents\\2 Ing\\Diseño software\\DiferentesLaberintos\\1erLaberinto\\laberinto2habTunel2Bichos.json')
+    game=director.obtenerJuego()
+    game.agregarPersonaje("Pepe")
+    person=game.person
+    game.abrirPuertas()
+    game.lanzarTodosHilos()
+    while True:
+        if keyboard.is_pressed('q'):
+            break  # Exit the program
+        elif keyboard.is_pressed("w"): #curses.KEY_UP:
+            person.irAlNorte()
+        elif keyboard.is_pressed("s"): #curses.KEY_DOWN:
+            person.irAlSur()
+        elif keyboard.is_pressed("a"): #curses.KEY_LEFT:
+            person.irAlOeste()
+        elif keyboard.is_pressed("d"): #curses.KEY_RIGHT:
+            person.irAlEste()
+        elif keyboard.is_pressed("enter"):#curses.KEY_ENTER or key in [10, 13]:
+            person.atacar()
+    game.terminarTodosHilos()
+main()

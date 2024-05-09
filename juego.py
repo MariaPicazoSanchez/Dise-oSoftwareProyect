@@ -15,6 +15,7 @@ class Juego:
         self.hilos = {}
         self.person=None
         self.prototipo=None
+        self.fase = Inicial()
 
     def fabricarPared(self):
         return Pared()
@@ -232,10 +233,12 @@ class Juego:
             self.bichos.append(unBicho)
             unBicho.juego = self
     def agregarPersonaje(self, unNombre):
-        self.person=Personaje()
-        self.person.nombre=unNombre
+        self.fase.agregarPersonajeEn(unNombre, self)
+    
+    def puedeAgregarPersonaje(self, unNombre):
+        self.person=Personaje(unNombre)
         self.laberinto.entrarAlguien(self.person)
-        self.person.juego=self
+        self.person.juego = self
 
     def cerrarPuertas(self):
         self.laberinto.recorrer(lambda each: each.cerrarPuertas())
@@ -280,7 +283,7 @@ class Juego:
         unBicho.vidas = 0
         unBicho.estado=Muerto()
         if(self.comprobarTodosMuertos()):
-            self.finJuego()
+            self.ganaPersonaje()
 
     def obtenerHabitacion(self, unNum):
         return self.laberinto.obtenerHabitacion(unNum)
@@ -301,16 +304,30 @@ class Juego:
             self.person.esAtacadoPor(unBicho)
 
     def lanzarTodosHilos(self):
+        # print("-----------------------------------")
+        # print("COMIENZA EL JUEGO")
+        # for bicho in self.bichos:
+        #     self.lanzarHilo(bicho)
+        self.fase.lanzarTodosHilosEn(self)
+
+    def puedeLanzarTodosHilos(self):
         print("-----------------------------------")
         print("COMIENZA EL JUEGO")
         for bicho in self.bichos:
             self.lanzarHilo(bicho)
+        
     def terminarTodosHilos(self):
+        #for bicho in self.bichos:
+        #    self.terminarHilo(bicho)
+        self.fase.terminarTodosHilosEn(self)
+
+    def puedeTerminarTodosHilos(self):
         for bicho in self.bichos:
             self.terminarHilo(bicho)
+
     def finJuego(self):
         print("EL juego ha terminado. Gana el personaje")
-
+        self.fase= Final()
     def muerePersonaje(self):
         self.person.estado=Muerto()
         self.terminarTodosHilos()
@@ -321,8 +338,11 @@ class Juego:
                 return False
         return True
     def clonarLaberinto(self):
-        return copy.deepcopy(self.laberinto)
-
+        return copy.deepcopy(self.prototipo)
+    def ganaPersonaje(self):
+        if self.person.estaVivo():
+            print("El personaje ha ganado")
+        self.finJuego()
 class JuegoBombas(Juego):
     def __init__(self):
         super().__init__()
@@ -330,12 +350,69 @@ class JuegoBombas(Juego):
     def fabricarPared(self):
         return ParedBomba()
 
+class Fase:
+    def __init__(self):
+        pass
+    def esFinal(self):
+        return False
+    def esInicial(self):
+        return False
+    def esJugando(self):
+        return False
+    def agregarPersonajeEn(self, unaCadena, unJuego):
+        pass
+    def lanzarTodosHilosEn(self, unJuego):
+        pass
+    def terminarTodosHilosEn(self, unJuego):
+        pass
 
-game=Juego()
-game.fabLab4Hab4BichosFM()
-game.agregarPersonaje("Juan")
-bichoA1=game.bichos[0]
-game.abrirPuertas()
-game.lanzarTodosHilos()
-time.sleep(1)
-game.terminarTodosHilos()
+class Inicial(Fase):
+    def __init__(self):
+        super().__init__()
+    def esInicial(self):
+        return True
+    def agregarPersonajeEn(self, unaCadena, unJuego):#revisar porque da bucle infinito
+        #unJuego.agregarPersonaje(unaCadena)#lo que tenemos en pharo
+        unJuego.puedeAgregarPersonaje(unaCadena)
+        
+
+    def lanzarTodosHilosEn(self, unJuego):
+        unJuego.puedeLanzarTodosHilos()
+        unJuego.fase = Jugando()
+    def terminarTodosHilosEn(self, unJuego):
+        print("No se puede terminar los hilos en la fase inicial")
+    
+class Jugando(Fase):
+    def __init__(self):
+        super().__init__()
+    def esJugando(self):
+        return True
+    def agregarPersonajeEn(self, unaCadena, unJuego):
+        print("No se puede agregar un personaje en la fase jugando")
+    def lanzarTodosHilosEn(self, unJuego):
+        print("El juego ya ha comenzado")
+    def terminarTodosHilosEn(self, unJuego):
+        unJuego.puedeTerminarTodosHilos()
+
+        
+class Final(Fase):
+    def __init__(self):
+        super().__init__()
+    def esFinal(self):
+        return True
+    def agregarPersonajeEn(self, unaCadena, unJuego):
+        print("El juego ha terminado. No se puede agregar un personaje")
+    def lanzarTodosHilosEn(self, unJuego):
+        print("El juego ya ha terminado. No se pueden lanzar hilos")
+    def terminarTodosHilosEn(self, unJuego):
+        print("Ya ha terminado el juego")
+
+
+#game=Juego()
+#game.fabLab4Hab4BichosFM()
+#game.agregarPersonaje("Juan")
+#bichoA1=game.bichos[0]
+#game.abrirPuertas()
+#game.lanzarTodosHilos()
+#time.sleep(5)
+#game.terminarTodosHilos()
