@@ -214,16 +214,13 @@ El Visitor solo ejecuta una operación, como el Decorator, pero hace que haga m�
 
 ***Flyweight:***
 Utiliza compartir para soportar de manera eficiente un gran número de objetos pequeños
-```
-```
+<br><br>No implementado.
 
 ***Memento:***
 Sin violar la encapsulación, captura y externaliza el estado interno de un objeto de modo que el objeto pueda recuperar ese estado más adelante.
-```
-```
+<br><br>No implementado.
 
 ***Chain of Responsability:***
 Evita acoplar el emisor de una petición con su receptor dando la oportunidad, a más de un objeto, de gestionar (o manejar) la petición. Encadena a los objetos receptores y pasa la petición a lo largo de esa cadena hasta encontrar un objeto que la atienda.
-```
-```
+<br><br>No implementado
 
