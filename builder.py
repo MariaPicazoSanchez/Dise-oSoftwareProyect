@@ -244,4 +244,4 @@ def main(): #stdscr
         elif keyboard.is_pressed("enter"):#curses.KEY_ENTER or key in [10, 13]:
             person.atacar()
     game.terminarTodosHilos()
-main()
+#main()

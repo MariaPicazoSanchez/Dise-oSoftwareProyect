@@ -3,7 +3,7 @@ import time
 from orientaciones import Este, Oeste, Norte, Sur, Orientation, NorEste, NorOeste, SurEste, SurOeste
 #from juego import Juego
 from estados import Cerrada, Abierta,Vivo, Muerto
-
+from punto import Punto
 
 class ElementoMapa():
     def __init__(self):
@@ -187,10 +187,10 @@ class Puerta(ElementoMapa):
         self.visitada=True
         if unCont.num == self.lado1.num:
             self.lado2.puntoSet(unPunto)
-            self.lado2.calcularPosicionDesdeEn(unCont, unPunto)
+            self.lado2.calcularPosicion()
         else:
             self.lado1.puntoSet(unPunto)
-            self.lado1.calcularPosicionDesdeEn(unCont, unPunto)
+            self.lado1.calcularPosicion()
 
     def entrarAlguien(self, alguien):
         if self.estaAbierta():
@@ -430,9 +430,9 @@ class Perezoso(Modo):
 class Forma:
     def __init__(self):
         self.orientaciones = []
-        punto=None
-        extent=None
-        num=None
+        self.punto=Punto(0,0)
+        self.extent=None
+        self.num=None
     def calcularPosicion(self):
         for each in self.orientaciones:
             each.calcularPosicionDesde(self)

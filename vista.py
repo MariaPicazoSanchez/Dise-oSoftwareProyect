@@ -1,6 +1,7 @@
 import tkinter as tk
 from builder import Director
 from tkinter import Button,Canvas, Text
+from punto import Punto
 class TextMorph(Text):
     def __init__(self, master, width, height, borderwidth, background, foreground, **kwargs):
         super().__init__(master, width=width, height=height, borderwidth=borderwidth, background=background, foreground=foreground, **kwargs)
@@ -14,10 +15,7 @@ class BorderedMorph(Canvas):
 class SimpleButtonMorph(Button):
     def __init__(self, master, text, command, **kwargs):
         super().__init__(master, text=text, command=command, **kwargs)
-class Punto:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+
 class LaberintoGUI(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -241,5 +239,5 @@ class LaberintoGUI(tk.Tk):
     def handlesMouseDown(self, anEvent):
         return True
     
-#vista = LaberintoGUI()
-#vista.iniciarJuego()
+vista = LaberintoGUI()
+vista.iniciarJuego()
