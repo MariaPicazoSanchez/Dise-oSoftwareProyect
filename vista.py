@@ -1,4 +1,6 @@
 import tkinter as tk
+
+import keyboard
 from builder import Director
 from tkinter import Button,Canvas, Text
 from punto import Punto
@@ -22,15 +24,15 @@ class LaberintoGUI(tk.Tk):
         self.person = None
         self.juego = None
         self.win = None
-        self.ancho = None
-        self.alto = None
+        self.ancho = 1150
+        self.alto = 900
         self.vidasM = None
         self.mAP = None
         self.mCP = None
         self.mLB = None
         self.personM = None
         self.bichosM = {}
-        self.canvas = Canvas(self, width=1150, height=900, bg="white", borderwidth=2, relief="ridge")
+        self.canvas = Canvas(self, width=self.ancho, height=self.alto, bg="white", borderwidth=2, relief="ridge")
         self.canvas.pack(fill="both", expand=True)
         self.bind("<KeyPress>", self.keyDown)
         self.bind("<Enter>", self.mouseEnter)
@@ -57,7 +59,12 @@ class LaberintoGUI(tk.Tk):
         self.juego.agregarPersonaje(unaCadena)
         self.person = self.juego.person
         self.person.addDependent(self)
-
+    def openInWindowLabeled(self, unaCadena):
+        if self.win is not None:
+            self.win.destroy()
+        win = tk.Toplevel()
+        win.title(unaCadena)
+        return win
     def iniciarJuego(self):
         director = Director()
         director.procesar("C:\\Users\\maria\\Documents\\2 Ing\\Diseño software\\DiferentesLaberintos\\1erLaberinto\\laberinto2hab.json")
@@ -72,16 +79,16 @@ class LaberintoGUI(tk.Tk):
     def asignarPuntosReales(self):
         origen = Punto(70, 10)
         for each in self.juego.laberinto.hijos:
-            x = origen.x + (each.punto.x * self.ancho)
-            y = origen.y + (each.punto.y * self.alto)
+            x = origen.getX() + (each.forma.punto.getX() * self.ancho)
+            y = origen.getY() + (each.forma.punto.getY() * self.alto)
             each.punto = Punto(x, y)
             each.extent = Punto(self.ancho, self.alto)
 
     def calcularDimensiones(self):
         maxX, maxY = 0, 0
         for each in self.juego.laberinto.hijos:
-            maxX = max(maxX, each.punto.x)
-            maxY = max(maxY, each.punto.y)
+            maxX = max(maxX, each.forma.punto.x)
+            maxY = max(maxY, each.forma.punto.y)
         maxX += 1
         maxY += 1
         self.ancho = round(1050 / maxX)
@@ -105,14 +112,15 @@ class LaberintoGUI(tk.Tk):
     def dibujarLaberinto(self):
         if self.juego is None:
             return self
-        self.juego.laberinto.aceptar(self)
-        self.mostrarVidasPersonaje(self)
+        self.juego.laberinto.aceptar(self.juego.laberinto)
+        self.mostrarVidasPersonaje()
         self.mostrarAbrirPuertas()
         self.mostrarCerrarPuertas()
         self.mostrarLanzarBichos()
         self.mostrarPersonaje()
         self.mostrarBichos()
         self.mostrarVolverAJugar()
+        self.win.mainloop()
 
     def mostrarVolverAJugar(self):
         aP = SimpleButtonMorph(self, text='Reset', command=self.reset)
@@ -131,15 +139,22 @@ class LaberintoGUI(tk.Tk):
         self.asignarPuntosReales()
 
     def normalizar(self):
-        minX, minY = float('inf'), float('inf')
+        minX = 0
+        minY = 0
+        eje=Punto(11,12)
+        print(eje.getX(),eje.getY())
         for each in self.juego.laberinto.hijos:
-            if each.punto.x < minX:
-                minX = each.punto.x
-            if each.punto.y < minY:
-                minY = each.punto.y
+            puntoEje = each.forma.punto
+            x = puntoEje.getX()
+            y = puntoEje.getY()
+            if x < minX:
+                minX = x
+            if y < minY:
+                minY = y
+
         for each in self.juego.laberinto.hijos:
-            x, y = each.punto.x, each.punto.y
-            each.punto = Punto(x + abs(minX), y + abs(minY))
+            newx, newy = x, y
+            each.puntoSet(Punto(newx + abs(minX), newy + abs(minY)))
 
     def visitarHabitacion(self, unaHab):
         self.dibujarContenedorRectangular(unaHab.forma, escala=1)
@@ -164,10 +179,10 @@ class LaberintoGUI(tk.Tk):
         if unBicho.estaVivo:
             unCont = unBicho.posicion
             col = unBicho.modo.color
-            an = unCont.extent[0]
-            al = unCont.extent[1]
-            a = unCont.punto[0] + (an // 3) + (an // 9)
-            b = unCont.punto[1] + (al // 3) + 3
+            an = unCont.obtenerExtend().getX()
+            al = unCont.obtenerExtend().getY()
+            a = unCont.obtenerExtend().getX() + (an // 3) + (an // 9)
+            b = unCont.obtenerExtend().getY() + (al // 3) + 3
             c = an // 9
             d = al // 8
             color = col  # Utiliza directamente el nombre del color
@@ -191,10 +206,10 @@ class LaberintoGUI(tk.Tk):
         if self.juego.person is None:
             return
         unCont = self.juego.person.posicion
-        an = unCont.extent[0]
-        al = unCont.extent[1]
-        a = unCont.punto[0] + (an // 2)
-        b = unCont.punto[1] + (al // 2)
+        an = unCont.obtenerExtend().getX()
+        al = unCont.obtenerExtend().getY()
+        a = unCont.obtenerExtend().getX() + (an // 2)
+        b = unCont.obtenerExtend().getY() + (al // 2)
         c = an // 9
         d = al // 8
         if self.personM is None:
@@ -241,3 +256,4 @@ class LaberintoGUI(tk.Tk):
     
 vista = LaberintoGUI()
 vista.iniciarJuego()
+

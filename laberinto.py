@@ -50,9 +50,9 @@ class Contenedor(ElementoMapa):
         unVisitor.visitarContenedor(self)
         for each in self.hijos:
             each.aceptar(unVisitor)
-    def punto(self):
+    def obtenerPunto(self):
         return self.forma.punto
-    def extend(self):
+    def obtenerExtend(self):
         return self.forma.extend
     def puntoSet(self, unPunto):
         self.forma.punto = unPunto
@@ -145,7 +145,7 @@ class Laberinto(Contenedor):
     def numeroHabitaciones(self):
         return len(self.hijos)
 
-    def obtenerHabitacion(self, unNum):#aquiii
+    def obtenerHabitacion(self, unNum):
         for room in self.hijos:
             if room.num == unNum:
                 return room
@@ -413,6 +413,8 @@ class Personaje(Ente):
         self.juego.buscarBicho()
     def muero(self):
         self.juego.muerePersonaje(self)
+    def addDependent(self, unObserver):
+        pass
     
 class Agresivo(Modo):
     def __init__(self):
@@ -431,7 +433,7 @@ class Forma:
     def __init__(self):
         self.orientaciones = []
         self.punto=Punto(0,0)
-        self.extent=None
+        self.extend=Punto(0,0)
         self.num=None
     def calcularPosicion(self):
         for each in self.orientaciones:

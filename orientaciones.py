@@ -21,7 +21,7 @@ class Este(Orientation):
     def calcularPosicionDesde(self, unaForma):
         p = unaForma.punto
         if isinstance(p, Punto):
-            unPunto = (p.x+1,p.y)
+            unPunto = (p.x+1,p.y)#aquii
             unaForma.este.calcularPosicionDesdeEn(unaForma,unPunto)
     #mirar como hacerlo en python
     def obtenerComandoDe(self, unaForma):
