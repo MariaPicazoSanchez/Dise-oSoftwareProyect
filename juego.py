@@ -20,6 +20,14 @@ class Juego:
     def fabricarPared(self):
         return Pared()
     
+    def fabricarForma(self):
+        forma=Cuadrado()
+        forma.agregarOrientacion(self.fabricarNorte())
+        forma.agregarOrientacion(self.fabricarEste())
+        forma.agregarOrientacion(self.fabricarSur())
+        forma.agregarOrientacion(self.fabricarOeste())
+        return forma
+    
     def fabricarPuertaLados(self,side1,side2):
         door=Puerta()
         door.lado1=side1
@@ -31,16 +39,16 @@ class Juego:
         hab = Habitacion(unNum)
         hab.forma = Cuadrado()
 
-        hab.agregarOrientacion(self.fabricarNorte())
-        hab.agregarOrientacion(self.fabricarEste())
-        hab.agregarOrientacion(self.fabricarSur())
-        hab.agregarOrientacion(self.fabricarOeste())
+        # hab.agregarOrientacion(self.fabricarNorte())
+        # hab.agregarOrientacion(self.fabricarEste())
+        # hab.agregarOrientacion(self.fabricarSur())
+        # hab.agregarOrientacion(self.fabricarOeste())
         
 
         for each in hab.forma.orientaciones:
             hab.ponerElementoEn(each, self.fabricarPared())
 
-        self.laberinto.agregarHabitacion(hab)
+        #self.laberinto.agregarHabitacion(hab)
         return hab
     def fabricarHabHexagonal(self,unNum):
         hab=Habitacion(unNum)
@@ -228,7 +236,8 @@ class Juego:
     def abrirPuertas(self):
        self.laberinto.recorrer(lambda each: each.abrirPuertas())
     def activarBombas(self):
-        self.laberinto.recorrer(lambda each: each.activar() if each.esBomba() else None)
+        #self.laberinto.recorrer(lambda each: each.activar() if each.esBomba() else None)
+        self.fase.activarBombasEn(self)
     def agregarBicho(self, unBicho):
             self.bichos.append(unBicho)
             unBicho.juego = self
@@ -288,20 +297,40 @@ class Juego:
     def obtenerHabitacion(self, unNum):
         return self.laberinto.obtenerHabitacion(unNum)
   
+    def buscarTodosBichos(self):
+        posicion = self.person.obtenerPosicion()
+        lista = [bicho for bicho in self.bichos if bicho.obtenerPosicion() == posicion and bicho.estaVivo()]
+        
+        for bicho in lista:
+            bicho.esAtacadoPor(self.person)
+        
+        return lista
+    def buscarTodosBichosPosicion(self, posicion):
+        lista = [bicho for bicho in self.bichos if bicho.obtenerPosicion() == posicion and bicho.estaVivo()]
+        
+        for bicho in lista:
+            bicho.esAtacadoPor(self.person)
+        
+        return lista
+
 
     def buscarBicho(self):
-        posicion = self.person.posicion
-
-        bicho = next((each for each in self.bichos if each.posicion == posicion and each.estaVivo()), None)
+        posicion = self.person.obtenerPosicion()
+        bicho = next((bicho for bicho in self.bichos if bicho.obtenerPosicion() == posicion and bicho.estaVivo()), None)
         if bicho is not None:
-            bicho.esAtacadoPor(self.person)
+            bicho.esAtacadoPor(self.person.vidas)
+        return bicho
 
-    def bichoBuscarPersonaje(self,unBicho):
-        unCont=unBicho.posicion
+
+    def bichoBuscarPersonaje(self, unBicho):
+        unCont = unBicho.obtenerPosicion()
         if self.person is None:
             return None
-        if unCont == self.person.posicion:
-            self.person.esAtacadoPor(unBicho)
+        if self.person.obtenerPosicion() == unCont:
+            return self.person
+        else:
+            return None
+
 
     def lanzarTodosHilos(self):
         # print("-----------------------------------")
@@ -309,13 +338,20 @@ class Juego:
         # for bicho in self.bichos:
         #     self.lanzarHilo(bicho)
         self.fase.lanzarTodosHilosEn(self)
+    
+    def lanzarTodosHilosTest(self):
+        self.fase.lanzarTodosHilosEn(self)
 
     def puedeLanzarTodosHilos(self):
         print("-----------------------------------")
         print("COMIENZA EL JUEGO")
         for bicho in self.bichos:
             self.lanzarHilo(bicho)
-        
+
+    def puedeLanzarTodosHilosTest(self):
+        print("-----------------------------------")
+        print("COMIENZA EL JUEGO")
+
     def terminarTodosHilos(self):
         #for bicho in self.bichos:
         #    self.terminarHilo(bicho)
@@ -343,6 +379,12 @@ class Juego:
         if self.person.estaVivo():
             print("El personaje ha ganado")
         self.finJuego()
+
+    def puedeActivarBombas(self):
+        for each in self.laberinto:
+            if each.esBomba():
+                each.activar(self.person)
+
 class JuegoBombas(Juego):
     def __init__(self):
         super().__init__()
@@ -365,6 +407,10 @@ class Fase:
         pass
     def terminarTodosHilosEn(self, unJuego):
         pass
+    def activarBombasEn(self, unJuego):
+        pass
+    def lanzarTodosHilosTestEn(self, unJuego):
+        pass
 
 class Inicial(Fase):
     def __init__(self):
@@ -374,13 +420,20 @@ class Inicial(Fase):
     def agregarPersonajeEn(self, unaCadena, unJuego):#revisar porque da bucle infinito
         #unJuego.agregarPersonaje(unaCadena)#lo que tenemos en pharo
         unJuego.puedeAgregarPersonaje(unaCadena)
-        
 
     def lanzarTodosHilosEn(self, unJuego):
         unJuego.puedeLanzarTodosHilos()
         unJuego.fase = Jugando()
+
+    def lanzarTodosHilosTestEn(self, unJuego):
+        unJuego.puedeLanzarTodosHilosTest()
+        unJuego.fase = Jugando()
+
     def terminarTodosHilosEn(self, unJuego):
         print("No se puede terminar los hilos en la fase inicial")
+    
+    def activarBombasEn(self, unJuego):
+        print("El juego no ha comenzado")
     
 class Jugando(Fase):
     def __init__(self):
@@ -391,8 +444,12 @@ class Jugando(Fase):
         print("No se puede agregar un personaje en la fase jugando")
     def lanzarTodosHilosEn(self, unJuego):
         print("El juego ya ha comenzado")
+    def lanzarTodosHilosTestEn(self, unJuego):
+        print("El juego ya ha comenzado")
     def terminarTodosHilosEn(self, unJuego):
         unJuego.puedeTerminarTodosHilos()
+    def activarBombasEn(self, unJuego):
+        unJuego.puedeActivarBombas()
 
         
 class Final(Fase):
@@ -404,8 +461,12 @@ class Final(Fase):
         print("El juego ha terminado. No se puede agregar un personaje")
     def lanzarTodosHilosEn(self, unJuego):
         print("El juego ya ha terminado. No se pueden lanzar hilos")
+    def lanzarTodosHilosTestEn(self, unJuego):
+        print("El juego ya ha terminado.")
     def terminarTodosHilosEn(self, unJuego):
         print("Ya ha terminado el juego")
+    def activarBombasEn(self, unJuego):
+        print("El juego ha terminado. No se pueden activar bombas.")
 
 
 #game=Juego()

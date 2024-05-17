@@ -253,9 +253,10 @@ class Bomba(Decorator):
         self.activa=False
     def aceptar(self, unVisitor):
         unVisitor.visitarBomba(self)
-    def activar(self):
+    def activar(self,alguien):
         self.activa=True
         print("Bomba activada")
+        self.explotar(alguien)
     def desactivar(self):
         self.activa=False
         print("Bomba desactivada")
@@ -276,6 +277,17 @@ class Bomba(Decorator):
             print("La bomba ha explotado")
         else:
             self.em.entrar()
+    def explotar(self, alguien):
+        # Si la explosión no está activa, salimos
+        if not self.activa:
+            return None
+        # Buscamos todos los bichos en la posición de alguien
+        lista = alguien.juego.buscarTodosBichos()
+        # Si encontramos bichos, los atacamos con la potencia de la explosión
+        if lista:
+            for each in lista:
+                each.esAtacadoPor(self.potencia)
+
 class Tunel(Hoja):
     def __init__(self):
         self.laberinto=None
@@ -367,19 +379,27 @@ class Ente():
 
     def atacar(self):
         self.estado.atacar(self)
-    def esAtacadoPor(self, alguien):
-        self.vidad=self.vidas-alguien.poder
-        if self.vidas<=0:
-            print("Muere" + self.__class__.__name__)
-            self.muero()
+    def esAtacadoPor(self, power):
+        self.vidas = self.vidas - power
+        if self.vidas > 0:
+            print("Alguien ataca a", str(self), "vidas restantes:", str(self.vidas))
         else:
-            print("Te han atacado, vidas restantes ", self.vidas)
+            print("Muere", str(self))
+            self.muero()
+            # self.juego.muerePersonaje()  # Descomenta esta línea si es necesario
+
     def estaVivo(self):
         return self.estado.estaVivo()
     def muero(self):
         pass
     def puedeAtacar(self):
+        enemigo = self.buscarEnemigo()
+        if enemigo is not None:
+            enemigo.esAtacadoPor(self.poder)
+    def buscarEnemigo(self):
         pass
+    def obtenerPosicion(self):
+        return self.posicion
 
 
 class Bicho(Ente):
@@ -391,8 +411,8 @@ class Bicho(Ente):
     def actua(self):
         self.estado.actua(self)
     
-    def puedeActuar(self):
-        self.modo.actua(self)
+    def buscarEnemigo(self):
+        return self.juego.buscarPersonaje(self)
 
     def printOn(self):
         print(f"Bicho-{self.modo}")
@@ -400,10 +420,10 @@ class Bicho(Ente):
     def caminarAleatorio(self):
         self.posicion.caminarAleatorio(self)
 
-    def puedeAtacar(self):
+    def puedeActuar(self):
         self.juego.bichoBuscarPersonaje(self)
     def muero(self):
-        self.juego.terminalHilo(self)
+        self.juego.terminarHilo(self)
 
 class Personaje(Ente):
     def __init__(self,unNombre):
@@ -413,12 +433,14 @@ class Personaje(Ente):
         self.poder=1
     def obtenerComandos(self):
         return self.posicion.obtenerComandos()
-    def puedeAtacar(self):
-        self.juego.buscarBicho()
+    def buscarEnemigo(self):
+        return self.juego.buscarBicho()
     def muero(self):
         self.juego.muerePersonaje(self)
     def addDependent(self, unObserver):
         pass
+    def puedeActuar(self):
+        self.modo.actua(self)
     
 class Agresivo(Modo):
     def __init__(self):
