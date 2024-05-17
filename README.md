@@ -191,6 +191,19 @@ Permite que un objeto, llamado sujeto, notifique automáticamente a una lista de
 ```
 Crea una nueva clase que haga de observer del proyecto, como minimo tiene que tener los siguientes atributos: juego, win, person, ancho, alto ademas de crear un método agregarPersonaje en el cual le pasamos unaCadena agregue al personaje, a peson le agregamos el juego y le añadimos dependencia a person.
 ```
+Además de hacer un setter de Vidas para cuando se cambian el número de vidas salga por pantalla.
+```
+Queda tal que así:
+@vidas.setter
+    def vidas(self, value):
+        if self._vidas == None:
+            self._vidas = value
+        elif self.vidas != value:
+            self._vidas = value
+            print(self.__class__.__name__, " te han atacado, vidas restantes:", self._vidas)
+```
+Como por defecto vidas está a 'None' hasta que se crea el Bicho o el Personaje, ponemos que una vez se creen no salga el mensaje de ataque sino que simplmente se ponga el valor de las vidas.
+<br>
 ***Command:***
 Encapsula una solicitud como un objeto, permitiendo parametrizar a los clientes con diferentes peticiones y soportar operaciones deshace.<br>
 ![imagen](https://github.com/MariaPicazoSanchez/Dise-oSoftwareProyect/assets/129367348/8391f86e-732d-4bfa-bb6b-0bbe41420760)
@@ -209,7 +222,12 @@ El Visitor solo ejecuta una operación, como el Decorator, pero hace que haga m�
 
 <br>Dentro del LaberintoGUI hemos creado el método de iniciarJuego el cual tiene una serie de comandos, el comando que en nuestro caso hemos implementado el patrón es el de dibujarLaberinto.
 ```
-
+Ponemos el método aceptar en las siguientes clases:
+ElementoMapa -> pass.
+Contenedor -> crea un método que pasado unVisitor llame al métodoVisitarContenedor pasandole el mismo visitor, y luego recorra los hijos que tiene contenedor para llamar de uno en uno el método aceptar.
+Armario, Habitación -> crea un método que se llame visitarContenedor que pasado un visitor, desde el mismo visitor llame visitarArmario pasandole self.
+Laberinto -> crea el método aceptar utilizando el patron visitor como lo hemos hecho en Contenedor.
+Bomba, Tunel -> crea el método aceptar utilizando el patrón Visitor, que al visitor que le pasemos al método llamemos a visitarBomba y visitarTunel respectivamente, pasandole como parámetro self.
 ```
 
 ***Flyweight:***
