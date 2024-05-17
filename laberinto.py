@@ -55,6 +55,8 @@ class Contenedor(ElementoMapa):
     def obtenerExtend(self):
         return self.forma.extend
     def puntoSet(self, unPunto):
+        if isinstance(unPunto, tuple):
+            unPunto = Punto(unPunto[0], unPunto[1])
         self.forma.punto = unPunto
     def extendSet(self, unExtend):
         self.forma.extend = unExtend
@@ -323,7 +325,9 @@ class Ente():
 
     @vidas.setter
     def vidas(self, value):
-        if self._vidas != value:
+        if self._vidas == None:
+            self._vidas = value
+        elif self.vidas != value:
             self._vidas = value
             print(self.__class__.__name__, " te han atacado, vidas restantes:", self._vidas)
            # self.notify_observers()

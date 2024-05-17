@@ -62,7 +62,7 @@ class LaberintoGUI(tk.Tk):
     def openInWindowLabeled(self, unaCadena):
         if self.win is not None:
             self.win.destroy()
-        win = tk.Toplevel()
+        win = tk.Tk()
         win.title(unaCadena)
         return win
     def iniciarJuego(self):
@@ -83,6 +83,7 @@ class LaberintoGUI(tk.Tk):
             y = origen.getY() + (each.forma.punto.getY() * self.alto)
             each.punto = Punto(x, y)
             each.extent = Punto(self.ancho, self.alto)
+            self.visitarHabitacion(each)#añadido por mi pero no va bien
 
     def calcularDimensiones(self):
         maxX, maxY = 0, 0
@@ -96,18 +97,24 @@ class LaberintoGUI(tk.Tk):
 
     def calcularPosicion(self):
         h1 = self.juego.obtenerHabitacion(1)
-        h1.punto = Punto(0, 0)
+        h1.forma.punto = Punto(0, 0)
         h1.calcularPosicion()
 
     def dibujarContenedorRectangular(self, unaForma, escala):
+        if not hasattr(unaForma, 'punto') or not hasattr(unaForma, 'extend'):
+            raise ValueError("La forma debe tener atributos 'punto' y 'extend'.")
+        
         unPunto = unaForma.punto
-        an = unaForma.extend[0] / escala
-        al = unaForma.extend[1] / escala
-        rec = BorderedMorph(self, width=an, height=al)
-        rec.color = "white"
-        rec.borderWidth = 2
-        rec.pack()  # Ajusta el método de posicionamiento según tu diseño
-        rec.place(x=self.winfo_x() + unPunto[0], y=self.winfo_y() + unPunto[1])
+        an = unaForma.extend.getX() / escala
+        al = unaForma.extend.getY() / escala
+
+        self.canvas.create_rectangle(
+            unPunto.getX(), unPunto.getY(),
+            unPunto.getX() + an, unPunto.getY() + al,
+            outline='black', fill='white', width=2
+        )
+        print(f"Se dibujó un rectángulo en {unPunto.getX()}, {unPunto.getY()}")
+        print(f"con ancho {an} y alto {al}")
 
     def dibujarLaberinto(self):
         if self.juego is None:
@@ -120,17 +127,18 @@ class LaberintoGUI(tk.Tk):
         self.mostrarPersonaje()
         self.mostrarBichos()
         self.mostrarVolverAJugar()
+        self.mostrarDetenerBichos()
         self.win.mainloop()
 
     def mostrarVolverAJugar(self):
         aP = SimpleButtonMorph(self, text='Reset', command=self.reset)
         aP.pack()  # Ajusta el método de posicionamiento según tu diseño
-        aP.place(x=self.winfo_x() + 5, y=self.winfo_y() + 180)
+        aP.place(x=self.winfo_x() + 5, y=self.winfo_y() + 183)
         
     def mostrarDetenerBichos(self):
         self.mLB = SimpleButtonMorph(self, text='Detener', command=self.terminarBichos)
         self.mLB.pack()  # Ajusta el método de posicionamiento según tu diseño
-        self.mLB.place(x=self.winfo_x() + 5, y=self.winfo_y() + 160)
+        self.mLB.place(x=self.winfo_x() + 5, y=self.winfo_y() + 146)
 
     def mostrarLaberinto(self):
         self.calcularPosicion()
@@ -141,8 +149,6 @@ class LaberintoGUI(tk.Tk):
     def normalizar(self):
         minX = 0
         minY = 0
-        eje=Punto(11,12)
-        print(eje.getX(),eje.getY())
         for each in self.juego.laberinto.hijos:
             puntoEje = each.forma.punto
             x = puntoEje.getX()
@@ -200,7 +206,7 @@ class LaberintoGUI(tk.Tk):
     def mostrarLanzarBichos(self):
         self.mLB = Button(self, text='Iniciar', command=self.lanzarBichos)
         self.mLB.pack()
-        self.mLB.place(x=self.winfo_x() + 5, y=self.winfo_y() + 130)
+        self.mLB.place(x=self.winfo_x() + 5, y=self.winfo_y() + 120)
 
     def mostrarPersonaje(self):
         if self.juego.person is None:
@@ -229,7 +235,6 @@ class LaberintoGUI(tk.Tk):
     
 
 
-    #protocolo event handling
     def keyDown(self, event):
         key = event.keysym
         if key == "Up":
@@ -242,17 +247,22 @@ class LaberintoGUI(tk.Tk):
             self.person.irAlOeste()
         elif event.keycode == 65:  # Código de tecla ASCII para 'A'
             self.person.atacar()
-    def handlesKeyDown(self, anEvent):
-        return True
-    def mouseEnter(self, anEvent):
-        anEvent.hand.newKeyboardFocus(self)
 
-    def mouseLeave(self, anEvent):
-        anEvent.hand.releaseKeyboardFocus(self)
-    def handlesMouseOver(self, anEvent):
+    def handlesKeyDown(self, event):
         return True
-    def handlesMouseDown(self, anEvent):
+
+    def mouseEnter(self, event):
+        self.focus_set()
+
+    def mouseLeave(self, event):
+        self.focus_displayof()
+
+    def handlesMouseOver(self, event):
         return True
+
+    def handlesMouseDown(self, event):
+        return True
+
     
 vista = LaberintoGUI()
 vista.iniciarJuego()

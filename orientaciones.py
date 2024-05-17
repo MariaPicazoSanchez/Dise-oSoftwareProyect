@@ -20,9 +20,10 @@ class Este(Orientation):
         super().__init__()
     def calcularPosicionDesde(self, unaForma):
         p = unaForma.punto
-        if isinstance(p, Punto):
-            unPunto = (p.x+1,p.y)#aquii
-            unaForma.este.calcularPosicionDesdeEn(unaForma,unPunto)
+        #if isinstance(p, Punto):
+        unPunto = (p.x+1,p.y)#aquii
+        unaForma.este.calcularPosicionDesdeEn(unaForma,unPunto)
+        print("Calculando posicion desde",unPunto)
     #mirar como hacerlo en python
     def obtenerComandoDe(self, unaForma):
         return unaForma.este.obtenerComandos()
@@ -39,9 +40,9 @@ class Oeste(Orientation):
         super().__init__()
     def calcularPosicionDesde(self, unaForma):
         p = unaForma.punto
-        if isinstance(p, Punto):
-            unPunto = (p.x-1,p.y)
-            unaForma.oeste.calcularPosicionDesdeEn(unaForma,unPunto)
+        #if isinstance(p, Punto):
+        unPunto = (p.x-1,p.y)
+        unaForma.oeste.calcularPosicionDesdeEn(unaForma,unPunto)
     def obtenerComandoDe(self, unaForma):
         return unaForma.oeste.obtenerComandos()
     def caminar(self, alguien):
@@ -58,9 +59,9 @@ class Norte(Orientation):
         super().__init__()
     def calcularPosicionDesde(self, unaForma):
         p = unaForma.punto
-        if isinstance(p, Punto):
-            unPunto = (p.x,p.y-1)
-            unaForma.norte.calcularPosicionDesdeEn(unaForma,unPunto)
+        #if isinstance(p, Punto):
+        unPunto = (p.x,p.y-1)
+        unaForma.norte.calcularPosicionDesdeEn(unaForma,unPunto)
     def obtenerComandoDe(self, unaForma):
         return unaForma.norte.obtenerComandos()
     def caminar(self, alguien):
@@ -76,9 +77,9 @@ class Sur(Orientation):
         super().__init__()
     def calcularPosicionDesde(self, unaForma):
         p = unaForma.punto
-        if isinstance(p, Punto):
-            unPunto = (p.x,p.y+1)
-            unaForma.sur.calcularPosicionDesdeEn(unaForma,unPunto)
+        #if isinstance(p, Punto):
+        unPunto = (p.x,p.y+1)
+        unaForma.sur.calcularPosicionDesdeEn(unaForma,unPunto)
     def obtenerComandoDe(self, unaForma):
         return unaForma.sur.obtenerComandos()
     def caminar(self, alguien):
