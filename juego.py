@@ -366,7 +366,7 @@ class Juego:
             self.terminarHilo(bicho)
 
     def finJuego(self):
-        print("EL juego ha terminado. Gana el personaje")
+        print("El juego ha terminado.")
         self.fase= Final()
     def muerePersonaje(self):
         self.person.estado=Muerto()

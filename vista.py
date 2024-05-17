@@ -70,7 +70,7 @@ class LaberintoGUI(tk.Tk):
         director.procesar("C:\\Users\\maria\\Documents\\2 Ing\\Diseño software\\DiferentesLaberintos\\1erLaberinto\\laberinto2hab.json")
         self.juego = director.obtenerJuego()
         self.mostrarLaberinto()
-        self.win = self.openInWindowLabeled('LaberintoGUI')
+        self.win = self.openInWindowLabeled("LaberintoGUI")
         self.agregarPersonaje('Prota')
         self.dibujarLaberinto()
 
@@ -79,17 +79,17 @@ class LaberintoGUI(tk.Tk):
     def asignarPuntosReales(self):
         origen = Punto(70, 10)
         for each in self.juego.laberinto.hijos:
-            x = origen.getX() + (each.forma.punto.getX() * self.ancho)
-            y = origen.getY() + (each.forma.punto.getY() * self.alto)
+            x = origen.getX() + (each.obtenerPunto().x * self.ancho)
+            y = origen.getY() + (each.obtenerPunto().y * self.alto)
             each.punto = Punto(x, y)
             each.extent = Punto(self.ancho, self.alto)
-            self.visitarHabitacion(each)#añadido por mi pero no va bien
+            
 
     def calcularDimensiones(self):
         maxX, maxY = 0, 0
         for each in self.juego.laberinto.hijos:
-            maxX = max(maxX, each.forma.punto.x)
-            maxY = max(maxY, each.forma.punto.y)
+            maxX = max(maxX, each.obtenerPunto().x)
+            maxY = max(maxY, each.obtenerPunto().y)
         maxX += 1
         maxY += 1
         self.ancho = round(1050 / maxX)
@@ -97,7 +97,7 @@ class LaberintoGUI(tk.Tk):
 
     def calcularPosicion(self):
         h1 = self.juego.obtenerHabitacion(1)
-        h1.forma.punto = Punto(0, 0)
+        h1.puntoSet(Punto(0, 0))
         h1.calcularPosicion()
 
     def dibujarContenedorRectangular(self, unaForma, escala):
@@ -105,8 +105,8 @@ class LaberintoGUI(tk.Tk):
             raise ValueError("La forma debe tener atributos 'punto' y 'extend'.")
         
         unPunto = unaForma.punto
-        an = unaForma.extend.getX() / escala
-        al = unaForma.extend.getY() / escala
+        an = unaForma.extend.x / escala
+        al = unaForma.extend.y / escala
 
         self.canvas.create_rectangle(
             unPunto.getX(), unPunto.getY(),
@@ -116,10 +116,16 @@ class LaberintoGUI(tk.Tk):
         print(f"Se dibujó un rectángulo en {unPunto.getX()}, {unPunto.getY()}")
         print(f"con ancho {an} y alto {al}")
 
+    def draw_rect(self,x1,y1,width,height):       
+        x2 = x1 + width
+        y2 = y1 + height
+        
+        self.canvas.create_rectangle(x1, y1, x2, y2, fill="white")
+        
     def dibujarLaberinto(self):
         if self.juego is None:
             return self
-        self.juego.laberinto.aceptar(self.juego.laberinto)
+        self.juego.laberinto.aceptar(self)
         self.mostrarVidasPersonaje()
         self.mostrarAbrirPuertas()
         self.mostrarCerrarPuertas()
@@ -147,23 +153,20 @@ class LaberintoGUI(tk.Tk):
         self.asignarPuntosReales()
 
     def normalizar(self):
-        minX = 0
-        minY = 0
-        for each in self.juego.laberinto.hijos:
-            puntoEje = each.forma.punto
-            x = puntoEje.getX()
-            y = puntoEje.getY()
-            if x < minX:
-                minX = x
-            if y < minY:
-                minY = y
-
-        for each in self.juego.laberinto.hijos:
-            newx, newy = x, y
-            each.puntoSet(Punto(newx + abs(minX), newy + abs(minY)))
+        minX=0
+        minY=0
+        for h in self.juego.laberinto.hijos:
+            if h.obtenerPunto().x<minX:
+                minX=h.obtenerPunto().x
+            if h.obtenerPunto().y<minY:
+                minY=h.obtenerPunto().y
+        for h in self.juego.laberinto.hijos:
+            point=h.obtenerPunto()
+            h.puntoSet(Punto(point.x+abs(minX),point.y+abs(minY)))
 
     def visitarHabitacion(self, unaHab):
-        self.dibujarContenedorRectangular(unaHab.forma, escala=1)
+        #self.dibujarContenedorRectangular(unaHab.forma, escala=1)
+        self.draw_rect(unaHab.punto.getX(), unaHab.punto.getY(), unaHab.extent.getX(), unaHab.extent.getY())
     def visitarArmario(self, unArmario):
         pass
     def visitarBomba(self, unaBomba):

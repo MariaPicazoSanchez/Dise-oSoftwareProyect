@@ -47,7 +47,7 @@ class Contenedor(ElementoMapa):
     def visitarContenedor(self, unVisitor):
         pass
     def aceptar(self, unVisitor):
-        unVisitor.visitarContenedor(self)
+        self.visitarContenedor(unVisitor)
         for each in self.hijos:
             each.aceptar(unVisitor)
     def obtenerPunto(self):
@@ -251,6 +251,7 @@ class Bomba(Decorator):
     def __init__(self):
         super().__init__()
         self.activa=False
+        self.potencia=10
     def aceptar(self, unVisitor):
         unVisitor.visitarBomba(self)
     def activar(self,alguien):
@@ -380,11 +381,14 @@ class Ente():
     def atacar(self):
         self.estado.atacar(self)
     def esAtacadoPor(self, power):
-        self.vidas = self._vidas - power
-        if self.vidas > 0:
-            print("Alguien ataca a", str(self), "vidas restantes:", str(self.vidas))
+        if power > self.vidas:
+            self.vidas -= power
         else:
-            print("Muere", str(self))
+            self.vidas = power - self.vidas
+        if self.vidas > 0:
+            print("Alguien ataca a", self.__class__.__name__, "vidas restantes:", str(self.vidas))
+        else:
+            print("Muere", self.__class__.__name__)
             self.muero()
             # self.juego.muerePersonaje()  # Descomenta esta línea si es necesario
 
@@ -406,6 +410,7 @@ class Bicho(Ente):
     def __init__(self):
         super().__init__()
         self.modo = None
+
         #self.caminarAleatorio()
         
     def actua(self):
@@ -454,6 +459,8 @@ class Perezoso(Modo):
     def __init__(self):
         super().__init__()
         self.color = "green"
+        
+    
     def printOn(self):
         print("Perezoso")
 
