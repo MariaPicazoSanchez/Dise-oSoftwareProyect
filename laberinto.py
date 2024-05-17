@@ -380,7 +380,7 @@ class Ente():
     def atacar(self):
         self.estado.atacar(self)
     def esAtacadoPor(self, power):
-        self.vidas = self.vidas - power
+        self.vidas = self._vidas - power
         if self.vidas > 0:
             print("Alguien ataca a", str(self), "vidas restantes:", str(self.vidas))
         else:
@@ -424,6 +424,8 @@ class Bicho(Ente):
         self.juego.bichoBuscarPersonaje(self)
     def muero(self):
         self.juego.terminarHilo(self)
+    def addDependent(self, unObserver):
+        pass
 
 class Personaje(Ente):
     def __init__(self,unNombre):

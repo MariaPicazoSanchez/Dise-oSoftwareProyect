@@ -216,32 +216,32 @@ class LaberintoBuilderHexagonal(LaberintoBuilder):
     
 
 
-director=Director()
-unCont = Contenedor()
-armario = director.builder.fabricarArmarioEn(1, unCont)
+# director=Director()
+# unCont = Contenedor()
+# armario = director.builder.fabricarArmarioEn(1, unCont)
 
 
-def main(): #stdscr
+# def main(): #stdscr
  
-    director=Director()
-    director.procesar('C:\\Users\\maria\\Documents\\2 Ing\\Diseño software\\DiferentesLaberintos\\1erLaberinto\\laberinto2habTunel2Bichos.json')
-    game=director.obtenerJuego()
-    game.agregarPersonaje("Pepe")
-    person=game.person
-    game.abrirPuertas()
-    game.lanzarTodosHilos()
-    while True:
-        if keyboard.is_pressed('q'):
-            break  # Exit the program
-        elif keyboard.is_pressed("w"): #curses.KEY_UP:
-            person.irAlNorte()
-        elif keyboard.is_pressed("s"): #curses.KEY_DOWN:
-            person.irAlSur()
-        elif keyboard.is_pressed("a"): #curses.KEY_LEFT:
-            person.irAlOeste()
-        elif keyboard.is_pressed("d"): #curses.KEY_RIGHT:
-            person.irAlEste()
-        elif keyboard.is_pressed("enter"):#curses.KEY_ENTER or key in [10, 13]:
-            person.atacar()
-    game.terminarTodosHilos()
-main()
+#     director=Director()
+#     director.procesar('C:\\Users\\maria\\Documents\\2 Ing\\Diseño software\\DiferentesLaberintos\\1erLaberinto\\laberinto2habTunel2Bichos.json')
+#     game=director.obtenerJuego()
+#     game.agregarPersonaje("Pepe")
+#     person=game.person
+#     game.abrirPuertas()
+#     game.lanzarTodosHilos()
+#     while True:
+#         if keyboard.is_pressed('q'):
+#             break  # Exit the program
+#         elif keyboard.is_pressed("w"): #curses.KEY_UP:
+#             person.irAlNorte()
+#         elif keyboard.is_pressed("s"): #curses.KEY_DOWN:
+#             person.irAlSur()
+#         elif keyboard.is_pressed("a"): #curses.KEY_LEFT:
+#             person.irAlOeste()
+#         elif keyboard.is_pressed("d"): #curses.KEY_RIGHT:
+#             person.irAlEste()
+#         elif keyboard.is_pressed("enter"):#curses.KEY_ENTER or key in [10, 13]:
+#             person.atacar()
+#     game.terminarTodosHilos()
+# main()

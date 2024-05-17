@@ -316,10 +316,14 @@ class Juego:
 
     def buscarBicho(self):
         posicion = self.person.obtenerPosicion()
-        bicho = next((bicho for bicho in self.bichos if bicho.obtenerPosicion() == posicion and bicho.estaVivo()), None)
-        if bicho is not None:
-            bicho.esAtacadoPor(self.person.vidas)
-        return bicho
+        
+        for bicho in self.bichos:
+            if bicho.obtenerPosicion() == posicion and bicho.estaVivo():
+                bicho.esAtacadoPor(self.person.vidas)
+                return bicho
+        
+        return None
+
 
 
     def bichoBuscarPersonaje(self, unBicho):
