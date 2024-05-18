@@ -227,6 +227,8 @@ class LaberintoGUI(tk.Tk):
             self.personM = rec
         self.personM.place(x=self.winfo_x() + a, y=self.winfo_y() + b)
 
+
+
     def mostrarVidasPersonaje(self):
         if self.vidasM is None:
             tM = TextMorph(self, width=10, height=1, borderwidth=1, background="green", foreground="black")
