@@ -67,7 +67,7 @@ class LaberintoGUI(tk.Tk):
         return win
     def iniciarJuego(self):
         director = Director()
-        director.procesar("C:\\Users\\maria\\Documents\\2 Ing\\Diseño software\\DiferentesLaberintos\\1erLaberinto\\laberinto2hab.json")
+        director.procesar("C:\\Users\\maria\\Documents\\2 Ing\\Diseño software\\DiferentesLaberintos\\1erLaberinto\\laberinto4hab4bichos.json")
         self.juego = director.obtenerJuego()
         self.mostrarLaberinto()
         self.win = self.openInWindowLabeled("LaberintoGUI")
@@ -185,17 +185,25 @@ class LaberintoGUI(tk.Tk):
         self.mCP.pack()  # Ajusta el método de posicionamiento según tu diseño
         self.mCP.place(x=self.winfo_x() + 5, y=self.winfo_y() + 95)
     def mostrarBicho(self, unBicho):
-        if unBicho.estaVivo:
+        if unBicho.estaVivo():
             unCont = unBicho.posicion
             col = unBicho.modo.color
-            an = unCont.obtenerExtend().getX()
-            al = unCont.obtenerExtend().getY()
-            a = unCont.obtenerExtend().getX() + (an // 3) + (an // 9)
-            b = unCont.obtenerExtend().getY() + (al // 3) + 3
-            c = an // 9
-            d = al // 8
-            color = col  # Utiliza directamente el nombre del color
-            rect = self.canvas.create_rectangle(a, b, a + c, b + d, fill=color, outline="black")
+            # an = unCont.obtenerExtend().getX()
+            # al = unCont.obtenerExtend().getY()
+            # a = unCont.obtenerExtend().getX() + (an // 3) + (an // 9)
+            # b = unCont.obtenerExtend().getY() + (al // 3) + 3
+            # c = an // 9
+            # d = al // 8
+            # color = col  # Utiliza directamente el nombre del color
+            # rect = self.canvas.create_rectangle(a, b, a + c, b + d, fill=color, outline="black")
+            color=col
+            x = unCont.punto.getX() + unCont.extent.getX()/2
+            y = unCont.punto.getY() + unCont.extent.getY()/2
+            x0 = y - 10
+            y0 = x - 10
+            x1 = y + 10
+            y1 = x + 10
+            rect = self.canvas.create_oval(x0, y0, x1, y1, fill=color, outline="black")
             self.bichosM[unBicho] = rect
         else:
             rect = self.bichosM.pop(unBicho, None)
